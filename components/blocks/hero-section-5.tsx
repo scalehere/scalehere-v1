@@ -39,7 +39,7 @@ export function HeroSection() {
                                 </div>
                             </div>
                         </div>
-                        <div className="aspect-[2/3] absolute inset-1 overflow-hidden rounded-3xl border border-black/10 sm:aspect-video lg:rounded-[3rem] dark:border-white/5">
+                        <div className="aspect-[2/3] absolute inset-0 overflow-hidden sm:aspect-video">
                             <video
                                 autoPlay
                                 loop
@@ -51,7 +51,7 @@ export function HeroSection() {
                         </div>
                     </div>
                 </section>
-                <section className="bg-background pb-2">
+                <section className="bg-background">
                     <div className="group relative m-auto max-w-7xl px-6">
                         <div className="flex flex-col items-center md:flex-row">
                             <div className="md:max-w-44 md:border-r md:pr-6">
