@@ -50,3 +50,58 @@ The current site is on Wix. We are replacing it with a custom-coded site.
 ## Saving Progress
 - After completing any significant change or feature, automatically run git add . and commit with a descriptive message. Never commit broken code.
 
+---
+
+## Current Project State
+The homepage has been assembled and normalized. Do not redo this work.
+
+### Completed
+- Next.js 16 + TypeScript + Tailwind CSS + shadcn/ui project initialized in `v1/`
+- ANF Assemble phase done: 4 sections built from 21st.dev component prompts
+- ANF Normalize phase done: dark theme, fonts, colors unified across all sections
+- `.gitignore` in place — `.next/`, `node_modules/` are excluded from git
+
+### Design Tokens (do not change without instruction)
+- **Background:** `#07080f` (near-black navy)
+- **Accent / Primary:** `#6366f1` (indigo-violet)
+- **Text:** `#e8e8f2`
+- **Muted text:** `#6b7280`
+- **Heading font:** `Syne` (loaded via `next/font/google`, variable `--font-heading`)
+- **Body font:** `DM Sans` (loaded via `next/font/google`, variable `--font-sans`)
+- **Dark mode:** forced globally via `class="dark"` on `<html>` in `app/layout.tsx`
+- **Background gradient:** two radial blobs in `app/globals.css` body rule
+
+### File Structure
+```
+v1/
+├── app/
+│   ├── globals.css        # All CSS vars, dark palette, custom animations
+│   ├── layout.tsx         # Google Fonts, dark class, metadata
+│   └── page.tsx           # Homepage — imports all 4 sections in order
+├── components/
+│   ├── blocks/
+│   │   └── hero-section-5.tsx     # Hero + navbar (fixed, z-50, blurred bg)
+│   └── ui/
+│       ├── button.tsx             # shadcn button (@base-ui/react — no asChild)
+│       ├── feature-carousel.tsx   # Services section (animated carousel)
+│       ├── infinite-slider.tsx    # Used by hero logo row (currently removed)
+│       ├── progressive-blur.tsx   # Used by hero logo row (currently removed)
+│       ├── stats-section.tsx      # Stats row with count-up animation
+│       └── cta-with-text-marquee.tsx  # Contact CTA with vertical marquee
+├── lib/
+│   └── utils.ts           # cn() helper
+└── scalehere_content.md   # All real brand copy — use this for Fill phase
+```
+
+### Important shadcn Note
+This project uses a newer shadcn version with `@base-ui/react/button`. The `Button` component does **not** support `asChild`. Use `buttonVariants()` with a `<Link>` instead:
+```tsx
+import { buttonVariants } from '@/components/ui/button'
+<Link href="/contact" className={cn(buttonVariants({ size: "lg" }))}>Apply Now</Link>
+```
+
+### Next Steps (ANF Fill Phase)
+- Replace all placeholder copy with real Scale SD content from `scalehere_content.md`
+- Replace Unsplash images in `feature-carousel.tsx` with real Scale SD photos or approved stock
+- Add remaining pages: About, Services, Contact
+
