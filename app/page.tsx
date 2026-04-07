@@ -2,6 +2,7 @@ import { HeroSection } from "@/components/blocks/hero-section-5";
 import { FeatureCarousel } from "@/components/ui/feature-carousel";
 import { StatsSection } from "@/components/ui/stats-section";
 import { StaggerTestimonials } from "@/components/ui/stagger-testimonials";
+import { CaseStudiesSection } from "@/components/ui/case-studies-section";
 import { AboutSection } from "@/components/ui/about-section";
 import CTAWithVerticalMarquee from "@/components/ui/cta-with-text-marquee";
 
@@ -48,7 +49,10 @@ export default function Home() {
         <StaggerTestimonials />
       </section>
 
-      {/* ── Section 5: About ────────────────────────────── */}
+      {/* ── Section 5: Case Studies ─────────────────────── */}
+      <CaseStudiesSection />
+
+      {/* ── Section 6: About ────────────────────────────── */}
       <div id="about">
         <AboutSection />
       </div>
