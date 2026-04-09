@@ -86,12 +86,14 @@ export function ZoomParallax({ panels, bodySegments, promiseText }: ZoomParallax
 	};
 
 	const positionClasses = [
-		'[&>div]:!-top-[30vh] [&>div]:!left-[5vw] [&>div]:!h-[30vh] [&>div]:!w-[35vw]',
-		'[&>div]:!-top-[10vh] [&>div]:!-left-[25vw] [&>div]:!h-[45vh] [&>div]:!w-[20vw]',
-		'[&>div]:!left-[27.5vw] [&>div]:!h-[25vh] [&>div]:!w-[25vw]',
-		'[&>div]:!top-[27.5vh] [&>div]:!left-[5vw] [&>div]:!h-[25vh] [&>div]:!w-[20vw]',
-		'[&>div]:!top-[27.5vh] [&>div]:!-left-[22.5vw] [&>div]:!h-[25vh] [&>div]:!w-[30vw]',
-		'[&>div]:!top-[22.5vh] [&>div]:!left-[25vw] [&>div]:!h-[15vh] [&>div]:!w-[15vw]',
+		'[&>div]:!-top-[33vh] [&>div]:!-left-[8vw] [&>div]:!h-[18vh] [&>div]:!w-[30vw]',   // 0: Cookie-cutter campaigns
+		'[&>div]:!-top-[20vh] [&>div]:!-left-[36vw] [&>div]:!h-[45vh] [&>div]:!w-[13vw]',  // 1: No one could explain what they were doing
+		'[&>div]:!-top-[5vh] [&>div]:!left-[20vw] [&>div]:!h-[38vh] [&>div]:!w-[13vw]',    // 2: They held my accounts hostage
+		'[&>div]:!top-[22vh] [&>div]:!-left-[28vw] [&>div]:!h-[20vh] [&>div]:!w-[22vw]',   // 3: More excuses than results
+		'[&>div]:!top-[26vh] [&>div]:!left-[5vw] [&>div]:!h-[18vh] [&>div]:!w-[38vw]',    // 4: I was locked in for 12 months
+		'[&>div]:!top-[10vh] [&>div]:!left-[34vw] [&>div]:!h-[55vh] [&>div]:!w-[12vw]',    // 5: I spent thousands and got nothing
+		'[&>div]:!-top-[36vh] [&>div]:!left-[25vw] [&>div]:!h-[18vh] [&>div]:!w-[26vw]',   // 6: They ghosted me after month one
+		'[&>div]:!-top-[6vh] [&>div]:!-left-[22vw] [&>div]:!h-[30vh] [&>div]:!w-[12vw]',   // 7: I felt like a small fish
 	];
 
 	return (
@@ -133,7 +135,7 @@ export function ZoomParallax({ panels, bodySegments, promiseText }: ZoomParallax
 																opacity: getSegmentOpacity(i),
 																transition: 'opacity 0.5s ease',
 															}}
-															className={getHighlightClass(seg.highlight)}
+															className={`${getHighlightClass(seg.highlight)}${seg.highlight ? ' whitespace-nowrap' : ''}`}
 														>
 															{seg.text}
 														</span>
@@ -168,13 +170,13 @@ export function ZoomParallax({ panels, bodySegments, promiseText }: ZoomParallax
 							className={`absolute top-0 flex h-full w-full items-center justify-center ${positionClasses[quoteIndex] ?? ''}`}
 						>
 							<div className="relative flex flex-col justify-between h-[25vh] w-[25vw] p-5 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden">
-								<span className="absolute top-3 right-4 text-6xl leading-none text-primary/20 font-serif select-none">
+								<span className="absolute top-1 right-1 text-[17rem] leading-none text-primary/10 font-serif select-none">
 									&ldquo;
 								</span>
-								<p className="font-accent italic font-semibold text-foreground text-sm md:text-base leading-snug relative z-10">
+								<p style={{ fontSize: 'clamp(0.9rem, 1.5vw, 2.2rem)' }} className="font-accent italic font-semibold text-foreground leading-snug relative z-10">
 									&ldquo;{panel.quote}&rdquo;
 								</p>
-								<p className="text-muted-foreground text-xs leading-relaxed mt-2">
+								<p style={{ fontSize: 'clamp(0.65rem, 0.85vw, 1rem)' }} className="text-muted-foreground leading-relaxed mt-2">
 									{panel.sub}
 								</p>
 							</div>
