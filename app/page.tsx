@@ -20,8 +20,8 @@ export default function Home() {
       {/* ── Section 1: Hero ─────────────────────────────── */}
       <HeroSection />
 
-      {/* ── Section 2: Sound Familiar (pain/problem) ────── */}
-      <SoundFamiliar />
+      {/* ── Section 2: How It Works (process) ───────────── */}
+      <HowItWorks />
 
       {/* ── Section 3: Services ─────────────────────────── */}
       <section id="services" className="w-full pt-24 md:pt-32 pb-20 md:pb-28 px-4">
@@ -39,8 +39,8 @@ export default function Home() {
         <FeatureCarousel />
       </section>
 
-      {/* ── Section 4: How It Works ──────────────────────── */}
-      <HowItWorks />
+      {/* ── Section 4: Sound Familiar (pain/problem) ────── */}
+      <SoundFamiliar />
 
       {/* ── Section 5: Stats ────────────────────────────── */}
       <StatsSection />
