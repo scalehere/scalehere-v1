@@ -1,0 +1,4 @@
+# SOUND FAMILIAR (PAIN / PROBLEM SECTION)
+# Paste the Claude Code prompt from 21st.dev here.
+# Browse: https://21st.dev/s/problem
+# Look for: grid or list of pain points, quotes, or problem statements with dark card styling
