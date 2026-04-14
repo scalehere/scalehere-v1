@@ -46,13 +46,13 @@ export function HeroSection() {
                                 <div className="mt-12 flex flex-col items-center justify-center gap-2 sm:flex-row lg:justify-start">
                                     <Link
                                         href="#contact"
-                                        className={cn(buttonVariants({ size: "lg" }), "h-12 rounded-full pl-5 pr-3 text-base")}>
+                                        className={cn(buttonVariants({ size: "lg" }), "h-12 rounded-md pl-5 pr-3 text-base")}>
                                         <span className="text-nowrap">Get Your Free Audit</span>
                                         <ChevronRight className="ml-1" />
                                     </Link>
                                     <Link
                                         href="#about"
-                                        className={cn(buttonVariants({ variant: "ghost", size: "lg" }), "h-12 rounded-full px-5 text-base hover:bg-zinc-950/5 dark:hover:bg-white/5")}>
+                                        className={cn(buttonVariants({ variant: "ghost", size: "lg" }), "h-12 rounded-md px-5 text-base hover:bg-zinc-950/5 dark:hover:bg-white/5")}>
                                         <span className="text-nowrap">Learn More</span>
                                     </Link>
                                 </div>
@@ -107,7 +107,7 @@ export function HeroSection() {
                                 muted
                                 playsInline
                                 className="size-full object-cover opacity-50 invert dark:opacity-35 dark:invert-0 dark:lg:opacity-75"
-                                src="/hero_sunset_bridge_bg.mp4">
+                                src="/skyscraper_array.mp4">
                             </video>
                         </div>
                 </section>
@@ -191,7 +191,7 @@ const HeroHeader = () => {
                             <div className="flex w-full flex-col space-y-3 sm:flex-row sm:gap-3 sm:space-y-0 md:w-fit">
                                 <Link
                                     href="#contact"
-                                    className={cn(buttonVariants({ size: "sm" }))}>
+                                    className={cn(buttonVariants({ size: "sm" }), "rounded-md")}>
                                     <span>Apply Now</span>
                                 </Link>
                             </div>
