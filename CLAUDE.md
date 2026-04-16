@@ -51,6 +51,7 @@ npm run build   # production build
 - After completing a significant change: ask user to check in browser before committing
 - Never commit broken code
 - No Co-Authored-By in commit messages
+- Commit format: `type(scope): description` — Conventional Commits. Full convention in `../../PLAYBOOK.md`
 
 ---
 
@@ -60,8 +61,8 @@ The following files are gitignored and only exist on the owner's machine:
 
 - `my_references/` — task tracker, build summary, brand copy, screenshots
 - `.claude/docs/` — detailed design tokens, section order, 21st.dev process
-- `../PLAYBOOK.md` — cross-project Claude workflow guide (one level above this project)
+- `../../PLAYBOOK.md` — cross-project Claude workflow guide (two levels above this project)
 
-**At the start of every session:** read `../PLAYBOOK.md`, all of `my_references/`, all of `.claude/docs/`, and run `git log --oneline -10`. Confirm you've read everything and summarize the current project state before continuing.
+**At the start of every session:** read `../../PLAYBOOK.md`, all of `my_references/`, all of `.claude/docs/`, and run `git log --oneline -10`. Confirm you've read everything and summarize the current project state before continuing.
 
-**End of session:** update `my_references/HANDOFF.md`, `my_references/v1.md`, and any docs that changed. Commit everything.
+**End of session:** follow the end of session protocol in `../../PLAYBOOK.md`.
