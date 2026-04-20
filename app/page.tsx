@@ -3,6 +3,7 @@ import { SoundFamiliar } from "@/components/ui/sound-familiar";
 import { FeatureCarousel } from "@/components/ui/feature-carousel";
 import { TestimonialsSection } from "@/components/ui/testimonial-v2";
 import { HowItWorks } from "@/components/ui/how-it-works";
+import { ManagementHub } from "@/components/ui/management-hub";
 import { CaseStudiesSection } from "@/components/ui/case-studies-section";
 import { PortfolioAccordion } from "@/components/ui/portfolio-accordion";
 import { AboutSection } from "@/components/ui/about-section";
@@ -60,7 +61,23 @@ export default function Home() {
       {/* ── Section 5: How It Works ──────────────────────── */}
       <HowItWorks />
 
-      {/* ── Section 6: Case Studies ─────────────────────── */}
+      {/* ── Section 6: Management Hub — client-facing dashboard ─── */}
+      <section id="tools" className="w-full pt-16 md:pt-24 lg:pt-32 pb-20 md:pb-28 px-4">
+        <div className="max-w-7xl mx-auto mb-10 md:mb-14 text-center">
+          <p className="text-xs uppercase tracking-[0.35em] text-primary/70 mb-4 font-medium">
+            Management Hub
+          </p>
+          <h2 className="font-heading text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight">
+            All Your Tools in One Place
+          </h2>
+          <p className="mt-5 text-muted-foreground max-w-2xl mx-auto text-base md:text-lg leading-relaxed">
+            When you work with us, you get a full dashboard to run your business — leads, messages, bookings, reviews, all in one login.
+          </p>
+        </div>
+        <ManagementHub />
+      </section>
+
+      {/* ── Section 7: Case Studies ─────────────────────── */}
       <CaseStudiesSection />
 
       {/* ── Section 7: Portfolio (detailed case studies) ── */}
