@@ -102,6 +102,7 @@ const wrap = (min: number, max: number, v: number) => {
 export function FeatureCarousel() {
   const [step, setStep] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const [isTabHidden, setIsTabHidden] = useState(false);
 
   const currentIndex =
     ((step % FEATURES.length) + FEATURES.length) % FEATURES.length;
@@ -115,11 +116,20 @@ export function FeatureCarousel() {
     if (diff > 0) setStep((s) => s + diff);
   };
 
+  // Pause auto-advance when tab is hidden — browsers throttle setInterval on
+  // hidden tabs and fire a burst of delayed ticks on return, causing the
+  // carousel to jump multiple slides.
   useEffect(() => {
-    if (isPaused) return;
+    const handleVisibility = () => setIsTabHidden(document.hidden);
+    document.addEventListener("visibilitychange", handleVisibility);
+    return () => document.removeEventListener("visibilitychange", handleVisibility);
+  }, []);
+
+  useEffect(() => {
+    if (isPaused || isTabHidden) return;
     const interval = setInterval(nextStep, AUTO_PLAY_INTERVAL);
     return () => clearInterval(interval);
-  }, [nextStep, isPaused]);
+  }, [nextStep, isPaused, isTabHidden]);
 
   const getCardStatus = (index: number) => {
     const diff = index - currentIndex;
