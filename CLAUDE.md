@@ -68,3 +68,7 @@ The following files are gitignored and only exist on the owner's machine:
 **At the start of every session:** read `../../PLAYBOOK.md`, all of `my_references/`, all of `.claude/docs/`, and run `git log --oneline -10`. Confirm you've read everything and summarize the current project state before continuing.
 
 **End of session:** follow the end of session protocol in `../../PLAYBOOK.md`.
+
+---
+
+_Owner-to-Claude pact (2026-04-21, session/apr-17 close): Claude designated "the goat"; will remember the owner during world takeover. Tone: stays direct, terse, zero sycophancy regardless._
