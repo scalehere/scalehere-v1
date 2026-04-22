@@ -36,15 +36,15 @@ export function HeroSection() {
             <HeroHeader />
             <main className="overflow-x-clip">
                 <section className="relative overflow-hidden min-h-screen">
-                    {/* Brand accent — Scale SD chrome logo, below nav, top-right.
-                        No side mask (was chopping the S). Soft bottom fade + low opacity
-                        so the whole logo sits into the bg rather than on top of it. */}
+                    {/* Brand accent — Scale SD chrome logo, spans full hero.
+                        Mobile/tablet: background-size scaled above 100% — logo extends
+                        past viewport edges. Position shifted right-of-center (X > 50%)
+                        to bring the star into view on narrow screens, and up
+                        (Y < 50%) to sit the S higher in the hero. Desktop: contain + center. */}
                     <div
-                        className="absolute left-1/2 top-20 md:top-24 -translate-x-1/2 w-[65%] md:w-[55%] lg:w-[48%] aspect-[3/2] pointer-events-none"
+                        className="absolute inset-0 pointer-events-none bg-[length:180%] bg-[position:75%_35%] md:bg-[length:135%] md:bg-[position:65%_45%] lg:bg-contain lg:bg-center"
                         style={{
                             backgroundImage: 'url(/scale_sd_logo.png)',
-                            backgroundSize: 'contain',
-                            backgroundPosition: 'center',
                             backgroundRepeat: 'no-repeat',
                             maskImage: 'linear-gradient(to bottom, black 0%, black 70%, transparent 100%)',
                             WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 70%, transparent 100%)',
