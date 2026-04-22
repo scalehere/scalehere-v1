@@ -8,6 +8,7 @@ import { Menu, X, ChevronRight } from 'lucide-react'
 import { useScroll, motion } from 'motion/react'
 import { InfiniteSlider } from '@/components/ui/infinite-slider'
 import { useContactDialog } from '@/lib/contact-dialog-context'
+import { smoothScrollToHash } from '@/lib/utils'
 
 const trustStats = [
     { number: '100+', label: 'Clients Trust Us' },
@@ -62,12 +63,16 @@ export function HeroSection() {
                                 </p>
 
                                 <div className="mt-12 flex flex-col items-center justify-center gap-3 sm:flex-row lg:justify-start">
-                                    <GlassButton href="#contact">
+                                    <GlassButton
+                                        href="#contact"
+                                        onClick={(e) => smoothScrollToHash(e, '#contact')}
+                                    >
                                         <span className="text-nowrap">Get Your Free Audit</span>
                                         <ChevronRight className="size-4" />
                                     </GlassButton>
                                     <Link
                                         href="#about"
+                                        onClick={(e) => smoothScrollToHash(e, '#about')}
                                         className={cn(buttonVariants({ variant: "ghost", size: "lg" }), "h-12 rounded-md px-5 text-base hover:bg-zinc-950/5 dark:hover:bg-white/5")}>
                                         <span className="text-nowrap">Learn More</span>
                                     </Link>
@@ -213,6 +218,7 @@ const HeroHeader = () => {
                             <Link
                                 href="/"
                                 aria-label="home"
+                                onClick={(e) => smoothScrollToHash(e, '#')}
                                 className="flex items-center space-x-2">
                                 <span className="text-xl font-bold tracking-tight">Scale SD</span>
                             </Link>
@@ -231,6 +237,7 @@ const HeroHeader = () => {
                                         <li key={index}>
                                             <Link
                                                 href={item.href}
+                                                onClick={(e) => smoothScrollToHash(e, item.href)}
                                                 className="text-muted-foreground hover:text-accent-foreground block duration-150">
                                                 <span>{item.name}</span>
                                             </Link>
@@ -247,7 +254,7 @@ const HeroHeader = () => {
                                         <li key={index}>
                                             <Link
                                                 href={item.href}
-                                                onClick={() => setMenuState(false)}
+                                                onClick={(e) => { setMenuState(false); smoothScrollToHash(e, item.href); }}
                                                 className="text-muted-foreground hover:text-accent-foreground block duration-150">
                                                 <span>{item.name}</span>
                                             </Link>
