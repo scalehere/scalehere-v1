@@ -39,48 +39,10 @@ export default function Home() {
         <FeatureCarousel />
       </section>
 
-      {/* ── Section 4: Testimonials ─────────────────────── */}
-      {/* Moved before How It Works — social proof lands hardest right after */}
-      {/* Services sells them on what we do; real client voices lock it in   */}
-      {/* before they read the process detail.                               */}
-      <section className="w-full pt-16 md:pt-24 lg:pt-32 pb-4 px-4">
-        <div className="max-w-7xl mx-auto mb-10 md:mb-14 text-center">
-          <p className="text-xs uppercase tracking-[0.35em] text-primary/70 mb-4 font-medium">
-            Client Love
-          </p>
-          <h2 className="font-heading text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight">
-            What Our Clients Are Saying
-          </h2>
-          <p className="mt-5 text-muted-foreground max-w-2xl mx-auto text-base md:text-lg leading-relaxed">
-            Real results from real San Diego businesses.
-          </p>
-        </div>
-        <TestimonialsSection />
-      </section>
-
-      {/* ── Section 5: How It Works ──────────────────────── */}
+      {/* ── Section 4: How It Works ──────────────────────── */}
       <HowItWorks />
 
-      {/* ── Section 6: Management Hub — client-facing dashboard ─── */}
-      <section id="tools" className="w-full pt-16 md:pt-24 lg:pt-32 pb-20 md:pb-28 px-4">
-        <div className="max-w-7xl mx-auto mb-10 md:mb-14 text-center">
-          <p className="text-xs uppercase tracking-[0.35em] text-primary/70 mb-4 font-medium">
-            Management Hub
-          </p>
-          <h2 className="font-heading text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight">
-            All Your Tools in One Place
-          </h2>
-          <p className="mt-5 text-muted-foreground max-w-2xl mx-auto text-base md:text-lg leading-relaxed">
-            When you work with us, you get a full dashboard to run your business — leads, messages, bookings, reviews, all in one login.
-          </p>
-        </div>
-        <ManagementHub />
-      </section>
-
-      {/* ── Section 7: Case Studies ─────────────────────── */}
-      <CaseStudiesSection />
-
-      {/* ── Section 7: Portfolio (detailed case studies) ── */}
+      {/* ── Section 5: Portfolio — hard numbers (logical proof) ── */}
       <section id="portfolio" className="w-full pt-16 md:pt-24 lg:pt-32 pb-20 md:pb-28 px-4">
         <div className="max-w-5xl mx-auto mb-10 md:mb-14 text-center">
           <p className="text-xs uppercase tracking-[0.35em] text-primary/70 mb-4 font-medium">
@@ -96,12 +58,47 @@ export default function Home() {
         <PortfolioAccordion />
       </section>
 
-      {/* ── Section 8: About ────────────────────────────── */}
+      {/* ── Section 6: Case Studies — visual proof of the numbers ── */}
+      <CaseStudiesSection />
+
+      {/* ── Section 7: Testimonials — emotional proof after logical proof ── */}
+      <section className="w-full pt-16 md:pt-24 lg:pt-32 pb-4 px-4">
+        <div className="max-w-7xl mx-auto mb-10 md:mb-14 text-center">
+          <p className="text-xs uppercase tracking-[0.35em] text-primary/70 mb-4 font-medium">
+            Client Love
+          </p>
+          <h2 className="font-heading text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight">
+            What Our Clients Are Saying
+          </h2>
+          <p className="mt-5 text-muted-foreground max-w-2xl mx-auto text-base md:text-lg leading-relaxed">
+            Real results from real San Diego businesses.
+          </p>
+        </div>
+        <TestimonialsSection />
+      </section>
+
+      {/* ── Section 8: Management Hub — differentiator / "and one more thing" ── */}
+      <section id="tools" className="w-full pt-16 md:pt-24 lg:pt-32 pb-20 md:pb-28 px-4">
+        <div className="max-w-7xl mx-auto mb-10 md:mb-14 text-center">
+          <p className="text-xs uppercase tracking-[0.35em] text-primary/70 mb-4 font-medium">
+            Management Hub
+          </p>
+          <h2 className="font-heading text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight">
+            All Your Tools in One Place
+          </h2>
+          <p className="mt-5 text-muted-foreground max-w-2xl mx-auto text-base md:text-lg leading-relaxed">
+            When you work with us, you get a full dashboard to run your business — leads, messages, bookings, reviews, all in one login.
+          </p>
+        </div>
+        <ManagementHub />
+      </section>
+
+      {/* ── Section 9: About ────────────────────────────── */}
       <div id="about">
         <AboutSection />
       </div>
 
-      {/* ── Section 9: Team ─────────────────────────────── */}
+      {/* ── Section 10: Team ────────────────────────────── */}
       <section className="w-full pt-16 md:pt-24 lg:pt-32 pb-20 md:pb-28 px-4">
         <div className="max-w-7xl mx-auto mb-10 md:mb-14 text-center">
           <p className="text-xs uppercase tracking-[0.35em] text-primary/70 mb-4 font-medium">
@@ -117,12 +114,12 @@ export default function Home() {
         <TeamShowcase />
       </section>
 
-      {/* ── Section 10: FAQ ─────────────────────────────── */}
+      {/* ── Section 11: FAQ ─────────────────────────────── */}
       <div id="faq">
         <FAQSection />
       </div>
 
-      {/* ── Section 11: Contact CTA ─────────────────────── */}
+      {/* ── Section 12: Contact CTA ─────────────────────── */}
       <div id="contact">
         <CTAWithVerticalMarquee />
       </div>
