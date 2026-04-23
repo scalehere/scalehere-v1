@@ -34,7 +34,7 @@ export function StickyFooter({ className, ...props }: StickyFooterProps) {
               {/* Brand column */}
               <AnimatedContainer className="w-full max-w-xs space-y-4">
                 <span className="font-heading text-2xl font-bold tracking-tight text-white">
-                  Scale <span className="text-primary">SD</span>
+                  Scale SD
                 </span>
                 <p className="text-muted-foreground text-sm leading-relaxed mt-4 md:mt-0">
                   San Diego&apos;s social media marketing agency. We create campaigns that
