@@ -17,18 +17,17 @@ const trustStats = [
     { number: '$1M+', short: 'Revenue',     long: 'Revenue Generated' },
 ]
 
+// Per-logo `heightClass` overrides the marquee default — use it to scale individual logos down
+// when their aspect ratio (e.g. a wide wordmark) would otherwise dominate the row.
 const trustLogos = [
-    { src: 'https://svgl.app/library/instagram-wordmark.svg',  alt: 'Instagram', width: 120, height: 24 },
-    { src: 'https://svgl.app/library/facebook-wordmark.svg',   alt: 'Facebook',  width: 110, height: 24 },
-    { src: 'https://svgl.app/library/tiktok-wordmark-light.svg', alt: 'TikTok',  width: 100, height: 24 },
-    { src: 'https://svgl.app/library/google-wordmark.svg',     alt: 'Google',    width: 90,  height: 24 },
-    { src: 'https://svgl.app/library/linkedin.svg',            alt: 'LinkedIn',  width: 28,  height: 28 },
-    { src: 'https://svgl.app/library/meta.svg',                alt: 'Meta',      width: 90,  height: 24 },
-    { src: 'https://svgl.app/library/pinterest.svg',           alt: 'Pinterest', width: 28,  height: 28 },
+    { src: '/trust_logos/white/cali_doors_and_windows.png',  alt: 'California Doors & Windows', width: 959, height: 260, heightClass: 'h-[44px]' },
+    { src: '/trust_logos/white/designer_window_supply.png',  alt: 'Designer Window Supply',     width: 507, height: 492 },
+    { src: '/trust_logos/white/ems_restoration.png',         alt: 'EMS Restoration',            width: 575, height: 434 },
+    { src: '/trust_logos/white/ggz_construction.png',        alt: 'Gutierrez General Zone Construction', width: 437, height: 379, heightClass: 'h-[62px]' },
+    { src: '/trust_logos/white/star_builders_inc.png',       alt: 'Star Builders Inc',          width: 330, height: 314 },
+    { src: '/trust_logos/white/udg.png',                     alt: 'United Design Group',        width: 780, height: 320 },
+    { src: '/trust_logos/white/world_pools_inc.png',         alt: 'World Pools Inc',            width: 500, height: 500 },
 ]
-
-// Logos that don't render cleanly with brightness-0 invert — rendered as text instead
-const trustLogoText = ['YouTube', 'Snapchat']
 
 export function HeroSection() {
     return (
@@ -85,7 +84,7 @@ export function HeroSection() {
                     <div className="absolute bottom-0 inset-x-0 z-10 border-t border-white/10 backdrop-blur-sm bg-black/40">
 
                         {/* Stacked: stats above logos — until viewport is wide enough for side-by-side to fit 4 stats in one row */}
-                        <div className="xl:hidden py-3 flex flex-col gap-3">
+                        <div className="xl:hidden py-2 flex flex-col gap-2">
                             {/* Stats — static. Single row (4-across) at all stacked widths — labels switch from short to long at sm: (640px+) where the longer versions fit comfortably. */}
                             <div className="flex items-center justify-around gap-x-2 sm:gap-x-4 px-2">
                                 {trustStats.map((stat) => (
@@ -101,7 +100,7 @@ export function HeroSection() {
                             {/* Aesthetic divider — inset, fades at ends */}
                             <div className="mx-8 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
                             {/* Logo marquee — arrays doubled so single-instance ≥ container width at stacked widths up to 1280px (guarantees the marquee always fills the row during the loop) */}
-                            <div className="py-1 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_5%,black_95%,transparent)]">
+                            <div className="overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_5%,black_95%,transparent)]">
                                 <InfiniteSlider gap={48} speed={70} reverse>
                                     {[...trustLogos, ...trustLogos].map((logo, i) => (
                                         <img
@@ -110,23 +109,15 @@ export function HeroSection() {
                                             alt={logo.alt}
                                             width={logo.width}
                                             height={logo.height}
-                                            className="h-4 w-auto pointer-events-none select-none opacity-50 brightness-0 invert"
+                                            className={`${logo.heightClass ?? 'h-[53px]'} w-auto pointer-events-none select-none`}
                                         />
-                                    ))}
-                                    {[...trustLogoText, ...trustLogoText].map((name, i) => (
-                                        <span
-                                            key={`${name}-${i}`}
-                                            className="text-xs font-medium tracking-wide text-white/40 whitespace-nowrap select-none"
-                                        >
-                                            {name}
-                                        </span>
                                     ))}
                                 </InfiniteSlider>
                             </div>
                         </div>
 
                         {/* xl+: 50/50 side-by-side — stats fit in one row at this width */}
-                        <div className="hidden xl:flex items-center py-4">
+                        <div className="hidden xl:flex items-center py-3">
                             {/* Logo marquee — left half, scrolls left (default). Arrays doubled to guarantee row fill at wide viewports */}
                             <div className="w-1/2 pr-8 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_5%,black_78%,transparent)]">
                                 <InfiniteSlider gap={56} speed={70} reverse>
@@ -137,16 +128,8 @@ export function HeroSection() {
                                             alt={logo.alt}
                                             width={logo.width}
                                             height={logo.height}
-                                            className="h-5 w-auto pointer-events-none select-none opacity-50 brightness-0 invert"
+                                            className={`${logo.heightClass ?? 'h-[53px]'} w-auto pointer-events-none select-none`}
                                         />
-                                    ))}
-                                    {[...trustLogoText, ...trustLogoText].map((name, i) => (
-                                        <span
-                                            key={`${name}-${i}`}
-                                            className="text-sm font-medium tracking-wide text-white/40 whitespace-nowrap select-none"
-                                        >
-                                            {name}
-                                        </span>
                                     ))}
                                 </InfiniteSlider>
                             </div>
