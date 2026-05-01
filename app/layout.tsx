@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Montserrat, Karla } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import { ContactDialogProvider } from "@/lib/contact-dialog-context";
 
@@ -40,6 +41,11 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <ContactDialogProvider>{children}</ContactDialogProvider>
+        <Script
+          src="https://link.msgsndr.com/js/external-tracking.js"
+          data-tracking-id="tk_fceb694080464e08a70b5cf2c1634200"
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   );
