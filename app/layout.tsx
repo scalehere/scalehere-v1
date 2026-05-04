@@ -3,6 +3,7 @@ import { Montserrat, Karla } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import { ContactDialogProvider } from "@/lib/contact-dialog-context";
+import { Analytics } from '@vercel/analytics/next';
 
 // Heading font — Montserrat. Weights used: 500 (subheads/eyebrows/nav),
 // 700 (default section titles), 900 (hero / big statement moments only)
@@ -41,6 +42,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <ContactDialogProvider>{children}</ContactDialogProvider>
+        <Analytics />
         <Script
           src="https://link.msgsndr.com/js/external-tracking.js"
           data-tracking-id="tk_fceb694080464e08a70b5cf2c1634200"
