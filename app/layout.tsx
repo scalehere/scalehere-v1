@@ -43,6 +43,15 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col">
         <ContactDialogProvider>{children}</ContactDialogProvider>
         <Analytics />
+        <Script id="clarity-script" strategy="afterInteractive">
+          {`
+            (function(c,l,a,r,i,t,y){
+                c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+                t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+                y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+            })(window, document, "clarity", "script", "wloqiibscq");
+          `}
+        </Script>
         <Script
           src="https://link.msgsndr.com/js/external-tracking.js"
           data-tracking-id="tk_fceb694080464e08a70b5cf2c1634200"
