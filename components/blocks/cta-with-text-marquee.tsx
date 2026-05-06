@@ -237,7 +237,12 @@ export default function CTAWithVerticalMarquee() {
       </div>
 
       {/* Contact form dialog */}
-      <Dialog open={dialogOpen} onOpenChange={(open) => { if (!open) { closeDialog(); resetForm(); } }}>
+      <Dialog
+        open={dialogOpen}
+        onOpenChange={(open) => { if (!open) closeDialog(); }}
+        // Reset deferred until close animation completes — otherwise the success view flashes empty during fadeout.
+        onOpenChangeComplete={(open) => { if (!open) resetForm(); }}
+      >
         <DialogContent className="bg-zinc-950 border border-white/10 text-foreground sm:max-w-md">
           <DialogHeader>
             <DialogTitle className="font-heading text-xl font-bold">Get Your Free Audit</DialogTitle>
