@@ -183,9 +183,11 @@ export default function CTAWithVerticalMarquee() {
     }
   };
 
-  // Shared input class — glass panel language consistent with site
+  // Shared input class — glass panel language consistent with site.
+  // Font is text-base (16px) — under 16px iOS Safari auto-zooms inputs on focus,
+  // which triggers the visual-viewport shift cascade (page scroll, blur cutoff, stuck zoom).
   const inputClass =
-    "w-full bg-white/5 border border-white/10 rounded-md px-4 py-2.5 text-sm text-foreground placeholder:text-white/30 focus:outline-none focus:border-primary/70 focus:ring-1 focus:ring-primary/40 transition-colors duration-200";
+    "w-full bg-white/5 border border-white/10 rounded-md px-4 py-2.5 text-base text-foreground placeholder:text-white/30 focus:outline-none focus:border-primary/70 focus:ring-1 focus:ring-primary/40 transition-colors duration-200";
 
   return (
     <div className="min-h-screen text-foreground flex items-center justify-center px-6 py-12 overflow-hidden">
