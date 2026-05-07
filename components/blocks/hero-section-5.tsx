@@ -37,10 +37,23 @@ export function HeroSection() {
         offset: ['start start', 'end start'],
     })
     // Layered parallax — logo bg drifts DOWN (background, drags behind scroll),
-    // headline block drifts UP (foreground, pulls ahead). Opposing signs create
-    // depth separation as the user scrolls out of the hero.
+    // headline block drifts UP (foreground, pulls ahead). Desktop only: the
+    // effect is subtle, the cost on touch devices is real (iOS pinch-zoom
+    // re-fires useScroll, compositing pressure adds up). Gated by
+    // `(hover: hover) and (pointer: fine)` — true on mouse/trackpad desktops
+    // and laptops; false on phones, tablets, and any pure-touch device.
     const logoY = useTransform(heroProgress, [0, 1], ['0%', '40%'])
     const textY = useTransform(heroProgress, [0, 1], ['0%', '-50%'])
+
+    const [isPointerFine, setIsPointerFine] = React.useState(false)
+    React.useEffect(() => {
+        if (typeof window === 'undefined' || !window.matchMedia) return
+        const mq = window.matchMedia('(hover: hover) and (pointer: fine)')
+        const update = () => setIsPointerFine(mq.matches)
+        update()
+        mq.addEventListener('change', update)
+        return () => mq.removeEventListener('change', update)
+    }, [])
     return (
         <>
             <HeroHeader />
@@ -61,15 +74,18 @@ export function HeroSection() {
                             maskImage: 'linear-gradient(to bottom, black 0%, black 70%, transparent 100%)',
                             WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 70%, transparent 100%)',
                             opacity: 0.5,
-                            y: logoY,
-                            willChange: 'transform',
+                            y: isPointerFine ? logoY : '0%',
+                            willChange: isPointerFine ? 'transform' : 'auto',
                         }}
                     />
 
                     <div className="py-24 md:pb-32 lg:pb-36 lg:pt-32">
                         <div className="relative z-10 mx-auto flex max-w-7xl flex-col px-6 lg:block lg:px-12">
                             <motion.div
-                                style={{ y: textY, willChange: 'transform' }}
+                                style={{
+                                    y: isPointerFine ? textY : '0%',
+                                    willChange: isPointerFine ? 'transform' : 'auto',
+                                }}
                                 className="mx-auto max-w-lg text-center lg:ml-0 lg:max-w-full lg:text-left">
                                 <h1 className="font-heading mt-8 max-w-2xl text-balance text-4xl sm:text-5xl font-black md:text-6xl lg:mt-4 xl:text-7xl">
                                     Stop <span className="text-[#3B82F6]">Wasting Money</span> on Marketing That Doesn't Bring <span className="text-[#3B82F6]">Customers</span>.
