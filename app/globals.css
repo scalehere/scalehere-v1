@@ -251,7 +251,7 @@
     --btn-glass-foil-x:   46px;
     --btn-glass-foil-y:   -140px;
     --btn-glass-foil-rot: 30deg;
-    --btn-glass-foil-src: url('/scale_sd_logo_blue.png');
+    --btn-glass-foil-src: url('/scale_sd_logo_blue.webp');
 
     /* Base text-shadow (halo stack) as a var so hover/active state rules
        can layer their reflection effects on top via var() concatenation
@@ -498,7 +498,7 @@
     --btn-glass-foil-x: 26px;
     --btn-glass-foil-y: -85px;
     --btn-glass-foil-rot: 30deg;
-    --btn-glass-foil-src: url('/scale_sd_logo_blue.png');
+    --btn-glass-foil-src: url('/scale_sd_logo_blue.webp');
   }
   .btn-glass-wrap.btn-glass--nav .btn-glass-text {
     padding: 5px 10px;
@@ -511,7 +511,7 @@
     --btn-glass-foil-x: 46px;
     --btn-glass-foil-y: -140px;
     --btn-glass-foil-rot: 30deg;
-    --btn-glass-foil-src: url('/scale_sd_logo_blue.png');
+    --btn-glass-foil-src: url('/scale_sd_logo_blue.webp');
   }
   .btn-glass-wrap.btn-glass--cta .btn-glass-text {
     padding: 12px 24px;
@@ -524,7 +524,7 @@
     --btn-glass-foil-x: 44px;
     --btn-glass-foil-y: -236px;
     --btn-glass-foil-rot: 27deg;
-    --btn-glass-foil-src: url('/scale_sd_logo_blue.png');
+    --btn-glass-foil-src: url('/scale_sd_logo_blue.webp');
   }
   .btn-glass-wrap.btn-glass--send .btn-glass-text {
     padding: 12px 24px;

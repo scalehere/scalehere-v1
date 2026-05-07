@@ -7,7 +7,7 @@ const realClients: GalleryItem[] = [
     client: 'GGZ Construction',
     industry: 'General Contractor · San Diego',
     photo: {
-      url: '/client_websites/ggz.png',
+      url: '/client_websites/ggz.webp',
       text: 'GGZ Construction website',
       pos: '50% 0%',
       website: 'ggzconstruction.com',
@@ -17,7 +17,7 @@ const realClients: GalleryItem[] = [
     client: 'SC Floors',
     industry: 'Commercial Flooring · San Diego',
     photo: {
-      url: '/client_websites/sc_floors.png',
+      url: '/client_websites/sc_floors.webp',
       text: 'SC Floors website',
       pos: '50% 0%',
       website: 'scfloorsus.com',
@@ -27,7 +27,7 @@ const realClients: GalleryItem[] = [
     client: 'World Pools',
     industry: 'Pool Builder · San Diego',
     photo: {
-      url: '/client_websites/world_pools.png',
+      url: '/client_websites/world_pools.webp',
       text: 'World Pools website',
       pos: '50% 0%',
       website: 'worldpoolsinc.com',
@@ -37,7 +37,7 @@ const realClients: GalleryItem[] = [
     client: 'Star Builders',
     industry: 'Home Remodeling · San Diego',
     photo: {
-      url: '/client_websites/star_builders.png',
+      url: '/client_websites/star_builders.webp',
       text: 'Star Builders website',
       pos: '50% 0%',
       website: 'starbuildersincsd.com',

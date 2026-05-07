@@ -38,35 +38,35 @@ const slides: SlideData[] = [
     subtitle: 'The command center',
     description:
       'Every number, every lead, every message — one view. Know your business at a glance, no tab-switching, no guesswork.',
-    imageUrl: '/management_hub/dashboard.png',
+    imageUrl: '/management_hub/dashboard.webp',
   },
   {
     title: 'Lead Capture',
     subtitle: 'Never lose a lead',
     description:
       'Inbound leads flow straight into your pipeline — tagged, routed, and ready to work the moment they land.',
-    imageUrl: '/management_hub/lead_capture.png',
+    imageUrl: '/management_hub/lead_capture.webp',
   },
   {
     title: 'Online Booking',
     subtitle: 'Clients book themselves',
     description:
       'Share one link anywhere. Your calendar fills itself, reminders go out automatically, phone tag disappears.',
-    imageUrl: '/management_hub/online_booking.png',
+    imageUrl: '/management_hub/online_booking.webp',
   },
   {
     title: 'Text Back',
     subtitle: 'Turn missed calls into revenue',
     description:
       'Missed a call? A text fires back automatically to keep the lead warm and the conversation open.',
-    imageUrl: '/management_hub/text_back.png',
+    imageUrl: '/management_hub/text_back.webp',
   },
   {
     title: 'Automated Follow-ups',
     subtitle: 'Every lead, every time',
     description:
       'Set-and-forget sequences. Emails, texts, reminders — all running in the background while you focus on the work.',
-    imageUrl: '/management_hub/automated_follow_ups.png',
+    imageUrl: '/management_hub/automated_follow_ups.webp',
   },
 ]
 

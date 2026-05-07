@@ -327,7 +327,7 @@ export default function RadialOrbitalTimeline() {
         />
         {/* The logo itself — width-driven, height follows natural aspect */}
         <img
-          src="/scale_sd_logo.png"
+          src="/scale_sd_logo.webp"
           alt="Scale SD"
           className="relative w-20 md:w-24 lg:w-28 xl:w-32 h-auto select-none drop-shadow-[0_0_12px_rgba(59,130,246,0.4)]"
         />
