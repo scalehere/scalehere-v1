@@ -12,6 +12,7 @@ import { FAQSection } from "@/components/blocks/faq-section";
 import CTAWithVerticalMarquee from "@/components/blocks/cta-with-text-marquee";
 import { StickyFooter } from "@/components/blocks/sticky-footer";
 import { ScrollToTop } from "@/components/ui/scroll-to-top";
+import { LazySection } from "@/components/ui/lazy-section";
 
 export default function Home() {
   return (
@@ -55,11 +56,15 @@ export default function Home() {
             Click any client to see the full story — services, strategy, and real numbers.
           </p>
         </div>
-        <PortfolioAccordion />
+        <LazySection minHeight="500px">
+          <PortfolioAccordion />
+        </LazySection>
       </section>
 
       {/* ── Section 6: Case Studies — visual proof of the numbers ── */}
-      <CaseStudiesSection />
+      <LazySection minHeight="700px">
+        <CaseStudiesSection />
+      </LazySection>
 
       {/* ── Section 7: Testimonials — emotional proof after logical proof ── */}
       <section className="w-full pt-16 md:pt-24 lg:pt-32 pb-4 px-4">
@@ -74,7 +79,9 @@ export default function Home() {
             Real results from real San Diego businesses.
           </p>
         </div>
-        <TestimonialsSection />
+        <LazySection minHeight="600px">
+          <TestimonialsSection />
+        </LazySection>
       </section>
 
       {/* ── Section 8: Management Hub — differentiator / "and one more thing" ── */}
@@ -90,12 +97,16 @@ export default function Home() {
             When you work with us, you get a full dashboard to run your business — leads, messages, bookings, reviews, all in one login.
           </p>
         </div>
-        <ManagementHub />
+        <LazySection minHeight="600px">
+          <ManagementHub />
+        </LazySection>
       </section>
 
       {/* ── Section 9: About ────────────────────────────── */}
       <div id="about">
-        <AboutSection />
+        <LazySection minHeight="500px">
+          <AboutSection />
+        </LazySection>
       </div>
 
       {/* ── Section 10: Team ────────────────────────────── */}
@@ -111,17 +122,23 @@ export default function Home() {
             A tight-knit crew of creatives, strategists, and marketers who treat every client like family.
           </p>
         </div>
-        <TeamShowcase />
+        <LazySection minHeight="500px">
+          <TeamShowcase />
+        </LazySection>
       </section>
 
       {/* ── Section 11: FAQ ─────────────────────────────── */}
       <div id="faq">
-        <FAQSection />
+        <LazySection minHeight="500px">
+          <FAQSection />
+        </LazySection>
       </div>
 
       {/* ── Section 12: Contact CTA ─────────────────────── */}
       <div id="contact">
-        <CTAWithVerticalMarquee />
+        <LazySection minHeight="700px">
+          <CTAWithVerticalMarquee />
+        </LazySection>
       </div>
 
       {/* ── Footer ──────────────────────────────────────── */}
