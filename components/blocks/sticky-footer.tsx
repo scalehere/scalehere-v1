@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 import { cn, smoothScrollToHash } from '@/lib/utils';
 import { motion, useReducedMotion } from 'motion/react';
 import { FaFacebookF, FaInstagram, FaYoutube, FaLinkedinIn } from 'react-icons/fa';
@@ -94,7 +95,12 @@ export function StickyFooter({ className, ...props }: StickyFooterProps) {
 
             {/* Bottom bar */}
             <div className="relative z-10 text-muted-foreground flex flex-col items-center justify-between gap-2 border-t border-white/10 pt-4 text-xs md:flex-row">
-              <p>© 2026 Scale SD. All rights reserved.</p>
+              <p>
+                © 2026 Scale SD. All rights reserved. ·{' '}
+                <Link href="/privacy" className="hover:text-foreground transition-colors">
+                  Privacy Policy
+                </Link>
+              </p>
               <p>San Diego, CA · Made with ♥</p>
             </div>
 
