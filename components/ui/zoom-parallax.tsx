@@ -10,7 +10,7 @@ export interface Quote {
 
 export interface BodySegment {
 	text: string;
-	highlight?: 'orange' | 'bold' | 'italic-orange';
+	highlight?: 'primary' | 'bold' | 'italic-primary';
 }
 
 interface ZoomParallaxProps {
@@ -21,9 +21,9 @@ interface ZoomParallaxProps {
 
 function getHighlightClass(highlight?: string): string {
 	switch (highlight) {
-		case 'orange': return 'text-primary font-medium';
+		case 'primary': return 'text-primary font-medium';
 		case 'bold': return 'font-bold text-foreground';
-		case 'italic-orange': return 'italic text-primary font-bold';
+		case 'italic-primary': return 'italic text-primary font-bold';
 		default: return 'text-muted-foreground';
 	}
 }

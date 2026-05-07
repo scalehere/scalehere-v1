@@ -18,11 +18,11 @@ const quotes: Quote[] = [
 // Each segment fades in sequentially. Highlighted phrases draw the eye.
 const bodySegments: BodySegment[] = [
 	{ text: "You've already tried " },
-	{ text: 'marketing', highlight: 'orange' },
+	{ text: 'marketing', highlight: 'primary' },
 	{ text: ' before. They sent reports full of jargon, ' },
 	{ text: 'promised results,', highlight: 'bold' },
 	{ text: ' then just ' },
-	{ text: 'disappeared', highlight: 'italic-orange' },
+	{ text: 'disappeared', highlight: 'italic-primary' },
 	{ text: ' when you had questions. Meanwhile, your phone ' },
 	{ text: 'never rang', highlight: 'bold' },
 	{ text: ' any more than it did before.' },
