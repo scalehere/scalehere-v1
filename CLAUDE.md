@@ -32,6 +32,7 @@ npm run build   # production build (matches Vercel's deploy build)
 ## Reference Docs (load at session start when present)
 - `.claude/docs/design-tokens.md` — full design spec: palette, typography, button/glass system, chrome placement
 - `.claude/docs/sections.md` — section order, anchor map, folder convention, prompt-file status
+- `.claude/docs/responsive.md` — per-breakpoint behavior, pointer-aware feature gates (touch vs mouse), what changes mobile/tablet/desktop
 - `my_references/files/HANDOFF.md` — open work: Fix List, To Do, Audits, deferred polish
 - `my_references/files/session-log.md` — running log; reset after each commit
 - `my_references/files/INDEX.md` — table of contents for all reference docs
