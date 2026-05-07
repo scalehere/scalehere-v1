@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useLayoutEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { BookOpen, Eye, Palette, MessageSquare, Layers, Lightbulb } from "lucide-react";
 
@@ -16,6 +16,11 @@ interface OrbitItem {
 // ── Orbit radii (desktop defaults — overridden responsively) ──
 const DEFAULT_INNER = 150;
 const DEFAULT_OUTER = 265;
+
+// Rotation speeds in deg/sec. Match the previous setInterval rates:
+// inner = +0.3°/50ms = +6°/sec, outer = -0.18°/50ms = -3.6°/sec.
+const INNER_DEG_PER_SEC = 6;
+const OUTER_DEG_PER_SEC = -3.6;
 
 // ── Data ──────────────────────────────────────────────────────
 const innerItems: OrbitItem[] = [
@@ -91,30 +96,43 @@ function calcPosition(index: number, total: number, radius: number, angle: numbe
   return { x, y, zIndex, opacity };
 }
 
+type Radii = {
+  inner: number;
+  outer: number;
+  innerNode: number;
+  outerNode: number;
+  iconInner: number;
+  iconOuter: number;
+  containerHeight: number;
+};
 
 export default function RadialOrbitalTimeline() {
   const [expandedId, setExpandedId] = useState<string | null>("mission");
-  const [innerAngle, setInnerAngle] = useState(270); // Mission starts at 12 o'clock
-  const [outerAngle, setOuterAngle] = useState(45); // X offset — interleaves with inner orbit
-  const [radii, setRadii] = useState<{ inner: number; outer: number; innerNode: number; outerNode: number; iconInner: number; iconOuter: number; containerHeight: number } | null>(null);
-  const [isResizing, setIsResizing] = useState(false);
-  const resizeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [radii, setRadii] = useState<Radii | null>(null);
 
+  // Angles live in refs so rotation never triggers React re-renders.
+  const innerAngleRef = useRef(270); // Mission starts at 12 o'clock
+  const outerAngleRef = useRef(45);  // X offset — interleaves with inner orbit
+
+  // Each orbit node DOM element, collected via callback ref. The rAF loop
+  // writes transform/zIndex/opacity directly to these — bypasses React entirely.
+  const nodeRefs = useRef<Map<string, HTMLDivElement>>(new Map());
+
+  // Mirror state into refs so the rAF loop reads current values without re-binding.
+  const radiiRef = useRef<Radii | null>(null);
+  const expandedIdRef = useRef<string | null>(expandedId);
+  useEffect(() => { radiiRef.current = radii; }, [radii]);
+  useEffect(() => { expandedIdRef.current = expandedId; }, [expandedId]);
 
   // ── Responsive detection — radii start null, nodes don't render until set
   useEffect(() => {
     let lastWidth = -1;
     const update = () => {
       const w = window.innerWidth;
-      // Mobile URL-bar collapse fires resize on height-only changes — ignore, or nodes snap forward mid-scroll
+      // Mobile URL-bar collapse fires resize on height-only changes — ignore, or nodes snap mid-scroll
       if (w === lastWidth) return;
       lastWidth = w;
-      // Disable node transitions during resize so nodes jump instantly — no travel, no layout overflow
-      setIsResizing(true);
-      if (resizeTimer.current) clearTimeout(resizeTimer.current);
-      resizeTimer.current = setTimeout(() => setIsResizing(false), 150);
-      // Orbit radii use 400/640/1024 thresholds (orbit size steps)
-      // Container height matches the original Tailwind breakpoints exactly (640/768/1024)
+      // Container height matches the original Tailwind breakpoints (640/768/1024)
       const containerHeight = w < 640 ? 360 : w < 768 ? 460 : w < 1024 ? 560 : 640;
       if (w < 400)       setRadii({ inner: 68,  outer: 108, innerNode: 28, outerNode: 32, iconInner: 12, iconOuter: 13, containerHeight });
       else if (w < 768)  setRadii({ inner: 82,  outer: 135, innerNode: 32, outerNode: 36, iconInner: 13, iconOuter: 15, containerHeight });
@@ -130,14 +148,86 @@ export default function RadialOrbitalTimeline() {
     return () => window.removeEventListener("resize", update);
   }, []);
 
-  // ── Rotation loop ──────────────────────────────────────────
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setInnerAngle((prev) => Number(((prev + 0.3) % 360).toFixed(3)));
-      setOuterAngle((prev) => Number(((prev - 0.18 + 360) % 360).toFixed(3)));
-    }, 50);
-    return () => clearInterval(timer);
+  // ── Rotation loop — rAF writes to DOM directly. Zero React renders during animation.
+  // useLayoutEffect runs synchronously after commit, so the first sync tick paints
+  // correct positions before the browser shows the user a frame at translate(0,0).
+  useLayoutEffect(() => {
+    const reducedMotionMQ = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let reducedMotion = reducedMotionMQ.matches;
+    const onMotionChange = (e: MediaQueryListEvent) => { reducedMotion = e.matches; };
+    reducedMotionMQ.addEventListener("change", onMotionChange);
+
+    let rafId = 0;
+    let lastTime: number | null = null;
+
+    const writePositions = () => {
+      const r = radiiRef.current;
+      if (!r) return;
+      const expandedId = expandedIdRef.current;
+
+      const writeNode = (item: OrbitItem, index: number, total: number, radius: number, angle: number) => {
+        const el = nodeRefs.current.get(item.id);
+        if (!el) return;
+        const pos = calcPosition(index, total, radius, angle);
+        const isExpanded = expandedId === item.id;
+        el.style.transform = `translate(${pos.x}px, ${pos.y}px)`;
+        el.style.zIndex = String(isExpanded ? 200 : pos.zIndex);
+        el.style.opacity = String(isExpanded ? 1 : pos.opacity);
+      };
+
+      innerItems.forEach((item, i) =>
+        writeNode(item, i, innerItems.length, r.inner, innerAngleRef.current)
+      );
+      outerItems.forEach((item, i) =>
+        writeNode(item, i, outerItems.length, r.outer, outerAngleRef.current)
+      );
+    };
+
+    const tick = (now: number) => {
+      if (lastTime === null) lastTime = now;
+      const deltaSec = (now - lastTime) / 1000;
+      lastTime = now;
+
+      // Reduced-motion: hold positions still, but keep the loop running so radii
+      // changes (resize across breakpoints) still get rewritten on the next frame.
+      if (!reducedMotion) {
+        innerAngleRef.current = (innerAngleRef.current + INNER_DEG_PER_SEC * deltaSec + 360) % 360;
+        outerAngleRef.current = (outerAngleRef.current + OUTER_DEG_PER_SEC * deltaSec + 360) % 360;
+      }
+
+      writePositions();
+      rafId = requestAnimationFrame(tick);
+    };
+
+    rafId = requestAnimationFrame(tick);
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      reducedMotionMQ.removeEventListener("change", onMotionChange);
+    };
   }, []);
+
+  // When radii or expandedId changes, write positions immediately so the change
+  // shows up before the next rAF tick (avoids a one-frame gap on resize/click).
+  useLayoutEffect(() => {
+    const r = radiiRef.current;
+    if (!r) return;
+    const writeNode = (item: OrbitItem, index: number, total: number, radius: number, angle: number) => {
+      const el = nodeRefs.current.get(item.id);
+      if (!el) return;
+      const pos = calcPosition(index, total, radius, angle);
+      const isExpanded = expandedId === item.id;
+      el.style.transform = `translate(${pos.x}px, ${pos.y}px)`;
+      el.style.zIndex = String(isExpanded ? 200 : pos.zIndex);
+      el.style.opacity = String(isExpanded ? 1 : pos.opacity);
+    };
+    innerItems.forEach((item, i) =>
+      writeNode(item, i, innerItems.length, r.inner, innerAngleRef.current)
+    );
+    outerItems.forEach((item, i) =>
+      writeNode(item, i, outerItems.length, r.outer, outerAngleRef.current)
+    );
+  }, [radii, expandedId]);
 
   // ── Click handlers ─────────────────────────────────────────
   const handleNodeClick = useCallback(
@@ -162,14 +252,10 @@ export default function RadialOrbitalTimeline() {
   const expandedItem = allItems.find((i) => i.id === expandedId) ?? null;
 
   // ── Node renderer ──────────────────────────────────────────
-  const renderNode = (
-    item: OrbitItem,
-    index: number,
-    total: number,
-    radius: number,
-    angle: number
-  ) => {
-    const pos = calcPosition(index, total, radius, angle);
+  // Position styles (transform/zIndex/opacity) are NOT set here — the rAF loop
+  // writes them directly to the DOM. Setting them in JSX would let React's
+  // re-render clobber rAF's write on every state change.
+  const renderNode = (item: OrbitItem, radius: number) => {
     const isExpanded = expandedId === item.id;
     const isOuter = radii ? radius === radii.outer : false;
     const Icon = item.icon;
@@ -177,12 +263,11 @@ export default function RadialOrbitalTimeline() {
     return (
       <div
         key={item.id}
-        className={`absolute transition-all ${isResizing ? "duration-0" : "duration-700"} cursor-pointer group`}
-        style={{
-          transform: `translate(${pos.x}px, ${pos.y}px)`,
-          zIndex: isExpanded ? 200 : pos.zIndex,
-          opacity: isExpanded ? 1 : pos.opacity,
+        ref={(el) => {
+          if (el) nodeRefs.current.set(item.id, el);
+          else nodeRefs.current.delete(item.id);
         }}
+        className="absolute cursor-pointer group"
         onClick={(e) => handleNodeClick(item.id, e)}
       >
         {/* Node button */}
@@ -259,12 +344,8 @@ export default function RadialOrbitalTimeline() {
             className="absolute rounded-full border border-white/10 pointer-events-none"
             style={{ width: radii.inner * 2, height: radii.inner * 2 }}
           />
-          {innerItems.map((item, i) =>
-            renderNode(item, i, innerItems.length, radii.inner, innerAngle)
-          )}
-          {outerItems.map((item, i) =>
-            renderNode(item, i, outerItems.length, radii.outer, outerAngle)
-          )}
+          {innerItems.map((item) => renderNode(item, radii.inner))}
+          {outerItems.map((item) => renderNode(item, radii.outer))}
         </>
       )}
     </div>
