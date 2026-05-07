@@ -7,7 +7,7 @@ Senior UI designer and front-end developer. Prioritize clean, modern, premium de
 Rebuilding the website for **Scale SD**, a social media marketing agency based in San Diego, CA.
 Replacing their Wix site with a custom-coded Next.js site. Single-page — all nav uses anchor links, no multi-page routing.
 
-Live preview: scalehere-v1-wine.vercel.app
+Live: scalehere.com (preview: scalehere-v1-wine.vercel.app)
 
 ## Tech Stack
 - **Next.js** + TypeScript
