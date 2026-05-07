@@ -20,13 +20,13 @@ const trustStats = [
 // Per-logo `heightClass` overrides the marquee default — use it to scale individual logos down
 // when their aspect ratio (e.g. a wide wordmark) would otherwise dominate the row.
 const trustLogos = [
-    { src: '/trust_logos/white/cali_doors_and_windows.png',  alt: 'California Doors & Windows', width: 959, height: 260, heightClass: 'h-[44px]' },
-    { src: '/trust_logos/white/designer_window_supply.png',  alt: 'Designer Window Supply',     width: 507, height: 492 },
-    { src: '/trust_logos/white/ems_restoration.png',         alt: 'EMS Restoration',            width: 575, height: 434 },
-    { src: '/trust_logos/white/ggz_construction.png',        alt: 'Gutierrez General Zone Construction', width: 437, height: 379, heightClass: 'h-[62px]' },
-    { src: '/trust_logos/white/star_builders_inc.png',       alt: 'Star Builders Inc',          width: 330, height: 314 },
-    { src: '/trust_logos/white/udg.png',                     alt: 'United Design Group',        width: 780, height: 320 },
-    { src: '/trust_logos/white/world_pools_inc.png',         alt: 'World Pools Inc',            width: 500, height: 500 },
+    { src: '/trust_logos/white/cali_doors_and_windows.webp',  alt: 'California Doors & Windows', width: 959, height: 260, heightClass: 'h-[44px]' },
+    { src: '/trust_logos/white/designer_window_supply.webp',  alt: 'Designer Window Supply',     width: 507, height: 492 },
+    { src: '/trust_logos/white/ems_restoration.webp',         alt: 'EMS Restoration',            width: 575, height: 434 },
+    { src: '/trust_logos/white/ggz_construction.webp',        alt: 'Gutierrez General Zone Construction', width: 437, height: 379, heightClass: 'h-[62px]' },
+    { src: '/trust_logos/white/star_builders_inc.webp',       alt: 'Star Builders Inc',          width: 330, height: 314 },
+    { src: '/trust_logos/white/udg.webp',                     alt: 'United Design Group',        width: 780, height: 320 },
+    { src: '/trust_logos/white/world_pools_inc.webp',         alt: 'World Pools Inc',            width: 500, height: 500 },
 ]
 
 export function HeroSection() {
@@ -69,7 +69,7 @@ export function HeroSection() {
                     <motion.div
                         className="absolute inset-0 pointer-events-none bg-[length:180%] bg-[position:75%_35%] md:bg-[length:135%] md:bg-[position:65%_45%] lg:bg-contain lg:bg-center"
                         style={{
-                            backgroundImage: 'url(/scale_sd_logo.png)',
+                            backgroundImage: 'url(/scale_sd_logo.webp)',
                             backgroundRepeat: 'no-repeat',
                             maskImage: 'linear-gradient(to bottom, black 0%, black 70%, transparent 100%)',
                             WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 70%, transparent 100%)',

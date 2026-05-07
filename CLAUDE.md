@@ -39,7 +39,7 @@ npm run build   # production build (matches Vercel's deploy build)
 
 ## Design Direction
 - Deep blue-black background — pure-CSS layered radial+linear gradient on `body::before` (position: fixed). Electric blue accent (`#3B82F6`) — Electric Black scheme
-- Chrome accent: `.chrome-border` utility for cards (3px gallery, 1px stat). Brand logo (`public/scale_sd_logo.png`) appears as hero background (full inset, opacity 0.5) + About-section orbit center ("sun")
+- Chrome accent: `.chrome-border` utility for cards (3px gallery, 1px stat). Brand logo (`public/scale_sd_logo.webp`) appears as hero background (full inset, opacity 0.5) + About-section orbit center ("sun")
 - Two fonts: Montserrat (headings — 500/700/900 scale) + Karla (body/UI — 400/700 + italic). Full scale in `.claude/docs/design-tokens.md`
 - Subtle scroll/hover animations — never flashy
 - Mobile responsive always
