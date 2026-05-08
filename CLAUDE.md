@@ -24,7 +24,7 @@ npm run build   # production build (matches Vercel's deploy build)
 ## Key Directories
 - `app/` — layout, globals, page (section order defined in `app/page.tsx`)
 - `components/blocks/` — composed page sections (Hero, Services, Testimonials, About, CTA, Footer, etc.) — large, opinionated, usually used once
-- `components/ui/` — atomic primitives (button, glass-button, accordion, dialog, infinite-slider, progressive-blur) + self-contained animation mechanics (circular-gallery, radial-orbital-timeline, zoom-parallax) + floating widgets (scroll-to-top). **Primary CTAs ship through `<GlassButton>`** (hero/nav/cta/send via `size` prop)
+- `components/ui/` — atomic primitives (button, blue-button, accordion, dialog, infinite-slider, progressive-blur) + self-contained animation mechanics (circular-gallery, radial-orbital-timeline, zoom-parallax) + perf utilities (lazy-section — IntersectionObserver wrapper deferring child mount until scrolled near, used to lazy-load below-fold sections in `app/page.tsx`) + floating widgets (scroll-to-top). **Primary CTAs ship through `<BlueButton>`** (`size`: hero/nav/cta/send + `variant`: primary/secondary)
 - `components/prompts/` — 21st.dev integration prompts (one `.txt` per section)
 - `lib/utils.ts` — `cn()` helper + `smoothScrollToHash()` for anchor links
 - `lib/contact-dialog-context.tsx` — `ContactDialogProvider` + `useContactDialog` hook (shared dialog state)
@@ -33,9 +33,9 @@ npm run build   # production build (matches Vercel's deploy build)
 - `.claude/docs/design-tokens.md` — full design spec: palette, typography, button/glass system, chrome placement
 - `.claude/docs/sections.md` — section order, anchor map, folder convention, prompt-file status
 - `.claude/docs/responsive.md` — per-breakpoint behavior, pointer-aware feature gates (touch vs mouse), what changes mobile/tablet/desktop
-- `my_references/files/HANDOFF.md` — open work: Fix List, To Do, Audits, deferred polish
-- `my_references/files/session-log.md` — running log; reset after each commit
-- `my_references/files/INDEX.md` — table of contents for all reference docs
+- `my_references/my_files/HANDOFF.md` — open work: Fix List, To Do, Audits, deferred polish
+- `my_references/my_files/session-log.md` — running log; reset after each commit
+- `my_references/my_files/INDEX.md` — table of contents for all reference docs
 
 ## Design Direction
 - Deep blue-black background — pure-CSS layered radial+linear gradient on `body::before` (position: fixed). Electric blue accent (`#3B82F6`) — Electric Black scheme
@@ -57,7 +57,7 @@ npm run build   # production build (matches Vercel's deploy build)
 
 ## Workflow Notes
 - Before every task: restate interpretation in plain English and ask for confirmation before touching any files
-- Update `my_references/files/session-log.md` after each meaningful change — not just at end of session
+- Update `my_references/my_files/session-log.md` after each meaningful change — not just at end of session
 - Before every commit: ask for confirmation — never commit on your own initiative
 - Never push unless explicitly asked to
 - After completing a significant change: ask user to check in browser before committing
