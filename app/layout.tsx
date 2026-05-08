@@ -24,10 +24,36 @@ const karla = Karla({
   style: ["normal", "italic"],
 });
 
+const SITE_URL = "https://scalehere.com";
+const SITE_TITLE = "Scale SD — Social Media Marketing Agency | San Diego";
+const SITE_DESCRIPTION =
+  "We manage all your content & ads with just 1 hour of your time each week. 100+ clients, $1M+ revenue generated. Based in San Diego.";
+
 export const metadata: Metadata = {
-  title: "Scale SD — Social Media Marketing Agency | San Diego",
-  description:
-    "We manage all your content & ads with just 1 hour of your time each week. 100+ clients, $1M+ revenue generated. Based in San Diego.",
+  metadataBase: new URL(SITE_URL),
+  title: SITE_TITLE,
+  description: SITE_DESCRIPTION,
+  openGraph: {
+    type: "website",
+    url: SITE_URL,
+    siteName: "Scale SD",
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    images: [
+      {
+        url: "/about_section.png",
+        width: 1535,
+        height: 821,
+        alt: "Scale SD — Our Mission",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    images: ["/about_section.png"],
+  },
 };
 
 export default function RootLayout({
