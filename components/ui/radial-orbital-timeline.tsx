@@ -251,6 +251,33 @@ export default function RadialOrbitalTimeline() {
 
   const expandedItem = allItems.find((i) => i.id === expandedId) ?? null;
 
+  // Longest-content item drives the panel sizer below — reserves height so the
+  // panel doesn't resize when switching between short and long descriptions.
+  const longestItem = allItems.reduce((longest, item) =>
+    item.content.length > longest.content.length ? item : longest
+  );
+
+  // ── Panel-tab chip — mirrors node visual language (border, icon, hover-scale, primary fill on active)
+  const renderChip = (item: OrbitItem) => {
+    const Icon = item.icon;
+    const isActive = expandedId === item.id;
+    const label = item.tier === "core" ? item.title.replace("Our ", "") : item.title;
+    return (
+      <button
+        key={item.id}
+        onClick={() => handleNavClick(item.id)}
+        className={`flex w-full items-center justify-center gap-1.5 rounded-full border px-3.5 py-2 text-xs font-bold tracking-wider cursor-pointer transition-all duration-200 ${
+          isActive
+            ? "bg-primary/20 border-primary text-white shadow-[0_0_12px_rgba(59,130,246,0.4)]"
+            : "bg-white/[0.04] border-white/15 text-white/70 hover:text-white hover:border-primary/60 hover:bg-white/[0.08] hover:scale-105 hover:shadow-[0_0_8px_rgba(59,130,246,0.25)]"
+        }`}
+      >
+        <Icon size={13} />
+        {label}
+      </button>
+    );
+  };
+
   // ── Node renderer ──────────────────────────────────────────
   // Position styles (transform/zIndex/opacity) are NOT set here — the rAF loop
   // writes them directly to the DOM. Setting them in JSX would let React's
@@ -351,94 +378,95 @@ export default function RadialOrbitalTimeline() {
     </div>
   );
 
-  // ── Shared panel content — single source of truth ─────────────
-  const panelContent = expandedItem ? (
+  // ── Animated panel content — slides in/out on selection change.
+  // Chips are intentionally NOT inside this block: keeping them static lets the
+  // active-chip styling switch in place while only the description slides.
+  const renderContentFor = (item: OrbitItem) => (
     <>
       <p className="text-[9px] uppercase tracking-[0.25em] text-white/25 font-medium mb-1 md:mb-2">
-        {expandedItem.tier === "core" ? "Core Belief" : "Brand Pillar"}
+        {item.tier === "core" ? "Core Belief" : "Brand Pillar"}
       </p>
       <p className="text-[10px] uppercase tracking-[0.3em] text-primary/70 font-medium mb-2 md:mb-3">
-        {expandedItem.tagline}
+        {item.tagline}
       </p>
       <h3 className="font-heading text-2xl md:text-3xl xl:text-4xl font-bold mb-3 md:mb-4 leading-tight">
-        {expandedItem.title}
+        {item.title}
       </h3>
       <div className="w-8 h-px bg-primary/50 mb-4 md:mb-5" />
       <p className="text-muted-foreground text-sm xl:text-base leading-relaxed mb-6 md:mb-0">
-        {expandedItem.content}
+        {item.content}
       </p>
-      <div className="pt-4 md:mt-6 md:pt-5 border-t border-white/10 space-y-2">
-        <div className="flex items-baseline gap-3">
-          <span className="text-[9px] uppercase tracking-widest text-white/25 font-medium w-10 flex-shrink-0">Core</span>
-          <div className="flex gap-3 flex-wrap">
-            {innerItems.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => handleNavClick(item.id)}
-                className={`text-xs transition-colors ${
-                  expandedId === item.id ? "text-primary font-medium" : "text-white/40 hover:text-white/70"
-                }`}
-              >
-                {item.title.replace("Our ", "")}
-              </button>
-            ))}
-          </div>
-        </div>
-        <div className="flex items-baseline gap-3">
-          <span className="text-[9px] uppercase tracking-widest text-white/25 font-medium w-10 flex-shrink-0">Pillars</span>
-          <div className="flex gap-3 flex-wrap">
-            {outerItems.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => handleNavClick(item.id)}
-                className={`text-xs transition-colors ${
-                  expandedId === item.id ? "text-primary font-medium" : "text-white/40 hover:text-white/70"
-                }`}
-              >
-                {item.title}
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
     </>
-  ) : null;
+  );
+
+  // ── Static chip block — always rendered, active state derived from expandedId.
+  const panelChips = (
+    <div className="pt-4 md:mt-6 md:pt-5 border-t border-white/10 space-y-4">
+      <div>
+        <p className="text-[9px] uppercase tracking-widest text-white/25 font-medium mb-2">Core</p>
+        <div className="grid grid-cols-2 gap-2">{innerItems.map(renderChip)}</div>
+      </div>
+      <div>
+        <p className="text-[9px] uppercase tracking-widest text-white/25 font-medium mb-2">Pillars</p>
+        <div className="grid grid-cols-2 gap-2">{outerItems.map(renderChip)}</div>
+      </div>
+    </div>
+  );
 
   // ── Desktop panel (side) ───────────────────────────────────────
+  // Stacking grid: invisible sizer renders the longest item to reserve height,
+  // animated active item overlays at the same grid cell. Panel height stays
+  // constant across selections so the slide animation isn't fighting a layout shift.
   const desktopPanel = (
     <div className="hidden md:flex md:w-80 lg:w-[340px] xl:w-96 flex-shrink-0 flex-col justify-center min-h-[300px]" onClick={(e) => e.stopPropagation()}>
-      <AnimatePresence mode="wait">
-        {expandedItem && (
-          <motion.div
-            key={expandedItem.id}
-            initial={{ opacity: 0, x: 16 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: 16 }}
-            transition={{ duration: 0.25, ease: "easeOut" }}
-          >
-            {panelContent}
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <div className="grid">
+        <div className="col-start-1 row-start-1 invisible" aria-hidden>
+          {renderContentFor(longestItem)}
+        </div>
+        <div className="col-start-1 row-start-1">
+          <AnimatePresence mode="wait">
+            {expandedItem && (
+              <motion.div
+                key={expandedItem.id}
+                initial={{ opacity: 0, x: 16 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 16 }}
+                transition={{ duration: 0.25, ease: "easeOut" }}
+              >
+                {renderContentFor(expandedItem)}
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      </div>
+      {panelChips}
     </div>
   );
 
   // ── Mobile panel (below orbit) ─────────────────────────────────
   const mobilePanel = (
     <div className="md:hidden pt-2 pb-2 max-w-sm mx-auto" onClick={(e) => e.stopPropagation()}>
-      <AnimatePresence mode="wait">
-        {expandedItem && (
-          <motion.div
-            key={expandedItem.id}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 10 }}
-            transition={{ duration: 0.2, ease: "easeOut" }}
-          >
-            {panelContent}
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <div className="grid">
+        <div className="col-start-1 row-start-1 invisible" aria-hidden>
+          {renderContentFor(longestItem)}
+        </div>
+        <div className="col-start-1 row-start-1">
+          <AnimatePresence mode="wait">
+            {expandedItem && (
+              <motion.div
+                key={expandedItem.id}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 10 }}
+                transition={{ duration: 0.2, ease: "easeOut" }}
+              >
+                {renderContentFor(expandedItem)}
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      </div>
+      {panelChips}
     </div>
   );
 
