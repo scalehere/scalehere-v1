@@ -1,10 +1,9 @@
 'use client'
 import React from 'react'
 import Link from 'next/link'
-import { buttonVariants } from '@/components/ui/button'
-import { GlassButton } from '@/components/ui/glass-button'
+import { BlueButton } from '@/components/ui/blue-button'
 import { cn } from '@/lib/utils'
-import { Menu, X, ChevronRight } from 'lucide-react'
+import { Menu, X } from 'lucide-react'
 import { useScroll, useTransform, motion } from 'motion/react'
 import { InfiniteSlider } from '@/components/ui/infinite-slider'
 import { useContactDialog } from '@/lib/contact-dialog-context'
@@ -95,16 +94,16 @@ export function HeroSection() {
                                 </p>
 
                                 <div className="mt-12 flex flex-col items-center justify-center gap-3 sm:flex-row lg:justify-start">
-                                    <GlassButton onClick={() => openDialog()}>
-                                        <span className="text-nowrap">Get Your Free Audit</span>
-                                        <ChevronRight className="size-4" strokeWidth={3} />
-                                    </GlassButton>
-                                    <Link
+                                    <BlueButton onClick={() => openDialog()}>
+                                        Get Your Free Audit
+                                    </BlueButton>
+                                    <BlueButton
                                         href="#about"
+                                        variant="secondary"
                                         onClick={(e) => smoothScrollToHash(e, '#about')}
-                                        className={cn(buttonVariants({ variant: "ghost", size: "lg" }), "h-12 rounded-md px-5 text-base hover:bg-zinc-950/5 dark:hover:bg-white/5")}>
-                                        <span className="text-nowrap">Learn More</span>
-                                    </Link>
+                                    >
+                                        Learn More
+                                    </BlueButton>
                                 </div>
                             </motion.div>
                         </div>
@@ -279,12 +278,12 @@ const HeroHeader = () => {
                                 </ul>
                             </div>
                             <div className="flex w-full flex-col items-center space-y-3 sm:flex-row sm:items-stretch sm:gap-3 sm:space-y-0 md:w-fit">
-                                <GlassButton
+                                <BlueButton
                                     size="nav"
                                     onClick={() => { setMenuState(false); openDialog(); }}
                                 >
                                     Free Audit
-                                </GlassButton>
+                                </BlueButton>
                             </div>
                         </div>
                     </motion.div>

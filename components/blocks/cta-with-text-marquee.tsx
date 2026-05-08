@@ -9,7 +9,7 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
-import { GlassButton } from "@/components/ui/glass-button";
+import { BlueButton } from "@/components/ui/blue-button";
 import { useContactDialog } from "@/lib/contact-dialog-context";
 import { captureUTMs, getStoredUTMs, type UTMData } from "@/lib/utm-capture";
 
@@ -204,15 +204,15 @@ export default function CTAWithVerticalMarquee() {
 
             {/* CTA buttons */}
             <div className="flex flex-wrap gap-4 justify-center lg:justify-start animate-fade-in-up [animation-delay:600ms]">
-              <GlassButton
+              <BlueButton
                 size="cta"
                 onClick={() => { resetForm(); openDialog(); }}
               >
                 GET MY FREE AUDIT
-              </GlassButton>
-              <GlassButton size="cta" href="tel:7604437876">
+              </BlueButton>
+              <BlueButton size="cta" variant="secondary" href="tel:7604437876">
                 CALL 760-443-7876
-              </GlassButton>
+              </BlueButton>
             </div>
           </div>
 
@@ -313,14 +313,14 @@ export default function CTAWithVerticalMarquee() {
                 <p className="text-sm text-red-400">{errorMsg}</p>
               )}
 
-              <GlassButton
+              <BlueButton
                 size="send"
                 fullWidth
                 type="submit"
                 disabled={status === "loading"}
               >
                 {status === "loading" ? "Sending…" : "SEND MESSAGE"}
-              </GlassButton>
+              </BlueButton>
             </form>
           )}
         </DialogContent>
