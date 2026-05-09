@@ -29,13 +29,18 @@ npm run build   # production build (matches Vercel's deploy build)
 - `lib/utils.ts` — `cn()` helper + `smoothScrollToHash()` for anchor links
 - `lib/contact-dialog-context.tsx` — `ContactDialogProvider` + `useContactDialog` hook (shared dialog state)
 
-## Reference Docs (load at session start when present)
-- `.claude/docs/design-tokens.md` — full design spec: palette, typography, button/glass system, chrome placement
-- `.claude/docs/sections.md` — section order, anchor map, folder convention, prompt-file status
-- `.claude/docs/responsive.md` — per-breakpoint behavior, pointer-aware feature gates (touch vs mouse), what changes mobile/tablet/desktop
-- `my_references/my_files/HANDOFF.md` — open work: Fix List, To Do, Audits, deferred polish
-- `my_references/my_files/session-log.md` — running log; reset after each commit
-- `my_references/my_files/INDEX.md` — table of contents for all reference docs
+## Reference Docs — load on demand, not at startup
+
+`my_references/my_files/INDEX.md` is the navigation map. Read it at session start; it points to everything else.
+
+Trigger-load (only when the task touches the area):
+- Visual / palette / button / typography / chrome work → `.claude/docs/design-tokens.md`
+- Section order / anchor nav / `app/page.tsx` changes → `.claude/docs/sections.md`
+- Mobile / per-breakpoint / touch-vs-pointer → `.claude/docs/responsive.md`
+- Resuming uncommitted work / mid-session continuation → `my_references/my_files/session-log.md`
+- Strategic planning / cross-tier decisions → full `my_references/my_files/HANDOFF.md` (default startup reads only the priority-queue section)
+
+> **Note to fresh clones / external collaborators:** `my_references/`, `.claude/`, and the cross-project `../../PLAYBOOK.md` are gitignored personal/local refs — they're NOT in the repo or its git history. The committed code + this CLAUDE.md are the canonical project state. Don't try to reconstruct what's missing; work from the code.
 
 ## Design Direction
 - Deep blue-black background — pure-CSS layered radial+linear gradient on `body::before` (position: fixed). Electric blue accent (`#3B82F6`) — Electric Black scheme
@@ -66,3 +71,38 @@ npm run build   # production build (matches Vercel's deploy build)
 - **Commit body (when one is needed):** 1–2 opening lines on *what + why*. Use bullets for enumerable changes (files, options, before/after). Use prose for reasoning and trade-offs. Wrap at ~72 chars. Skip the body entirely on trivial one-liners where the subject line says it all.
 - **Atomic commits — one concern per commit.** Keeps `git revert`, `git blame`, `git log --grep` clean. Applies even to tiny fixes: if it's a separate concern from the feature shipping alongside, commit it separately
 - **Run `npm run build` before committing when the change touches TypeScript, logic, imports, or config.** It's the only local check that matches Vercel's deploy build — `npm run dev` is lenient and only reports on routes you actually visit
+
+## Session habits (token efficiency)
+
+The 4 highest-leverage tactics, kept here because PLAYBOOK is on-demand and these need to be present at decision time:
+- `/clear` between unrelated tasks — resets context, costs nothing
+- `/compact` proactively when session gets long — don't wait for auto-compact
+- One prompt, one task — stacking multiplies wrong directions and produces messy diffs
+- Default to Sonnet; Opus only when ambiguity / multi-file judgment / wrong-direction risk warrants the premium
+
+Full reference in `../../PLAYBOOK.md` TOKEN EFFICIENCY section.
+
+## Session Protocols
+
+### Start session (default — main folder, sequential work)
+1. Run `git status`, `git log -5`, `git branch --show-current` (parallel, one tool call)
+2. Read `HANDOFF.md` priority-queue section only (top of file, until `### Tier 2`)
+3. Read `INDEX.md` (compact navigation map — points to everything else)
+4. If working tree dirty / mid-session continuation → read `session-log.md` last entry only
+5. Acknowledge state in 2-3 sentences, ask what task
+
+DO NOT auto-read `design-tokens.md`, `sections.md`, `responsive.md`, or full `HANDOFF.md`. Trigger-load those only after the task is identified.
+
+### Start session (worktree / parallel — abbreviated)
+For a session spawned in a worktree on a specific named task:
+1. `git status`, `git log -3` (parallel)
+2. Read CLAUDE.md (auto) + ONLY the file(s) the task touches
+3. Skip HANDOFF, session-log, INDEX, `.claude/docs` unless task-relevant
+4. Acknowledge task in 1-2 sentences, start work
+
+### End session
+1. Ask owner if ready to commit
+2. After commit: reset `session-log.md` per existing convention (clear committed entries, keep notes about uncommitted work / next steps)
+3. Update `HANDOFF.md` only if scope changed (item shipped, item added, decision locked)
+4. Update CLAUDE.md only if a convention changed (rare)
+5. PLAYBOOK changes are cross-project — sync manually, not per-session
