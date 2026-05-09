@@ -57,7 +57,7 @@ export function HeroSection() {
         <>
             <HeroHeader />
             <main className="relative overflow-x-clip">
-                <section ref={sectionRef} className="relative overflow-hidden min-h-screen">
+                <section ref={sectionRef} className="relative overflow-hidden min-h-screen flex flex-col">
                     {/* Brand accent — Scale SD chrome logo, spans full hero.
                         Mobile/tablet: background-size scaled above 100% — logo extends
                         past viewport edges. Position shifted right-of-center (X > 50%)
@@ -78,7 +78,7 @@ export function HeroSection() {
                         }}
                     />
 
-                    <div className="py-24 md:pb-32 lg:pb-36 lg:pt-32">
+                    <div className="flex-1 py-24 md:pb-32 lg:pb-36 lg:pt-32">
                         <div className="relative z-10 mx-auto flex max-w-7xl flex-col px-6 lg:block lg:px-12">
                             <motion.div
                                 style={{
@@ -109,8 +109,8 @@ export function HeroSection() {
                         </div>
                     </div>
 
-                    {/* Trust strip — absolute, flush to bottom of hero, above video layer */}
-                    <div className="absolute bottom-0 inset-x-0 z-10 border-t border-white/10 backdrop-blur-sm bg-black/40">
+                    {/* Trust strip — flow element, sits below hero content */}
+                    <div className="z-10 border-t border-white/10 backdrop-blur-sm bg-black/40">
 
                         {/* Stacked: stats above logos — until viewport is wide enough for side-by-side to fit 4 stats in one row */}
                         <div className="xl:hidden py-2 flex flex-col gap-2">
