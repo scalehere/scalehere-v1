@@ -64,6 +64,7 @@ Trigger-load (only when the task touches the area):
 ## Workflow Notes
 - Before every task: restate interpretation in plain English and ask for confirmation before touching any files
 - Update `my_references/my_files/session-log.md` after each meaningful change — not just at end of session
+- **Always open a feature branch before starting any task** — `git checkout -b type/scope` off main. Direct commits to main are reserved for truly trivial one-liners only. Vercel preview URLs only exist on branches — required for review before anything hits main.
 - Before every commit: ask for confirmation — never commit on your own initiative
 - Never push unless explicitly asked to
 - After completing a significant change: ask user to check in browser before committing
