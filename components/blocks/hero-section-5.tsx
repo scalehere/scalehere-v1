@@ -228,14 +228,14 @@ const HeroHeader = () => {
                 <div className="mx-auto max-w-7xl px-6 lg:px-12">
                     <motion.div
                         key={1}
-                        className={cn('relative flex flex-wrap items-center justify-between gap-6 py-3 duration-200 lg:gap-0 lg:py-5', scrolled && 'lg:py-4')}>
+                        className={cn('relative flex flex-wrap items-center justify-between gap-6 py-3 duration-200 lg:gap-0 lg:grid lg:grid-cols-[auto_1fr_auto] lg:items-center lg:py-5', scrolled && 'lg:py-4')}>
                         <div className="flex w-full items-center justify-between gap-12 lg:w-auto">
                             <Link
                                 href="/"
                                 aria-label="home"
                                 onClick={(e) => smoothScrollToHash(e, '#')}
                                 className="flex items-center space-x-2">
-                                <span className="text-xl font-bold tracking-tight">Scale SD</span>
+                                <span className="text-2xl font-bold tracking-tight">SCALE SD</span>
                             </Link>
 
                             <button
@@ -245,21 +245,21 @@ const HeroHeader = () => {
                                 <Menu className="group-data-[state=active]:rotate-180 group-data-[state=active]:scale-0 group-data-[state=active]:opacity-0 m-auto size-6 duration-200" />
                                 <X className="group-data-[state=active]:rotate-0 group-data-[state=active]:scale-100 group-data-[state=active]:opacity-100 absolute inset-0 m-auto size-6 -rotate-180 scale-0 opacity-0 duration-200" />
                             </button>
+                        </div>
 
-                            <div className="hidden lg:block">
-                                <ul className="flex gap-8 text-sm">
-                                    {menuItems.map((item, index) => (
-                                        <li key={index}>
-                                            <Link
-                                                href={item.href}
-                                                onClick={(e) => smoothScrollToHash(e, item.href)}
-                                                className="text-muted-foreground hover:text-accent-foreground block duration-150">
-                                                <span>{item.name}</span>
-                                            </Link>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
+                        <div className="hidden lg:flex lg:justify-center">
+                            <ul className="flex gap-8 text-base">
+                                {menuItems.map((item, index) => (
+                                    <li key={index}>
+                                        <Link
+                                            href={item.href}
+                                            onClick={(e) => smoothScrollToHash(e, item.href)}
+                                            className="text-muted-foreground hover:text-accent-foreground block duration-150">
+                                            <span>{item.name}</span>
+                                        </Link>
+                                    </li>
+                                ))}
+                            </ul>
                         </div>
 
                         <div className="bg-background group-data-[state=active]:block lg:group-data-[state=active]:flex mb-6 hidden w-full flex-wrap items-center justify-end space-y-8 rounded-3xl border p-6 shadow-2xl shadow-zinc-300/20 md:flex-nowrap lg:m-0 lg:flex lg:w-fit lg:gap-6 lg:space-y-0 lg:border-transparent lg:bg-transparent lg:p-0 lg:shadow-none dark:shadow-none dark:lg:bg-transparent">
