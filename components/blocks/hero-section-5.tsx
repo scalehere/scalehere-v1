@@ -35,13 +35,7 @@ export function HeroSection() {
         target: sectionRef,
         offset: ['start start', 'end start'],
     })
-    // Layered parallax — logo bg drifts DOWN (background, drags behind scroll),
-    // headline block drifts UP (foreground, pulls ahead). Desktop only: the
-    // effect is subtle, the cost on touch devices is real (iOS pinch-zoom
-    // re-fires useScroll, compositing pressure adds up). Gated by
-    // `(hover: hover) and (pointer: fine)` — true on mouse/trackpad desktops
-    // and laptops; false on phones, tablets, and any pure-touch device.
-    const logoY = useTransform(heroProgress, [0, 1], ['0%', '40%'])
+    // Text parallax — headline block drifts UP on scroll. Desktop only (pointer: fine).
     const textY = useTransform(heroProgress, [0, 1], ['0%', '-50%'])
 
     const [isPointerFine, setIsPointerFine] = React.useState(false)
@@ -58,42 +52,34 @@ export function HeroSection() {
             <HeroHeader />
             <main className="relative overflow-x-clip">
                 <section ref={sectionRef} className="relative overflow-hidden min-h-screen flex flex-col">
-                    {/* Brand accent — Scale SD chrome logo, spans full hero.
-                        Mobile/tablet: background-size scaled above 100% — logo extends
-                        past viewport edges. Position shifted right-of-center (X > 50%)
-                        to bring the star into view on narrow screens, and up
-                        (Y < 50%) to sit the S higher in the hero. Desktop: contain + center.
-                        Parallax: translates DOWN relative to the hero as user scrolls,
-                        giving the illusion the logo is "farther back" (moves slower than scroll). */}
-                    <motion.div
-                        className="absolute inset-0 pointer-events-none bg-[length:180%] bg-[position:75%_35%] md:bg-[length:135%] md:bg-[position:65%_45%] lg:bg-contain lg:bg-center"
+                    {/* Hero gradient overlay — fills entire section, source recolored via CSS filter */}
+                    <div
+                        className="absolute inset-0 pointer-events-none"
                         style={{
-                            backgroundImage: 'url(/scale_sd_logo.webp)',
+                            backgroundImage: 'url(/backgrounds/hero-arc.png)',
+                            backgroundSize: 'cover',
+                            backgroundPosition: '51% 39%',
                             backgroundRepeat: 'no-repeat',
-                            maskImage: 'linear-gradient(to bottom, black 0%, black 70%, transparent 100%)',
-                            WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 70%, transparent 100%)',
-                            opacity: 0.5,
-                            y: isPointerFine ? logoY : '0%',
-                            willChange: isPointerFine ? 'transform' : 'auto',
+                            filter: 'hue-rotate(40deg) brightness(1.16) saturate(2.12)',
+                            opacity: 0.82,
                         }}
                     />
-
                     <div className="flex-1 py-24 md:pb-32 lg:pb-36 lg:pt-32">
-                        <div className="relative z-10 mx-auto flex max-w-7xl flex-col px-6 lg:block lg:px-12">
+                        <div className="relative z-10 mx-auto flex max-w-7xl flex-col px-6 lg:flex lg:px-12">
                             <motion.div
                                 style={{
                                     y: isPointerFine ? textY : '0%',
                                     willChange: isPointerFine ? 'transform' : 'auto',
                                 }}
-                                className="mx-auto max-w-lg text-center lg:ml-0 lg:max-w-full lg:text-left">
-                                <h1 className="font-heading mt-8 max-w-2xl text-balance text-4xl sm:text-5xl font-black md:text-6xl lg:mt-4 xl:text-7xl">
+                                className="mx-auto max-w-2xl text-center">
+                                <h1 className="font-heading mt-8 text-balance text-4xl sm:text-5xl font-black md:text-6xl lg:mt-4 xl:text-7xl">
                                     Stop <span className="text-[#3B82F6]">Wasting Money</span> on Marketing That Doesn't Bring <span className="text-[#3B82F6]">Customers</span>.
                                 </h1>
-                                <p className="mt-8 max-w-2xl text-balance text-lg">
+                                <p className="mt-8 text-balance text-lg">
                                     We build revenue-generating marketing systems for San Diego businesses — in just 1 hour of your time per week.
                                 </p>
 
-                                <div className="mt-12 flex flex-col items-center justify-center gap-3 sm:flex-row lg:justify-start">
+                                <div className="mt-12 flex flex-col items-center justify-center gap-3 sm:flex-row">
                                     <BlueButton onClick={() => openDialog()}>
                                         Get Your Free Audit
                                     </BlueButton>
@@ -110,7 +96,7 @@ export function HeroSection() {
                     </div>
 
                     {/* Trust strip — flow element, sits below hero content */}
-                    <div className="z-10 border-t border-white/10 backdrop-blur-sm bg-black/40">
+                    <div className="z-10 border-t border-white/10 backdrop-blur-sm bg-black/75">
 
                         {/* Stacked: stats above logos — until viewport is wide enough for side-by-side to fit 4 stats in one row */}
                         <div className="xl:hidden py-2 flex flex-col gap-2">
@@ -119,7 +105,7 @@ export function HeroSection() {
                                 {trustStats.map((stat) => (
                                     <div key={stat.number} className="flex flex-col gap-0.5 items-center">
                                         <span className="text-lg font-bold leading-none text-[#3B82F6]">{stat.number}</span>
-                                        <span className="text-[9px] uppercase tracking-widest text-white/60 whitespace-nowrap">
+                                        <span className="text-[9px] uppercase tracking-widest text-white/80 whitespace-nowrap">
                                             <span className="sm:hidden">{stat.short}</span>
                                             <span className="hidden sm:inline">{stat.long}</span>
                                         </span>
@@ -170,7 +156,7 @@ export function HeroSection() {
                                     {trustStats.map((stat) => (
                                         <div key={stat.number} className="flex flex-col gap-0.5 items-center">
                                             <span className="text-2xl font-bold leading-none text-[#3B82F6]">{stat.number}</span>
-                                            <span className="text-[10px] uppercase tracking-widest text-white/60 whitespace-nowrap">{stat.long}</span>
+                                            <span className="text-[10px] uppercase tracking-widest text-white/80 whitespace-nowrap">{stat.long}</span>
                                         </div>
                                     ))}
                                 </div>
