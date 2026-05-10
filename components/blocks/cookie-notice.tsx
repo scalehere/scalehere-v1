@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { X } from "lucide-react";
 import Link from "next/link";
 import { PIXEL_LIVE } from "@/lib/feature-flags";
 
@@ -9,7 +10,7 @@ const STORAGE_KEY = "scalesd-cookie-notice-dismissed";
 // Server-rendered into the initial HTML so visitors see the notice before
 // Microsoft Clarity (and Meta Pixel, when live) fire. The localStorage check
 // runs in useEffect after hydration — return visitors get a brief flash of
-// the banner before it unmounts. Acceptable for V1; cookie-based dismissal
+// the toast before it unmounts. Acceptable for V1; cookie-based dismissal
 // is the polish-tier upgrade if the flash becomes a UX issue.
 export function CookieNotice() {
   const [dismissed, setDismissed] = useState(false);
@@ -35,23 +36,25 @@ export function CookieNotice() {
     <div
       role="region"
       aria-label="Cookie notice"
-      className="fixed bottom-0 left-0 right-0 z-[280] border-t border-white/10 bg-zinc-950/95 px-4 py-3 backdrop-blur-md sm:px-6 sm:py-4"
+      className="fixed bottom-4 left-4 z-[280] w-[360px] max-w-[calc(100vw-2rem)] rounded-xl border border-white/15 bg-zinc-900/95 px-4 py-3 shadow-2xl backdrop-blur-md"
     >
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4">
-        <p className="text-xs leading-relaxed text-white/80 sm:text-sm">
-          We use cookies for analytics{PIXEL_LIVE ? " and advertising" : ""}. See our{" "}
-          <Link href="/privacy" className="underline underline-offset-2 hover:text-white">
+      <div className="flex items-center justify-between gap-3">
+        <p className="text-sm leading-relaxed text-white/75">
+          We use cookies for analytics{PIXEL_LIVE ? " and advertising" : ""}. {" "}
+          <Link
+            href="/privacy"
+            className="text-primary underline underline-offset-2 hover:text-white transition-colors"
+          >
             Privacy Policy
           </Link>
-          .
         </p>
         <button
           type="button"
           onClick={dismiss}
           aria-label="Dismiss notice"
-          className="-my-1 -mr-2 cursor-pointer px-2 py-1 text-xl leading-none text-white/60 hover:text-white sm:-mr-1"
+          className="shrink-0 cursor-pointer text-white/40 transition-colors hover:text-white"
         >
-          ×
+          <X className="size-4" />
         </button>
       </div>
     </div>
