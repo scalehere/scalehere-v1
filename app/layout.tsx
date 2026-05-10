@@ -5,6 +5,7 @@ import "./globals.css";
 import { ContactDialogProvider } from "@/lib/contact-dialog-context";
 import { Analytics } from '@vercel/analytics/next';
 import { UTMCaptureClient } from "@/components/utm-capture-client";
+import { CookieNotice } from "@/components/blocks/cookie-notice";
 
 // Heading font — Montserrat. Weights used: 500 (subheads/eyebrows/nav),
 // 700 (default section titles), 900 (hero / big statement moments only)
@@ -69,6 +70,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <ContactDialogProvider>{children}</ContactDialogProvider>
+        <CookieNotice />
         <Analytics />
         <UTMCaptureClient />
         <Script id="clarity-script" strategy="afterInteractive">

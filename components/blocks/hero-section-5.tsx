@@ -57,7 +57,7 @@ export function HeroSection() {
         <>
             <HeroHeader />
             <main className="relative overflow-x-clip">
-                <section ref={sectionRef} className="relative overflow-hidden min-h-screen">
+                <section ref={sectionRef} className="relative overflow-hidden min-h-screen flex flex-col">
                     {/* Brand accent — Scale SD chrome logo, spans full hero.
                         Mobile/tablet: background-size scaled above 100% — logo extends
                         past viewport edges. Position shifted right-of-center (X > 50%)
@@ -78,7 +78,7 @@ export function HeroSection() {
                         }}
                     />
 
-                    <div className="py-24 md:pb-32 lg:pb-36 lg:pt-32">
+                    <div className="flex-1 py-24 md:pb-32 lg:pb-36 lg:pt-32">
                         <div className="relative z-10 mx-auto flex max-w-7xl flex-col px-6 lg:block lg:px-12">
                             <motion.div
                                 style={{
@@ -109,8 +109,8 @@ export function HeroSection() {
                         </div>
                     </div>
 
-                    {/* Trust strip — absolute, flush to bottom of hero, above video layer */}
-                    <div className="absolute bottom-0 inset-x-0 z-10 border-t border-white/10 backdrop-blur-sm bg-black/40">
+                    {/* Trust strip — flow element, sits below hero content */}
+                    <div className="z-10 border-t border-white/10 backdrop-blur-sm bg-black/40">
 
                         {/* Stacked: stats above logos — until viewport is wide enough for side-by-side to fit 4 stats in one row */}
                         <div className="xl:hidden py-2 flex flex-col gap-2">
@@ -228,14 +228,14 @@ const HeroHeader = () => {
                 <div className="mx-auto max-w-7xl px-6 lg:px-12">
                     <motion.div
                         key={1}
-                        className={cn('relative flex flex-wrap items-center justify-between gap-6 py-3 duration-200 lg:gap-0 lg:py-5', scrolled && 'lg:py-4')}>
+                        className={cn('relative flex flex-wrap items-center justify-between gap-6 py-3 duration-200 lg:gap-0 lg:grid lg:grid-cols-[auto_1fr_auto] lg:items-center lg:py-5', scrolled && 'lg:py-4')}>
                         <div className="flex w-full items-center justify-between gap-12 lg:w-auto">
                             <Link
                                 href="/"
                                 aria-label="home"
                                 onClick={(e) => smoothScrollToHash(e, '#')}
                                 className="flex items-center space-x-2">
-                                <span className="text-xl font-bold tracking-tight">Scale SD</span>
+                                <span className="text-2xl font-bold tracking-tight">SCALE SD</span>
                             </Link>
 
                             <button
@@ -245,21 +245,21 @@ const HeroHeader = () => {
                                 <Menu className="group-data-[state=active]:rotate-180 group-data-[state=active]:scale-0 group-data-[state=active]:opacity-0 m-auto size-6 duration-200" />
                                 <X className="group-data-[state=active]:rotate-0 group-data-[state=active]:scale-100 group-data-[state=active]:opacity-100 absolute inset-0 m-auto size-6 -rotate-180 scale-0 opacity-0 duration-200" />
                             </button>
+                        </div>
 
-                            <div className="hidden lg:block">
-                                <ul className="flex gap-8 text-sm">
-                                    {menuItems.map((item, index) => (
-                                        <li key={index}>
-                                            <Link
-                                                href={item.href}
-                                                onClick={(e) => smoothScrollToHash(e, item.href)}
-                                                className="text-muted-foreground hover:text-accent-foreground block duration-150">
-                                                <span>{item.name}</span>
-                                            </Link>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
+                        <div className="hidden lg:flex lg:justify-center">
+                            <ul className="flex gap-8 text-base">
+                                {menuItems.map((item, index) => (
+                                    <li key={index}>
+                                        <Link
+                                            href={item.href}
+                                            onClick={(e) => smoothScrollToHash(e, item.href)}
+                                            className="text-muted-foreground hover:text-accent-foreground block duration-150">
+                                            <span>{item.name}</span>
+                                        </Link>
+                                    </li>
+                                ))}
+                            </ul>
                         </div>
 
                         <div className="bg-background group-data-[state=active]:block lg:group-data-[state=active]:flex mb-6 hidden w-full flex-wrap items-center justify-end space-y-8 rounded-3xl border p-6 shadow-2xl shadow-zinc-300/20 md:flex-nowrap lg:m-0 lg:flex lg:w-fit lg:gap-6 lg:space-y-0 lg:border-transparent lg:bg-transparent lg:p-0 lg:shadow-none dark:shadow-none dark:lg:bg-transparent">
