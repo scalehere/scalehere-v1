@@ -29,3 +29,4 @@ my_references/
 
 # Sandbox — local design testing tool, not part of the site
 app/sandbox/
+public/sandbox/
