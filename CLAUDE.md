@@ -28,6 +28,7 @@ npm run build   # production build (matches Vercel's deploy build)
 - `components/prompts/` — 21st.dev integration prompts (one `.txt` per section)
 - `lib/utils.ts` — `cn()` helper + `smoothScrollToHash()` for anchor links
 - `lib/contact-dialog-context.tsx` — `ContactDialogProvider` + `useContactDialog` hook (shared dialog state)
+- `lib/feature-flags.ts` — runtime feature flags; `PIXEL_LIVE` gates Meta Pixel sections in privacy policy + cookie notice copy (flip to `true` in the same commit that installs the Pixel script)
 
 ## Reference Docs — load on demand, not at startup
 
@@ -94,11 +95,31 @@ Full reference in `../../PLAYBOOK.md` TOKEN EFFICIENCY section.
 DO NOT auto-read `design-tokens.md`, `sections.md`, `responsive.md`, or full `HANDOFF.md`. Trigger-load those only after the task is identified.
 
 ### Start session (worktree / parallel — abbreviated)
-For a session spawned in a worktree on a specific named task:
+
+Three ways this starts — pick the matching path:
+
+**A. VS Code opened directly inside a worktree folder (task already in progress):**
 1. `git status`, `git log -3` (parallel)
-2. Read CLAUDE.md (auto) + ONLY the file(s) the task touches
+2. CLAUDE.md loads automatically — read ONLY the files the task touches
 3. Skip HANDOFF, session-log, INDEX, `.claude/docs` unless task-relevant
 4. Acknowledge task in 1-2 sentences, start work
+
+**B. Main folder session, task named immediately ("start session + open worktree for X"):**
+1. `git status`, `git log -3` (parallel) — skip HANDOFF and INDEX entirely, task is known
+2. Open or create the worktree for the named branch
+3. Run worktree setup checklist (see below)
+4. Read ONLY the files the task touches
+5. Acknowledge task in 1-2 sentences, start work
+
+**C. Main folder session, task unknown at start:**
+→ Follow the default start session protocol above (full HANDOFF + INDEX read), then open worktree once task is identified
+
+### Worktree setup checklist
+After creating or entering a worktree, always:
+1. `npm install` inside the worktree folder
+2. Copy `.env.local` from the main project root into the worktree folder
+3. Note the dev port — if main project is already on 3000, worktree dev will auto-use 3001
+4. Worktree is at `.claude/worktrees/<name>/` — hidden folder, enable "Show hidden items" in File Explorer to browse it
 
 ### End session
 1. Ask owner if ready to commit
