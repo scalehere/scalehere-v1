@@ -190,6 +190,11 @@
   to   { transform: translateX(-50%); }
 }
 
+@keyframes cylinder-rotate {
+  from { transform: rotateX(0deg); }
+  to   { transform: rotateX(-360deg); }
+}
+
 .animate-marquee-horizontal {
   animation: marquee-horizontal var(--duration, 40s) linear infinite;
 }
