@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
-const LAST_UPDATED = "May 6, 2026";
+const LAST_UPDATED = "May 9, 2026";
 
 export default function PrivacyPolicyPage() {
   return (
@@ -28,13 +28,23 @@ export default function PrivacyPolicyPage() {
         <h1 className="font-heading text-4xl font-bold leading-tight text-white md:text-5xl">
           Privacy Policy
         </h1>
-        <p className="mt-2 text-sm text-white/50">Last updated: {LAST_UPDATED}</p>
+        <p className="mt-2 text-sm text-white/50">
+          Effective: {LAST_UPDATED} · Last updated: {LAST_UPDATED}
+        </p>
 
         <div className="mt-10 space-y-6 text-base leading-relaxed text-white/80">
           <p>
             Scalehere (&ldquo;we,&rdquo; &ldquo;us,&rdquo; or &ldquo;our&rdquo;), doing business as Scale SD, operates this
             website at scalehere.com (the &ldquo;Site&rdquo;). This Privacy Policy explains what
             information we collect when you visit, how we use it, and the choices you have.
+          </p>
+          <p>
+            We do not collect sensitive personal information such as health, financial,
+            biometric, or government ID data.
+          </p>
+          <p>
+            We display a notice on first visit informing you of our use of cookies and
+            tracking technologies.
           </p>
           <p>
             If you have any questions, contact us at{" "}
@@ -90,6 +100,9 @@ export default function PrivacyPolicyPage() {
               (GHL)</strong>, our customer relationship management system, and to{" "}
               <strong>Resend</strong> as a backup email path if GHL is unreachable. We use
               this information to respond to your inquiry and follow up about our services.
+              If you provide a phone number, we may contact you by SMS or phone to follow
+              up on your inquiry. Standard message and data rates may apply. Reply{" "}
+              <strong>STOP</strong> to opt out of SMS messages at any time.
             </p>
           </SubSection>
         </Section>
@@ -251,8 +264,8 @@ export default function PrivacyPolicyPage() {
         <Section title="Changes to this policy">
           <p>
             We may update this Privacy Policy from time to time. When we do, we will update
-            the &ldquo;Last updated&rdquo; date at the top. Material changes will be
-            communicated through a banner on the Site for at least 30 days.
+            the &ldquo;Last updated&rdquo; date at the top. For material changes, we will also
+            provide notice on the Site.
           </p>
         </Section>
 
