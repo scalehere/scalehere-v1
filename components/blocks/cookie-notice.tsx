@@ -18,6 +18,8 @@ export function CookieNotice() {
   useEffect(() => {
     if (typeof window !== "undefined" && localStorage.getItem(STORAGE_KEY) === "1") {
       setDismissed(true);
+    } else {
+      window.dispatchEvent(new Event("cookie-notice-shown"));
     }
   }, []);
 
@@ -29,6 +31,7 @@ export function CookieNotice() {
     } catch {
       // localStorage can throw in private mode / quota — fail silently, banner just hides for the session.
     }
+    window.dispatchEvent(new Event("cookie-notice-dismissed"));
     setDismissed(true);
   };
 
