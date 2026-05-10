@@ -173,10 +173,10 @@ export function FeatureCarousel() {
                     onMouseEnter={() => setIsPaused(true)}
                     onMouseLeave={() => setIsPaused(false)}
                     className={cn(
-                      "relative flex items-center gap-3 lg:gap-4 px-4 lg:px-8 py-3 rounded-full transition-all duration-700 text-left group border",
+                      "relative flex items-center gap-3 lg:gap-4 px-5 lg:px-8 py-3.5 rounded-full transition-all duration-700 text-left group border",
                       isActive
                         ? "bg-white text-primary border-white z-10"
-                        : "bg-transparent text-white/60 border-white/20 hover:border-white/40 hover:text-white"
+                        : "bg-transparent text-white/70 border-white/25 hover:border-white/40 hover:text-white"
                     )}
                   >
                     <div
@@ -187,11 +187,11 @@ export function FeatureCarousel() {
                     >
                       <HugeiconsIcon
                         icon={feature.icon}
-                        size={18}
+                        size={20}
                         strokeWidth={2}
                       />
                     </div>
-                    <span className="font-normal text-xs md:text-xs lg:text-sm tracking-tight whitespace-nowrap uppercase">
+                    <span className="font-normal text-sm lg:text-sm tracking-tight whitespace-nowrap uppercase">
                       {feature.label}
                     </span>
                   </button>
