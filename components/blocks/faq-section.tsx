@@ -52,8 +52,10 @@ export function FAQSection() {
     <section className="w-full pt-16 md:pt-24 lg:pt-32 pb-24 md:pb-32 px-6">
       <div className="mx-auto w-full max-w-3xl">
 
-        {/* Header */}
-        <div className="space-y-3 text-center mb-10 md:mb-14">
+        {/* Header — anchor target for #faq. scroll-mt offsets the landing
+            so the eyebrow lands just below the navbar, skipping the section's
+            own pt above. */}
+        <div id="faq" className="space-y-3 text-center mb-10 md:mb-14 scroll-mt-[var(--nav-offset)]">
           <p className="text-xs uppercase tracking-[0.35em] text-primary/70 font-medium">
             Common Questions
           </p>

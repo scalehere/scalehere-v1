@@ -170,7 +170,14 @@ export default function CTAWithVerticalMarquee() {
   const { openDialog } = useContactDialog();
 
   return (
-    <div className="min-h-screen text-foreground flex items-center justify-center px-6 py-12 overflow-hidden">
+    // Anchor target for navbar #contact. NO scroll-mt — section top aligns to
+    // viewport top, and because the section is min-h-screen the bottom edge
+    // lands at (or just past) the viewport bottom. Result: CTA fills viewport,
+    // footer below stays out of view, any downward scroll reveals it. The top
+    // ~80px of section sits under the (semi-transparent) navbar, which is fine
+    // because the section is flex-centered + py-12 → only empty space lives up
+    // there. Don't add scroll-mt back without re-checking footer visibility.
+    <div id="contact" className="min-h-screen text-foreground flex items-center justify-center px-6 py-12 overflow-hidden">
       <div className="w-full max-w-7xl animate-fade-in-up">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
           {/* Left Content */}

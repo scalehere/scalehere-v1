@@ -12,7 +12,6 @@ import { FAQSection } from "@/components/blocks/faq-section";
 import CTAWithVerticalMarquee from "@/components/blocks/cta-with-text-marquee";
 import { StickyFooter } from "@/components/blocks/sticky-footer";
 import { ScrollToTop } from "@/components/ui/scroll-to-top";
-import { LazySection } from "@/components/ui/lazy-section";
 
 export default function Home() {
   return (
@@ -25,8 +24,11 @@ export default function Home() {
       <SoundFamiliar />
 
       {/* ── Section 3: Services ─────────────────────────── */}
-      <section id="services" className="w-full pt-16 md:pt-24 lg:pt-32 pb-20 md:pb-28 px-4">
-        <div className="max-w-7xl mx-auto mb-10 md:mb-14 text-center">
+      {/* Anchor id lives on the inner eyebrow div (not the outer section)
+          so jumping to #services lands at the actual content + scroll-mt-[var(--nav-offset)]
+          for nav clearance, skipping the section's own pt breathing room. */}
+      <section className="w-full pt-16 md:pt-24 lg:pt-32 pb-20 md:pb-28 px-4">
+        <div id="services" className="max-w-7xl mx-auto mb-10 md:mb-14 text-center scroll-mt-[var(--nav-offset)]">
           <p className="text-xs uppercase tracking-[0.35em] text-primary/70 mb-4 font-medium">
             What We Do
           </p>
@@ -44,8 +46,10 @@ export default function Home() {
       <HowItWorks />
 
       {/* ── Section 5: Portfolio — hard numbers (logical proof) ── */}
-      <section id="portfolio" className="w-full pt-16 md:pt-24 lg:pt-32 pb-20 md:pb-28 px-4">
-        <div className="max-w-5xl mx-auto mb-10 md:mb-14 text-center">
+      {/* Eager mount — nav anchor target (#portfolio). Anchor id on the inner
+          eyebrow div + scroll-mt-[var(--nav-offset)] lands the eyebrow just below the navbar. */}
+      <section className="w-full pt-16 md:pt-24 lg:pt-32 pb-20 md:pb-28 px-4">
+        <div id="portfolio" className="max-w-5xl mx-auto mb-10 md:mb-14 text-center scroll-mt-[var(--nav-offset)]">
           <p className="text-xs uppercase tracking-[0.35em] text-primary/70 mb-4 font-medium">
             Client Work
           </p>
@@ -56,17 +60,15 @@ export default function Home() {
             Click any client to see the full story — services, strategy, and real numbers.
           </p>
         </div>
-        <LazySection minHeight="500px">
-          <PortfolioAccordion />
-        </LazySection>
+        <PortfolioAccordion />
       </section>
 
       {/* ── Section 6: Case Studies — visual proof of the numbers ── */}
-      <LazySection minHeight="700px">
-        <CaseStudiesSection />
-      </LazySection>
+      {/* Eager mount — sits between nav targets, was growing during smooth-scroll. */}
+      <CaseStudiesSection />
 
       {/* ── Section 7: Testimonials — emotional proof after logical proof ── */}
+      {/* Eager mount — same reason as Case Studies. */}
       <section className="w-full pt-16 md:pt-24 lg:pt-32 pb-4 px-4">
         <div className="max-w-7xl mx-auto mb-10 md:mb-14 text-center">
           <p className="text-xs uppercase tracking-[0.35em] text-primary/70 mb-4 font-medium">
@@ -79,14 +81,14 @@ export default function Home() {
             Real results from real San Diego businesses.
           </p>
         </div>
-        <LazySection minHeight="600px">
-          <TestimonialsSection />
-        </LazySection>
+        <TestimonialsSection />
       </section>
 
       {/* ── Section 8: Management Hub — differentiator / "and one more thing" ── */}
-      <section id="tools" className="w-full pt-16 md:pt-24 lg:pt-32 pb-20 md:pb-28 px-4">
-        <div className="max-w-7xl mx-auto mb-10 md:mb-14 text-center">
+      {/* Eager mount — sits between nav targets so it can't grow mid-scroll.
+          Anchor id (#tools) on the inner eyebrow div + scroll-mt-[var(--nav-offset)] for nav clearance. */}
+      <section className="w-full pt-16 md:pt-24 lg:pt-32 pb-20 md:pb-28 px-4">
+        <div id="tools" className="max-w-7xl mx-auto mb-10 md:mb-14 text-center scroll-mt-[var(--nav-offset)]">
           <p className="text-xs uppercase tracking-[0.35em] text-primary/70 mb-4 font-medium">
             Management Hub
           </p>
@@ -97,19 +99,15 @@ export default function Home() {
             When you work with us, you get a full dashboard to run your business — leads, messages, bookings, reviews, all in one login.
           </p>
         </div>
-        <LazySection minHeight="600px">
-          <ManagementHub />
-        </LazySection>
+        <ManagementHub />
       </section>
 
       {/* ── Section 9: About ────────────────────────────── */}
-      <div id="about">
-        <LazySection minHeight="500px">
-          <AboutSection />
-        </LazySection>
-      </div>
+      {/* Anchor id (#about) + scroll-mt live inside AboutSection on its eyebrow div. */}
+      <AboutSection />
 
       {/* ── Section 10: Team ────────────────────────────── */}
+      {/* Eager mount — intermediate before #faq and #contact targets. */}
       <section className="w-full pt-16 md:pt-24 lg:pt-32 pb-20 md:pb-28 px-4">
         <div className="max-w-7xl mx-auto mb-10 md:mb-14 text-center">
           <p className="text-xs uppercase tracking-[0.35em] text-primary/70 mb-4 font-medium">
@@ -122,24 +120,23 @@ export default function Home() {
             A tight-knit crew of creatives, strategists, and marketers who treat every client like family.
           </p>
         </div>
-        <LazySection minHeight="500px">
-          <TeamShowcase />
-        </LazySection>
+        <TeamShowcase />
       </section>
 
       {/* ── Section 11: FAQ ─────────────────────────────── */}
-      <div id="faq">
-        <LazySection minHeight="500px">
-          <FAQSection />
-        </LazySection>
-      </div>
+      {/* Anchor id (#faq) + scroll-mt live inside FAQSection on its eyebrow div. */}
+      <FAQSection />
 
       {/* ── Section 12: Contact CTA ─────────────────────── */}
-      <div id="contact">
-        <LazySection minHeight="700px">
-          <CTAWithVerticalMarquee />
-        </LazySection>
-      </div>
+      {/* Anchor id (#contact) lives on the outermost div of CTAWithVerticalMarquee.
+          Intentionally no scroll-mt offset: section top aligns to viewport top,
+          and because the section is min-h-screen the bottom edge sits at (or past)
+          the viewport bottom — so the footer below stays out of view, and any
+          scroll-down reveals it. See the comment inside CTAWithVerticalMarquee
+          for the full rationale before changing this.
+          ContactDialog is mounted at root via app/layout.tsx; this section just
+          holds the marquee + trigger buttons. */}
+      <CTAWithVerticalMarquee />
 
       {/* ── Footer ──────────────────────────────────────── */}
       <StickyFooter />
