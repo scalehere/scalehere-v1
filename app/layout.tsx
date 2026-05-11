@@ -3,6 +3,7 @@ import { Montserrat, Karla } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import { ContactDialogProvider } from "@/lib/contact-dialog-context";
+import { ContactDialog } from "@/components/blocks/contact-dialog";
 import { Analytics } from '@vercel/analytics/next';
 import { UTMCaptureClient } from "@/components/utm-capture-client";
 import { CookieNotice } from "@/components/blocks/cookie-notice";
@@ -69,7 +70,12 @@ export default function RootLayout({
       className={`${montserrat.variable} ${karla.variable} dark h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <ContactDialogProvider>{children}</ContactDialogProvider>
+        <ContactDialogProvider>
+          {children}
+          {/* Mounted at root so openDialog() works from any trigger on the
+              first paint — not gated on LazySection mount of the CTA section. */}
+          <ContactDialog />
+        </ContactDialogProvider>
         <CookieNotice />
         <Analytics />
         <UTMCaptureClient />
