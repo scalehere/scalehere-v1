@@ -40,33 +40,23 @@ export interface TeamMember {
   };
 }
 
-// 3-member roster (top row of the original 3-column stagger). Boss confirmed
-// Tad is not to appear on the website. Additional members (Peter, Ugo, others)
-// will be added in a follow-up PR once full names + photos + role titles
-// are confirmed.
-//
-// Photo files live in /public/team/ named firstname_lastname.webp. Owner
-// places the final cropped 1:1 portraits there.
-//
-// Pending links — ask each member directly:
-//   - Daniel Loarca: Instagram (not yet provided)
-//   - Justin Goff:   LinkedIn (not yet provided)
-//   - Any member:    Twitter/X or other handles — add only if requested
+// Photos live in /public/team/ as firstname_lastname.webp (800×800).
+// Pending handles are marked inline so we know what's still missing.
 const TEAM: TeamMember[] = [
   {
     id: 'daniel-loarca',
     name: 'Daniel Loarca',
-    role: 'Client Acquisition + Founder',
+    role: 'Client Acquisition + Strategy',
     image: '/team/daniel_loarca.webp',
     social: {
       linkedin: 'https://www.linkedin.com/in/daniel-j-loarca-341a49205/',
-      // instagram pending — Daniel hasn't shared a handle
+      // instagram pending
     },
   },
   {
     id: 'ashenafew-daniel',
     name: 'Ashenafew Daniel',
-    role: 'Media Buyer',
+    role: 'Media Buyer + Developer',
     image: '/team/ashenafew_daniel.webp',
     social: {
       linkedin: 'https://www.linkedin.com/in/ashenafew-daniel-33a416282/',
@@ -80,7 +70,27 @@ const TEAM: TeamMember[] = [
     image: '/team/justin_goff.webp',
     social: {
       instagram: 'https://www.instagram.com/justintgoff/',
-      // linkedin pending — Justin hasn't shared a URL
+      // linkedin pending
+    },
+  },
+  {
+    id: 'peter-jung',
+    name: 'Peter Jung',
+    role: 'Ads Strategist + Systems',
+    image: '/team/peter_jung.webp',
+    social: {
+      linkedin: 'https://www.linkedin.com/in/pjung12/',
+      instagram: 'https://www.instagram.com/peterjung.ai/',
+    },
+  },
+  {
+    id: 'tad-jimenez',
+    name: 'Tad Jimenez',
+    role: 'AI Strategist + Designer',
+    image: '/team/tad_jimenez.webp',
+    social: {
+      linkedin: 'https://www.linkedin.com/in/tadjimenez/',
+      instagram: 'https://www.instagram.com/tadj.imenez/',
     },
   },
 ];
@@ -88,12 +98,14 @@ const TEAM: TeamMember[] = [
 export default function TeamShowcase({ members = TEAM }: { members?: TeamMember[] }) {
   const [activeId, setActiveId] = useState<string | null>(null);
 
-  // Mobile: 2 columns. Desktop: 3 columns.
+  // Mobile: 2 columns, simple alternation.
   const mob1 = members.filter((_, i) => i % 2 === 0);
   const mob2 = members.filter((_, i) => i % 2 === 1);
-  const dsk1 = members.filter((_, i) => i % 3 === 0);
-  const dsk2 = members.filter((_, i) => i % 3 === 1);
-  const dsk3 = members.filter((_, i) => i % 3 === 2);
+
+  // Desktop: 2 rows — original trio on top, newer additions on bottom row
+  // offset right. Adjust the slice when roster grows past 5.
+  const dskTop = members.slice(0, 3);
+  const dskBot = members.slice(3);
 
   const onHover = (id: string | null) => setActiveId(id);
   const onTap   = (id: string) => setActiveId(prev => prev === id ? null : id);
@@ -120,28 +132,21 @@ export default function TeamShowcase({ members = TEAM }: { members?: TeamMember[
         </div>
       </div>
 
-      {/* ── Desktop layout: 3 columns ── */}
-      <div className="hidden md:flex gap-4 lg:gap-5">
-        <div className="flex flex-col gap-4">
-          {dsk1.map(m => (
+      {/* ── Desktop layout: 2 rows (mobile transposed) ── */}
+      <div className="hidden md:flex flex-col gap-4 lg:gap-5">
+        {/* Top row — 3 cards */}
+        <div className="flex gap-4 lg:gap-5">
+          {dskTop.map(m => (
             <PhotoCard key={m.id} member={m} activeId={activeId} onHover={onHover} onTap={onTap}
-              className="md:w-[185px] md:h-[210px] lg:w-[230px] lg:h-[260px]"
+              className="md:w-[195px] md:h-[220px] lg:w-[240px] lg:h-[270px]"
             />
           ))}
         </div>
-        {/* Column 2 — offset down */}
-        <div className="flex flex-col gap-4 md:mt-[72px] lg:mt-[90px]">
-          {dsk2.map(m => (
+        {/* Bottom row — 2 cards offset right (horizontal analog of mobile's mt offset) */}
+        <div className="flex gap-4 lg:gap-5 md:ml-[80px] lg:ml-[100px]">
+          {dskBot.map(m => (
             <PhotoCard key={m.id} member={m} activeId={activeId} onHover={onHover} onTap={onTap}
-              className="md:w-[205px] md:h-[230px] lg:w-[255px] lg:h-[285px]"
-            />
-          ))}
-        </div>
-        {/* Column 3 — offset halfway */}
-        <div className="flex flex-col gap-4 md:mt-[36px] lg:mt-[45px]">
-          {dsk3.map(m => (
-            <PhotoCard key={m.id} member={m} activeId={activeId} onHover={onHover} onTap={onTap}
-              className="md:w-[193px] md:h-[217px] lg:w-[240px] lg:h-[270px]"
+              className="md:w-[210px] md:h-[235px] lg:w-[255px] lg:h-[285px]"
             />
           ))}
         </div>
