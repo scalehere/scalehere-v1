@@ -23,6 +23,7 @@ npm run build   # production build (matches Vercel's deploy build)
 
 ## Key Directories
 - `app/` — layout, globals, page (section order defined in `app/page.tsx`)
+- `app/sandbox/` (gitignored) — local-only dev tools at `localhost:3000/sandbox/<name>`. One folder per tool with `page.tsx`. Use for any sandbox, dev tool, or visual-tuning utility — not standalone HTML in `.claude/`.
 - `components/blocks/` — composed page sections (Hero, Services, Testimonials, About, CTA, Footer, etc.) — large, opinionated, usually used once
 - `components/ui/` — atomic primitives (button, blue-button, accordion, dialog, infinite-slider, progressive-blur) + self-contained animation mechanics (circular-gallery, radial-orbital-timeline, zoom-parallax) + perf utilities (lazy-section — IntersectionObserver wrapper deferring child mount until scrolled near, used to lazy-load below-fold sections in `app/page.tsx`) + floating widgets (scroll-to-top). **Primary CTAs ship through `<BlueButton>`** (`size`: hero/nav/cta/send + `variant`: primary/secondary)
 - `components/prompts/` — 21st.dev integration prompts (one `.txt` per section)
