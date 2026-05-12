@@ -113,8 +113,11 @@ export function StickyFooter({ className, ...props }: StickyFooterProps) {
 
 // ── Data ────────────────────────────────────────────────────────────────────
 
+// Official Scale SD social handles. Only Instagram is live (@scalenowsd).
+// FB / YouTube / LinkedIn remain '#' until owner confirms whether Scale SD
+// runs those channels — if not, the icons should be removed entirely.
 const socialLinks = [
-  { title: 'Instagram', href: '#', icon: FaInstagram },
+  { title: 'Instagram', href: 'https://www.instagram.com/scalenowsd/', icon: FaInstagram },
   { title: 'Facebook', href: '#', icon: FaFacebookF },
   { title: 'YouTube', href: '#', icon: FaYoutube },
   { title: 'LinkedIn', href: '#', icon: FaLinkedinIn },
