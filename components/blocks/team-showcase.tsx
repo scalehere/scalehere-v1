@@ -184,6 +184,13 @@ function PhotoCard({
       onMouseLeave={() => onHover(null)}
       onTouchStart={(e) => { touchStartY.current = e.touches[0].clientY; }}
       onTouchEnd={(e) => {
+        // Tap landed on a social link — let the anchor's default click fire.
+        // Without this, the preventDefault() below cancels the synthetic click
+        // and the link never opens on touch devices.
+        if ((e.target as HTMLElement).closest('a')) {
+          touchStartY.current = null;
+          return;
+        }
         const startY = touchStartY.current;
         const endY = e.changedTouches[0].clientY;
         touchStartY.current = null;
