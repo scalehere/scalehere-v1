@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -12,6 +12,7 @@ import {
 import { BlueButton } from "@/components/ui/blue-button";
 import { useContactDialog } from "@/lib/contact-dialog-context";
 import { captureUTMs, getStoredUTMs, type UTMData } from "@/lib/utm-capture";
+import { validateContactForm } from "@/lib/validation";
 
 type FormStatus = "idle" | "loading" | "success" | "error";
 
@@ -41,6 +42,10 @@ export function ContactDialog() {
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState<FormStatus>("idle");
   const [errorMsg, setErrorMsg] = useState("");
+  // Honeypot — uncontrolled ref so dumb bots that set .value directly (no
+  // synthetic InputEvent) still trip the trap. A controlled input would let
+  // those bots bypass: React state stays '' and handler reads empty.
+  const honeypotRef = useRef<HTMLInputElement>(null);
 
   const [utms, setUtms] = useState<UTMData>({
     utm_source: "",
@@ -67,10 +72,27 @@ export function ContactDialog() {
     setMessage("");
     setStatus("idle");
     setErrorMsg("");
+    if (honeypotRef.current) honeypotRef.current.value = "";
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Honeypot trap — silently render success without firing the pipeline.
+    // Bots see identical UX to real submits; no signal that they were caught.
+    const honeypotValue = honeypotRef.current?.value ?? "";
+    if (honeypotValue.length > 0) {
+      setStatus("success");
+      return;
+    }
+
+    const check = validateContactForm({ name, email, message });
+    if (!check.ok) {
+      setStatus("error");
+      setErrorMsg(check.error);
+      return;
+    }
+
     setStatus("loading");
     setErrorMsg("");
 
@@ -128,6 +150,20 @@ export function ContactDialog() {
           </p>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-3 mt-2">
+            {/* Honeypot — offscreen, aria-hidden, untabbable. Uncontrolled
+                ref-based read at submit catches both InputEvent-firing bots
+                and direct .value-set bots. */}
+            <input
+              type="text"
+              name="website"
+              ref={honeypotRef}
+              defaultValue=""
+              tabIndex={-1}
+              autoComplete="off"
+              aria-hidden="true"
+              style={{ position: "absolute", left: "-9999px", width: "1px", height: "1px", opacity: 0 }}
+            />
+
             <input type="hidden" name="utm_source" value={utms.utm_source} />
             <input type="hidden" name="utm_medium" value={utms.utm_medium} />
             <input type="hidden" name="utm_campaign" value={utms.utm_campaign} />
