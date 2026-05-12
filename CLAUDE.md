@@ -44,8 +44,8 @@ Trigger-load (only when the task touches the area):
 > **Note to fresh clones / external collaborators:** `my_references/`, `.claude/`, and the cross-project `../../PLAYBOOK.md` are gitignored personal/local refs — they're NOT in the repo or its git history. The committed code + this CLAUDE.md are the canonical project state. Don't try to reconstruct what's missing; work from the code.
 
 ## Design Direction
-- Deep blue-black background — pure-CSS layered radial+linear gradient on `body::before` (position: fixed). Electric blue accent (`#3B82F6`) — Electric Black scheme
-- Chrome accent: `.chrome-border` utility for cards (3px gallery, 1px stat). Brand logo (`public/scale_sd_logo.webp`) appears as hero background (full inset, opacity 0.5) + About-section orbit center ("sun")
+- Deep blue-black background — fixed SVG mesh (`public/backgrounds/site-mesh.svg`) on `body::before` with hue-rotate + brightness/saturate filters. Electric blue accent (`#3B82F6`) — Electric Black scheme
+- Chrome accent: `.chrome-border` utility for cards (3px gallery, 1px stat). Hero uses `public/backgrounds/hero-arc.png` as background. Brand logo (`public/scale_sd_logo.webp`) appears only as About-section orbit center ("sun")
 - Two fonts: Montserrat (headings — 500/700/900 scale) + Karla (body/UI — 400/700 + italic). Full scale in `.claude/docs/design-tokens.md`
 - Subtle scroll/hover animations — never flashy
 - Mobile responsive always
