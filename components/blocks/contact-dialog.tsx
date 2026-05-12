@@ -75,8 +75,8 @@ export function ContactDialog() {
     if (honeypotRef.current) honeypotRef.current.value = "";
   }, []);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
+    if (status === "loading") return;
 
     // Honeypot trap — silently render success without firing the pipeline.
     // Bots see identical UX to real submits; no signal that they were caught.
@@ -129,6 +129,19 @@ export function ContactDialog() {
     }
   };
 
+  // Enter-to-submit on single-line inputs only. Textarea keeps native multiline.
+  // No <form> wrapper means Enter does nothing by default — we wire it explicitly.
+  // Why no <form>: GHL's external-tracking.js attaches a capture-phase submit
+  // listener to every <form> on the page and creates a phantom contact on every
+  // fire, even for junk submits that our /api/contact 400s. Removing the form
+  // element removes the tracker's hook entirely.
+  const onEnterSubmit = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      handleSubmit();
+    }
+  };
+
   return (
     <Dialog
       open={dialogOpen}
@@ -149,7 +162,7 @@ export function ContactDialog() {
             Thank you — we&apos;ll be in touch soon.
           </p>
         ) : (
-          <form onSubmit={handleSubmit} className="space-y-3 mt-2">
+          <div className="space-y-3 mt-2">
             {/* Honeypot — offscreen, aria-hidden, untabbable. Uncontrolled
                 ref-based read at submit catches both InputEvent-firing bots
                 and direct .value-set bots. */}
@@ -182,6 +195,7 @@ export function ContactDialog() {
                 required
                 value={name}
                 onChange={(e) => setName(e.target.value)}
+                onKeyDown={onEnterSubmit}
                 className={inputClass}
               />
               <input
@@ -191,6 +205,7 @@ export function ContactDialog() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                onKeyDown={onEnterSubmit}
                 className={inputClass}
               />
             </div>
@@ -201,6 +216,7 @@ export function ContactDialog() {
               placeholder="Phone (optional)"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
+              onKeyDown={onEnterSubmit}
               className={inputClass}
             />
 
@@ -221,12 +237,13 @@ export function ContactDialog() {
             <BlueButton
               size="send"
               fullWidth
-              type="submit"
+              type="button"
+              onClick={handleSubmit}
               disabled={status === "loading"}
             >
               {status === "loading" ? "Sending…" : "SEND MESSAGE"}
             </BlueButton>
-          </form>
+          </div>
         )}
       </DialogContent>
     </Dialog>
