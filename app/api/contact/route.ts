@@ -1,5 +1,6 @@
 import { Resend } from "resend";
 import { NextResponse } from "next/server";
+import { validateContactForm } from "@/lib/validation";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -10,6 +11,7 @@ export async function POST(req: Request) {
       email,
       phone,
       message,
+      website, // honeypot
       utm_source,
       utm_medium,
       utm_campaign,
@@ -19,14 +21,17 @@ export async function POST(req: Request) {
       gclid_custom,
     } = await req.json();
 
-    // Basic validation — phone is optional. UTM/click-id fields are all optional;
-    // direct-visit submissions ship them as empty strings and that's a valid
-    // attribution state.
-    if (!name || !email || !message) {
-      return NextResponse.json(
-        { error: "Name, email, and message are required." },
-        { status: 400 }
-      );
+    // Honeypot trap — return the exact shape of real success so smart bots
+    // probing for differential responses can't distinguish trap from pipeline.
+    if (typeof website === "string" && website.length > 0) {
+      return NextResponse.json({ success: true });
+    }
+
+    // Defense in depth — client validates too, but a posted-direct request
+    // from curl/Postman bypasses the client. Same validator both sides.
+    const check = validateContactForm({ name, email, message });
+    if (!check.ok) {
+      return NextResponse.json({ error: check.error }, { status: 400 });
     }
 
     // Primary path: forward to GHL Inbound Webhook. The published workflow
