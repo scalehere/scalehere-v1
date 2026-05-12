@@ -4,6 +4,30 @@ import { useRef, useState } from 'react';
 import { FaLinkedinIn, FaTwitter, FaInstagram } from 'react-icons/fa';
 import { cn } from '@/lib/utils';
 
+// ── Sizing knobs ──────────────────────────────────────────────────────────
+// All per-card text + icon sizes live here. Edit a value, save, the browser
+// hot-reloads. Format is mobile-first: `<mobile> md:<desktop>`. Bump the
+// number inside the brackets / size-X scale and you're done.
+//   text-[14px]   → name font size (14px on phones)
+//   md:text-[16px] → name font size on tablet+ (≥768px wide)
+//   size-4         → icon dimensions on mobile (16×16px; Tailwind scale)
+//   size-5         → icon dimensions on desktop (20×20px)
+//   p-2 / p-2.5    → padding inside each circular icon button
+const NAME_TEXT = 'text-[16px] md:text-[18px]';   // peek + slide-up name
+const ROLE_TEXT = 'text-[10px] md:text-[12px]';   // role label (uppercase, slide-up only)
+const ICON_BTN  = 'p-2 md:p-2.5';                 // padding around each social icon
+const ICON_SIZE = 'size-6 md:size-7';             // social icon width/height
+const ICON_GAP  = 'gap-2 md:gap-2.5';             // spacing between social icons
+
+// Contrast knobs for the slide-up panel (text-legibility against bright photos):
+//   PEEK_GRADIENT     → fade behind always-visible name strip at card bottom
+//   SLIDEUP_GRADIENT  → fade behind name+role+icons when card is active
+//                       Format: from-<bottom> via-<mid> to-<top>. Black/90 ≈ near-opaque, /50 ≈ half.
+//   SLIDEUP_FADE      → top padding = vertical height of the fade region. Bigger = softer transition.
+const PEEK_GRADIENT    = 'bg-gradient-to-t from-black/90 to-transparent';
+const SLIDEUP_GRADIENT = 'bg-gradient-to-t from-black/99 via-black/90 to-transparent';
+const SLIDEUP_FADE     = 'pt-15';
+
 export interface TeamMember {
   id: string;
   name: string;
@@ -16,49 +40,48 @@ export interface TeamMember {
   };
 }
 
-// Replace with real Scale SD team photos and social links when available
+// 3-member roster (top row of the original 3-column stagger). Boss confirmed
+// Tad is not to appear on the website. Additional members (Peter, Ugo, others)
+// will be added in a follow-up PR once full names + photos + role titles
+// are confirmed.
+//
+// Photo files live in /public/team/ named firstname_lastname.webp. Owner
+// places the final cropped 1:1 portraits there.
+//
+// Pending links — ask each member directly:
+//   - Daniel Loarca: Instagram (not yet provided)
+//   - Justin Goff:   LinkedIn (not yet provided)
+//   - Any member:    Twitter/X or other handles — add only if requested
 const TEAM: TeamMember[] = [
   {
-    id: '1',
-    name: 'Carlos M.',
-    role: 'Founder & CEO',
-    image: 'https://i.pravatar.cc/400?img=11',
-    social: { instagram: '#', linkedin: '#' },
+    id: 'daniel-loarca',
+    name: 'Daniel Loarca',
+    role: 'Client Acquisition + Founder',
+    image: '/team/daniel_loarca.webp',
+    social: {
+      linkedin: 'https://www.linkedin.com/in/daniel-j-loarca-341a49205/',
+      // instagram pending — Daniel hasn't shared a handle
+    },
   },
   {
-    id: '2',
-    name: 'Sofia R.',
-    role: 'Head of Social Media',
-    image: 'https://i.pravatar.cc/400?img=47',
-    social: { instagram: '#', linkedin: '#' },
+    id: 'ashenafew-daniel',
+    name: 'Ashenafew Daniel',
+    role: 'Media Buyer',
+    image: '/team/ashenafew_daniel.webp',
+    social: {
+      linkedin: 'https://www.linkedin.com/in/ashenafew-daniel-33a416282/',
+      instagram: 'https://www.instagram.com/ashenafew/',
+    },
   },
   {
-    id: '3',
-    name: 'Jake T.',
-    role: 'Paid Ads Specialist',
-    image: 'https://i.pravatar.cc/400?img=12',
-    social: { linkedin: '#' },
-  },
-  {
-    id: '4',
-    name: 'Mia L.',
-    role: 'Content Creator',
-    image: 'https://i.pravatar.cc/400?img=44',
-    social: { instagram: '#' },
-  },
-  {
-    id: '5',
-    name: 'Derek W.',
-    role: 'Graphic Designer',
-    image: 'https://i.pravatar.cc/400?img=15',
-    social: { instagram: '#', linkedin: '#' },
-  },
-  {
-    id: '6',
-    name: 'Alyssa P.',
-    role: 'Influencer Relations',
-    image: 'https://i.pravatar.cc/400?img=49',
-    social: { instagram: '#' },
+    id: 'justin-goff',
+    name: 'Justin Goff',
+    role: 'Project Manager + Sales',
+    image: '/team/justin_goff.webp',
+    social: {
+      instagram: 'https://www.instagram.com/justintgoff/',
+      // linkedin pending — Justin hasn't shared a URL
+    },
   },
 ];
 
@@ -181,8 +204,8 @@ function PhotoCard({
       />
 
       {/* Peek — name always visible at bottom on all devices, hides when full strip is active */}
-      <div className={cn("absolute bottom-0 inset-x-0 px-2.5 pb-2 pt-6 bg-gradient-to-t from-black/75 to-transparent", isActive && "hidden")}>
-        <p className="text-white text-[11px] font-bold leading-tight truncate">
+      <div className={cn("absolute bottom-0 inset-x-0 px-3 pb-2.5 pt-6", PEEK_GRADIENT, isActive && "hidden")}>
+        <p className={cn("text-white font-bold leading-tight", NAME_TEXT)}>
           {member.name}
         </p>
       </div>
@@ -190,39 +213,40 @@ function PhotoCard({
       {/* Full info strip — slides up on tap (mobile) or hover (desktop)
           Covers the peek div when active                                  */}
       <div className={cn(
-        'absolute bottom-0 inset-x-0 px-2.5 pb-2.5 pt-8',
-        'bg-gradient-to-t from-black/85 via-black/50 to-transparent',
+        'absolute bottom-0 inset-x-0 px-3 pb-3',
+        SLIDEUP_FADE,
+        SLIDEUP_GRADIENT,
         'transition-transform duration-300 ease-out',
         isActive ? 'translate-y-0' : 'translate-y-full',
       )}>
-        <p className="text-white text-[11px] font-bold leading-tight truncate">
+        <p className={cn("text-white font-bold leading-tight", NAME_TEXT)}>
           {member.name}
         </p>
-        <p className="text-white/60 text-[9px] uppercase tracking-[0.15em] font-medium mt-0.5 leading-snug">
+        <p className={cn("text-white/65 uppercase tracking-[0.14em] font-medium mt-1 leading-snug", ROLE_TEXT)}>
           {member.role}
         </p>
 
         {hasSocial && (
-          <div className="flex items-center gap-1.5 mt-2">
+          <div className={cn("flex items-center mt-2.5", ICON_GAP)}>
             {member.social?.twitter && (
               <a href={member.social.twitter} target="_blank" rel="noopener noreferrer"
                 onClick={(e) => e.stopPropagation()}
-                className="p-2 rounded-full bg-white/10 text-white/70 hover:bg-primary/20 hover:text-primary transition-colors duration-150">
-                <FaTwitter size={12} />
+                className={cn("rounded-full bg-white/10 text-white/70 hover:bg-primary/20 hover:text-primary transition-colors duration-150", ICON_BTN)}>
+                <FaTwitter className={ICON_SIZE} />
               </a>
             )}
             {member.social?.linkedin && (
               <a href={member.social.linkedin} target="_blank" rel="noopener noreferrer"
                 onClick={(e) => e.stopPropagation()}
-                className="p-2 rounded-full bg-white/10 text-white/70 hover:bg-primary/20 hover:text-primary transition-colors duration-150">
-                <FaLinkedinIn size={12} />
+                className={cn("rounded-full bg-white/10 text-white/70 hover:bg-primary/20 hover:text-primary transition-colors duration-150", ICON_BTN)}>
+                <FaLinkedinIn className={ICON_SIZE} />
               </a>
             )}
             {member.social?.instagram && (
               <a href={member.social.instagram} target="_blank" rel="noopener noreferrer"
                 onClick={(e) => e.stopPropagation()}
-                className="p-2 rounded-full bg-white/10 text-white/70 hover:bg-primary/20 hover:text-primary transition-colors duration-150">
-                <FaInstagram size={12} />
+                className={cn("rounded-full bg-white/10 text-white/70 hover:bg-primary/20 hover:text-primary transition-colors duration-150", ICON_BTN)}>
+                <FaInstagram className={ICON_SIZE} />
               </a>
             )}
           </div>
