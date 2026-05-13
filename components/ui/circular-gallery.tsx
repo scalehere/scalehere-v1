@@ -1,6 +1,7 @@
 "use client"
 
 import React, { useState, useEffect, useRef, HTMLAttributes } from 'react';
+import Image from 'next/image';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -129,10 +130,12 @@ const CircularGallery = React.forwardRef<HTMLDivElement, CircularGalleryProps>(
                 >
                   <div className="chrome-border rounded-lg shadow-2xl w-full h-full" style={{ padding: '3px' }}>
                     <div className="relative w-full h-full rounded-[5px] overflow-hidden bg-card/30 backdrop-blur-lg">
-                      <img
+                      <Image
                         src={item.photo.url}
                         alt={item.photo.text}
-                        className="absolute inset-0 w-full h-full object-cover"
+                        fill
+                        sizes="400px"
+                        className="object-cover"
                         style={{ objectPosition: item.photo.pos || 'center' }}
                       />
                       {/* Card overlay */}
