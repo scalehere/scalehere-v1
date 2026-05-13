@@ -46,7 +46,7 @@ Trigger-load (only when the task touches the area):
 
 ## Design Direction
 - Deep blue-black background — fixed SVG mesh (`public/backgrounds/site-mesh.svg`) on `body::before` with hue-rotate + brightness/saturate filters. Electric blue accent (`#3B82F6`) — Electric Black scheme
-- Chrome accent: `.chrome-border` utility for cards (3px gallery, 1px stat). Hero uses `public/backgrounds/hero-arc.png` as background. Brand logo (`public/scale_sd_logo.webp`) appears only as About-section orbit center ("sun")
+- Chrome accent: `.chrome-border` utility for cards (3px gallery, 1px stat). Hero uses `public/backgrounds/hero-arc.png` as background. Brand logos in `public/scalehere_logos/`: `chrome_logo.webp` (full-res chrome S+star — About-section orbit center "sun") and `basic_logo.webp` (smaller webp variant — faint watermark behind the nav wordmark)
 - Two fonts: Montserrat (headings — 500/700/900 scale) + Karla (body/UI — 400/700 + italic). Full scale in `.claude/docs/design-tokens.md`
 - Subtle scroll/hover animations — never flashy
 - Mobile responsive always
