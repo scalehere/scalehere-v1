@@ -66,14 +66,38 @@ Trigger-load (only when the task touches the area):
 - Before every task: restate interpretation in plain English and ask for confirmation before touching any files
 - Update `my_references/my_files/session-log.md` after each meaningful change — not just at end of session
 - **Always open a feature branch before starting any task** — `git checkout -b type/scope` off main. Direct commits to main are reserved for truly trivial one-liners only. Vercel preview URLs only exist on branches — required for review before anything hits main.
-- Before every commit: ask for confirmation — never commit on your own initiative
 - Never push unless explicitly asked to
 - After completing a significant change: ask user to check in browser before committing
-- Never commit broken code; no Co-Authored-By in commit messages
-- **Conventional Commits:** `type(scope): description` — types: `feat`, `fix`, `chore`, `refactor`, `style`, `docs`, `revert`. Scope = component/section name in lowercase. Description: under 72 chars, lowercase, no period. Example: `fix(hero): trust strip single-row flex with responsive labels`
-- **Commit body (when one is needed):** 1–2 opening lines on *what + why*. Use bullets for enumerable changes (files, options, before/after). Use prose for reasoning and trade-offs. Wrap at ~72 chars. Skip the body entirely on trivial one-liners where the subject line says it all.
-- **Atomic commits — one concern per commit.** Keeps `git revert`, `git blame`, `git log --grep` clean. Applies even to tiny fixes: if it's a separate concern from the feature shipping alongside, commit it separately
-- **Run `npm run build` before committing when the change touches TypeScript, logic, imports, or config.** It's the only local check that matches Vercel's deploy build — `npm run dev` is lenient and only reports on routes you actually visit
+- Never commit broken code
+
+## Commit & PR messages
+
+Every rule below applies to commits, PR titles, PR bodies, and code comments shipped to the repo. Same rules apply across all four surfaces.
+
+**Format (Conventional Commits):** `type(scope): description` — types: `feat`, `fix`, `chore`, `refactor`, `style`, `docs`, `revert`. Scope = component/section name in lowercase. Description: under 72 chars, lowercase, no period. Example: `fix(hero): trust strip single-row flex with responsive labels`.
+
+**Body (when one is needed):** 1–2 opening lines on *what + why*. Use bullets for enumerable changes (files, options, before/after). Use prose for reasoning and trade-offs. Wrap at ~72 chars. Skip the body entirely on trivial one-liners where the subject line says it all.
+
+**Atomic commits — one concern per commit.** Keeps `git revert`, `git blame`, `git log --grep` clean. Applies even to tiny fixes: if it's a separate concern from the feature shipping alongside, commit it separately.
+
+**Voice — first-person, as if the owner wrote it.** "I switched to font-heading", not "owner asked me to" or "Claude switched". No "Claude", "owner", "user", or "boss" references in commits, PR bodies, session-log, or in-repo docs. Even when a decision came from someone else (boss, stakeholder), surface it as the owner's own call — internal chain-of-command stays invisible in committed history.
+
+**No external references in artifacts.** Don't cite gitignored files (`PLAYBOOK.md`, `.claude/`, `my_references/`, `HANDOFF.md`), internal tier/task numbering (Tier 1B, B1a), screenshot filenames, or "boss feedback from X date". These read as dead links to anyone outside the personal setup (GitHub view, fresh clone, future collaborator). Inline the reasoning instead of citing the source. Committed git hashes and merged PR numbers are fine — they resurface from git history. CLAUDE.md itself is the only exception: it's Claude's entry point and references to gitignored docs there are intentional.
+
+**No workflow/process meta in artifacts.** Commit bodies, PR descriptions, and code comments describe the WORK, not the WORKFLOW. No "merge strategy: rebase because...", no "after reconsidering...", no "why we picked this tool over that one" essays. Process-meta lives in chat or session-log — never in shipped artifacts.
+
+**No `Co-Authored-By` lines** in commit messages, ever.
+
+**PR bodies** are Summary + Test plan + (optional) Known follow-ups. No "Why this approach" sections, no merge-strategy reasoning.
+
+**Merge strategy is per-PR, not codified.** When merging, present squash/merge-commit/rebase options with tradeoffs and recommend one for the specific PR. Don't push a default.
+
+**Before writing a commit message:** read `my_references/my_files/session-log.md` first to capture the full scope of the session's work, not just the last edit. Don't write narrow messages that miss the substance.
+
+**Pre-commit discipline:**
+- Run `npm run build` before committing when the change touches TypeScript, logic, imports, or config. Only local check that matches Vercel's deploy build — `npm run dev` is lenient and only reports on routes you actually visit.
+- Ask for confirmation before committing — never on own initiative.
+- Update reference docs first (HANDOFF, session-log, CLAUDE.md if convention shifted), then commit.
 
 ## Session habits (token efficiency)
 
