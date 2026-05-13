@@ -221,7 +221,7 @@ const HeroHeader = () => {
                                 aria-label="home"
                                 onClick={(e) => smoothScrollToHash(e, '#')}
                                 className="flex items-center space-x-2">
-                                <span className="text-2xl font-bold tracking-tight">SCALE SD</span>
+                                <span className="font-heading text-2xl font-black tracking-widest">SCALE SD</span>
                             </Link>
 
                             <button
