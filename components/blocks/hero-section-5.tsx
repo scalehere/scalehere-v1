@@ -220,8 +220,14 @@ const HeroHeader = () => {
                                 href="/"
                                 aria-label="home"
                                 onClick={(e) => smoothScrollToHash(e, '#')}
-                                className="flex items-center space-x-2">
-                                <span className="font-heading text-2xl font-black tracking-widest">SCALE SD</span>
+                                className="relative inline-flex items-center">
+                                <img
+                                    src="/scalehere_logos/basic_logo.webp"
+                                    alt=""
+                                    aria-hidden="true"
+                                    className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-12 w-auto opacity-25 pointer-events-none select-none"
+                                />
+                                <span className="relative z-10 font-heading text-2xl font-black tracking-widest">SCALE SD</span>
                             </Link>
 
                             <button
