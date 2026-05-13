@@ -1,6 +1,7 @@
 "use client"
 
 import React from 'react';
+import Image from 'next/image';
 import { motion } from "framer-motion";
 
 // --- Types ---
@@ -111,11 +112,12 @@ const TestimonialsColumn = (props: {
                     "{text}"
                   </p>
                   <footer className="flex items-center gap-3 mt-6">
-                    <img
+                    <Image
                       width={40}
                       height={40}
                       src={image}
                       alt={`Photo of ${name}`}
+                      unoptimized
                       className="h-10 w-10 rounded-full object-cover ring-2 ring-white/10 group-hover:ring-primary/40 transition-all duration-300"
                     />
                     <div className="flex flex-col">

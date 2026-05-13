@@ -15,6 +15,7 @@
 'use client'
 
 import React, { useState, useEffect, useRef, useCallback } from 'react'
+import Image from 'next/image'
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Data & constants
@@ -360,10 +361,12 @@ export function ManagementHub() {
           <div className="hub-image-wrapper lg:self-start">
             <div className="hub-image-tilt">
               <div className="hub-image-frame transition-all ease-out" style={imageTransition}>
-                <img
+                <Image
                   src={currentSlide.imageUrl}
                   alt={currentSlide.title}
-                  className="w-full h-full object-cover"
+                  fill
+                  sizes="(min-width: 1024px) 67vw, 90vw"
+                  className="object-cover"
                   style={{ objectPosition: 'left center' }}
                 />
               </div>
