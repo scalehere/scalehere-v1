@@ -1,6 +1,7 @@
 'use client'
 import React from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { BlueButton } from '@/components/ui/blue-button'
 import { cn } from '@/lib/utils'
 import { Menu, X } from 'lucide-react'
@@ -118,12 +119,13 @@ export function HeroSection() {
                             <div className="overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_5%,black_95%,transparent)]">
                                 <InfiniteSlider gap={48} speed={70} reverse>
                                     {[...trustLogos, ...trustLogos].map((logo, i) => (
-                                        <img
+                                        <Image
                                             key={`${logo.alt}-${i}`}
                                             src={logo.src}
                                             alt={logo.alt}
                                             width={logo.width}
                                             height={logo.height}
+                                            priority
                                             className={`${logo.heightClass ?? 'h-[53px]'} w-auto pointer-events-none select-none`}
                                         />
                                     ))}
@@ -137,12 +139,13 @@ export function HeroSection() {
                             <div className="w-1/2 pr-8 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_5%,black_78%,transparent)]">
                                 <InfiniteSlider gap={56} speed={70} reverse>
                                     {[...trustLogos, ...trustLogos].map((logo, i) => (
-                                        <img
+                                        <Image
                                             key={`${logo.alt}-${i}`}
                                             src={logo.src}
                                             alt={logo.alt}
                                             width={logo.width}
                                             height={logo.height}
+                                            priority
                                             className={`${logo.heightClass ?? 'h-[53px]'} w-auto pointer-events-none select-none`}
                                         />
                                     ))}
