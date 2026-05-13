@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence } from "motion/react";
 import {
   ColorsIcon,
@@ -229,15 +230,17 @@ export function FeatureCarousel() {
                   }}
                   className="absolute inset-0 rounded-[2rem] md:rounded-[2.8rem] overflow-hidden border-4 md:border-8 border-background bg-background origin-center"
                 >
-                  <img
+                  <Image
                     src={feature.image}
                     alt={feature.label}
+                    fill
+                    sizes="(min-width: 1024px) 50vw, 90vw"
                     style={{
                       objectPosition: feature.objectPosition ?? "center",
                       transform: feature.scale ? `scale(${feature.scale})` : undefined,
                     }}
                     className={cn(
-                      "w-full h-full object-cover transition-all duration-700",
+                      "object-cover transition-all duration-700",
                       isActive
                         ? "grayscale-0 blur-0"
                         : "grayscale blur-[2px] brightness-75"

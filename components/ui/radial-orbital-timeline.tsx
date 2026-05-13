@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useLayoutEffect, useCallback, useRef } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence } from "motion/react";
 import { BookOpen, Eye, Palette, MessageSquare, Layers, Lightbulb } from "lucide-react";
 
@@ -353,9 +354,12 @@ export default function RadialOrbitalTimeline() {
           style={{ animationDelay: "0.5s" }}
         />
         {/* The logo itself — width-driven, height follows natural aspect */}
-        <img
+        <Image
           src="/scalehere_logos/chrome_logo.webp"
           alt="Scale SD"
+          width={384}
+          height={254}
+          sizes="(min-width: 1280px) 128px, (min-width: 1024px) 112px, (min-width: 768px) 96px, 80px"
           className="relative w-20 md:w-24 lg:w-28 xl:w-32 h-auto select-none drop-shadow-[0_0_12px_rgba(59,130,246,0.4)]"
         />
       </div>
