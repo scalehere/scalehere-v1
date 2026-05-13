@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { motion, AnimatePresence } from 'motion/react';
 import { Plus, Minus } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -112,11 +113,14 @@ export function PortfolioAccordion() {
               className="w-full flex items-center gap-5 py-5 md:py-9 px-2 text-left group"
             >
               {/* Thumbnail */}
-              <div className="w-14 h-14 rounded-lg overflow-hidden flex-shrink-0">
-                <img
+              <div className="relative w-14 h-14 rounded-lg overflow-hidden flex-shrink-0">
+                <Image
                   src={client.image}
                   alt={client.name}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  fill
+                  sizes="56px"
+                  unoptimized
+                  className="object-cover transition-transform duration-500 group-hover:scale-110"
                 />
               </div>
 
@@ -165,11 +169,14 @@ export function PortfolioAccordion() {
                   <div className="pb-10 px-2 grid md:grid-cols-2 gap-8">
                     {/* Left: image + description */}
                     <div>
-                      <div className="rounded-xl overflow-hidden aspect-video mb-5">
-                        <img
+                      <div className="relative rounded-xl overflow-hidden aspect-video mb-5">
+                        <Image
                           src={client.image}
                           alt={client.name}
-                          className="w-full h-full object-cover"
+                          fill
+                          sizes="(min-width: 768px) 50vw, 90vw"
+                          unoptimized
+                          className="object-cover"
                         />
                       </div>
                       <p className="text-muted-foreground text-sm leading-relaxed">
