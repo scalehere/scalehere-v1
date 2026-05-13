@@ -1,6 +1,7 @@
 "use client"
 
 import { useRef, useState } from 'react';
+import Image from 'next/image';
 import { FaLinkedinIn, FaTwitter, FaInstagram } from 'react-icons/fa';
 import { cn } from '@/lib/utils';
 
@@ -206,10 +207,12 @@ function PhotoCard({
       }}
       onClick={(e) => e.stopPropagation()}
     >
-      <img
+      <Image
         src={member.image}
         alt={member.name}
-        className="w-full h-full object-cover transition-[filter] duration-500"
+        fill
+        sizes="(min-width: 1024px) 20vw, (min-width: 768px) 33vw, 50vw"
+        className="object-cover transition-[filter] duration-500"
         style={{
           filter: isDimmed ? 'grayscale(1) brightness(0.77)' : 'grayscale(0) brightness(1)',
         }}
