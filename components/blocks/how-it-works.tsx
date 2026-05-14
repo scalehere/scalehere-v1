@@ -143,29 +143,23 @@ export function HowItWorks() {
                   </h3>
 
                   <p
-                    className={`text-sm leading-relaxed transition-all duration-300 ${
-                      isActive
-                        ? "text-muted-foreground"
-                        : "text-muted-foreground/60 line-clamp-2"
+                    className={`text-sm leading-relaxed transition-colors duration-300 ${
+                      isActive ? "text-muted-foreground" : "text-muted-foreground/60"
                     }`}
                   >
                     {step.description}
                   </p>
 
-                  {/* Detail line fades in when active */}
+                  {/* Detail line fades in when active; height always reserved */}
                   <div
                     aria-hidden={!isActive}
-                    className={`grid transition-all duration-500 ease-out ${
-                      isActive
-                        ? "grid-rows-[1fr] opacity-100 mt-4"
-                        : "grid-rows-[0fr] opacity-0"
+                    className={`mt-4 transition-opacity duration-500 ease-out ${
+                      isActive ? "opacity-100" : "opacity-0"
                     }`}
                   >
-                    <div className="overflow-hidden">
-                      <p className="text-primary/80 text-xs font-medium uppercase tracking-wider">
-                        {step.detail}
-                      </p>
-                    </div>
+                    <p className="text-primary/80 text-xs font-medium uppercase tracking-wider">
+                      {step.detail}
+                    </p>
                   </div>
                 </article>
               </div>
