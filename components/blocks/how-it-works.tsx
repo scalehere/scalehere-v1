@@ -17,29 +17,29 @@ const steps: Step[] = [
     icon: PhoneCall,
     number: "01",
     title: "Free Strategy Call",
-    subtitle: "15 minutes — no pitch, no pressure",
+    subtitle: "15 minutes. Free diagnostic - no strings attached.",
     description:
-      "We audit your current marketing, identify what's working and what's wasting money, and give you a clear plan — whether you hire us or not.",
-    detail: "No pitch. No pressure. Just real insight into your marketing.",
+      "We audit what's working and what's burning money. You walk away with a clear plan.",
+    detail: "No pitch. No pressure. No catch.",
   },
   {
     icon: Zap,
     number: "02",
-    title: "We Build Your Growth Engine",
-    subtitle: "Custom strategy, content, ads & reporting",
+    title: "We Get to Work",
+    subtitle: "Ads, content, strategy, reporting — all taken care of.",
     description:
-      "Our team handles everything — content, ads, strategy, and reporting. You invest 1 hour per week. We handle the rest.",
+      "Our team builds your campaigns and runs them weekly. You give us one hour a week. We do the rest.",
     detail:
-      "Month-to-month. No contracts. You own every account and asset from day one.",
+      "Month-to-month. No contracts. You own every account from day one.",
   },
   {
     icon: TrendingUp,
     number: "03",
-    title: "Watch the Numbers Move",
-    subtitle: "Real reporting. Real revenue.",
+    title: "Watch Your Calendar Fill Up",
+    subtitle: "Real reporting. Real revenue. No fluff.",
     description:
-      "Real-time reporting focused on revenue, not jargon. Monthly strategy calls. And if we're not delivering — fire us. No questions, no penalties.",
-    detail: "We report in customers and revenue. Not clicks and impressions.",
+      "Track every lead, every call, every dollar. Stay aligned with monthly check-ins. Not delivering? Fire us.",
+    detail: "We report in customers and revenue — not clicks and impressions.",
   },
 ];
 
