@@ -45,33 +45,25 @@ const steps: Step[] = [
 
 export function HowItWorks() {
   const [activeIndex, setActiveIndex] = useState(0);
-  const sentinelRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const stepRefs = useRef<(HTMLDivElement | null)[]>([]);
 
-  const setSentinelRef = (el: HTMLDivElement | null, i: number) => {
-    sentinelRefs.current[i] = el;
+  const setStepRef = (el: HTMLDivElement | null, i: number) => {
+    stepRefs.current[i] = el;
   };
 
   useEffect(() => {
-    let frame = 0;
-    const update = () => {
-      frame = requestAnimationFrame(update);
-      const centerY = window.innerHeight / 3;
-      let bestIndex = 0;
-      let bestDist = Infinity;
-      sentinelRefs.current.forEach((node, i) => {
-        if (!node) return;
-        const rect = node.getBoundingClientRect();
-        const mid = rect.top + rect.height / 2;
-        const dist = Math.abs(mid - centerY);
-        if (dist < bestDist) {
-          bestDist = dist;
-          bestIndex = i;
-        }
-      });
-      setActiveIndex(bestIndex);
-    };
-    frame = requestAnimationFrame(update);
-    return () => cancelAnimationFrame(frame);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const index = stepRefs.current.findIndex((el) => el === entry.target);
+          if (index !== -1) setActiveIndex(index);
+        });
+      },
+      { rootMargin: "-33% 0px -67% 0px", threshold: 0 },
+    );
+    stepRefs.current.forEach((el) => el && observer.observe(el));
+    return () => observer.disconnect();
   }, []);
 
   return (
@@ -97,16 +89,10 @@ export function HowItWorks() {
             return (
               <div
                 key={step.number}
+                ref={(el) => setStepRef(el, index)}
                 className="relative flex flex-col gap-4 md:flex-row md:gap-16"
                 aria-current={isActive ? "true" : "false"}
               >
-                {/* Invisible sentinel — detects proximity to viewport center */}
-                <div
-                  ref={(el) => setSentinelRef(el, index)}
-                  aria-hidden
-                  className="absolute -top-24 left-0 h-12 w-12 opacity-0 pointer-events-none"
-                />
-
                 {/* Left: independently sticky label */}
                 <div className="top-24 flex h-min w-full md:w-56 md:shrink-0 items-center gap-3 md:sticky">
                   <div
