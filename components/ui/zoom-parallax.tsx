@@ -16,12 +16,12 @@ export interface BodySegment {
 interface ZoomParallaxProps {
 	quotes: Quote[];
 	bodySegments?: BodySegment[];
-	promiseText?: string;
+	promiseLines?: BodySegment[][];
 }
 
 function getHighlightClass(highlight?: string): string {
 	switch (highlight) {
-		case 'primary': return 'text-primary font-medium';
+		case 'primary': return 'text-primary font-bold';
 		case 'bold': return 'font-bold text-foreground';
 		case 'italic-primary': return 'italic text-primary font-bold';
 		default: return 'text-muted-foreground';
@@ -29,13 +29,16 @@ function getHighlightClass(highlight?: string): string {
 }
 
 
-export function ZoomParallax({ quotes, bodySegments, promiseText }: ZoomParallaxProps) {
+export function ZoomParallax({ quotes, bodySegments, promiseLines }: ZoomParallaxProps) {
 	const container = useRef<HTMLDivElement>(null);
 	const scrollYProgress = useMotionValue(0);
 	const [bodyProgress, setBodyProgress] = useState(0);
+	const [promiseProgress, setPromiseProgress] = useState(0);
 
-	const BODY_START = 0.12;
-	const BODY_END = 0.75;
+	const BODY_START = 0.11;
+	const BODY_END = 0.54;
+	const PROMISE_START = 0.70;
+	const PROMISE_END = 1.0;
 
 	useEffect(() => {
 		const updateProgress = () => {
@@ -49,6 +52,9 @@ export function ZoomParallax({ quotes, bodySegments, promiseText }: ZoomParallax
 
 			const bodyP = (progress - BODY_START) / (BODY_END - BODY_START);
 			setBodyProgress(Math.max(0, Math.min(1, bodyP)));
+
+			const promP = (progress - PROMISE_START) / (PROMISE_END - PROMISE_START);
+			setPromiseProgress(Math.max(0, Math.min(1, promP)));
 		};
 
 		window.addEventListener('scroll', updateProgress, { passive: true });
@@ -71,10 +77,8 @@ export function ZoomParallax({ quotes, bodySegments, promiseText }: ZoomParallax
 	const scale9  = useTransform(scrollYProgress, [0, 1], [1,  9]);
 	const scale10 = useTransform(scrollYProgress, [0, 1], [1, 10]);
 
-	// Body text fades out near the end, promise text fades in
-	const bodyFadeOut = useTransform(scrollYProgress, [0.87, 0.94], [1, 0]);
-	const promiseOpacity = useTransform(scrollYProgress, [0.94, 1.0], [0, 1]);
-	const promiseY = useTransform(scrollYProgress, [0.94, 1.0], [14, 0]);
+	// Body text fades out as promise window opens — clean handoff
+	const bodyFadeOut = useTransform(scrollYProgress, [0.66, 0.70], [1, 0]);
 
 	// Per-segment opacity: each phrase fades in sequentially
 	const N = bodySegments?.length ?? 0;
@@ -83,6 +87,26 @@ export function ZoomParallax({ quotes, bodySegments, promiseText }: ZoomParallax
 		const segStart = i / N;
 		const segEnd = Math.min(1, (i + 1.5) / N);
 		return Math.max(0, Math.min(1, (bodyProgress - segStart) / (segEnd - segStart)));
+	};
+
+	// Per-line opacity for the promise. For the 3-line case, hand-tuned timings
+	// produce a linger AFTER line 2 finishes, before the climax line fades in.
+	// Falls back to an even stagger for any other length.
+	const L = promiseLines?.length ?? 0;
+	const PROMISE_TIMINGS_3: Array<[number, number]> = [
+		[0.00, 0.12], // Line 0 ("None of that happens here.") — snappy
+		// LINGER 0.12 → 0.31 — Line 0 fully visible, matches the DBU linger below
+		[0.31, 0.44], // Line 1 ("Don't believe us?")
+		// LINGER 0.44 → 0.63 — DBU fully visible, climax invisible
+		[0.63, 0.86], // Line 2 ("Let us show you.") — slow climax
+		// POST-CLIMAX LINGER 0.86 → 1.0 — all lines visible before sticky releases
+	];
+	const getPromiseLineOpacity = (i: number): number => {
+		if (L === 0) return 1;
+		const [segStart, segEnd] = L === 3
+			? PROMISE_TIMINGS_3[i]
+			: [i / L, Math.min(1, (i + 1.5) / L)];
+		return Math.max(0, Math.min(1, (promiseProgress - segStart) / (segEnd - segStart)));
 	};
 
 	// Center panel — accepts scale, optional outer class (vertical offset), optional content class (sizing)
@@ -98,12 +122,12 @@ export function ZoomParallax({ quotes, bodySegments, promiseText }: ZoomParallax
 				<h2 className="font-heading text-2xl md:text-5xl font-bold leading-tight">
 					Most Agencies Fail Their Clients.
 				</h2>
-				{(bodySegments || promiseText) && (
-					<div className="relative mt-6 h-32 w-full max-w-[68vw] md:max-w-[50vw]">
+				{(bodySegments || promiseLines) && (
+					<div className="relative mt-6 h-40 w-full max-w-[68vw] md:max-w-[50vw]">
 						{bodySegments && (
 							<motion.div
 								style={{ opacity: bodyFadeOut }}
-								className="absolute inset-0 text-sm md:text-base leading-relaxed"
+								className="absolute inset-0 text-base md:text-lg leading-relaxed"
 							>
 								{bodySegments.map((seg, i) => (
 									<span
@@ -119,13 +143,28 @@ export function ZoomParallax({ quotes, bodySegments, promiseText }: ZoomParallax
 								))}
 							</motion.div>
 						)}
-						{promiseText && (
-							<motion.p
-								style={{ opacity: promiseOpacity, y: promiseY }}
-								className="absolute inset-0 flex items-center justify-center text-base md:text-lg text-primary font-bold tracking-wide text-center"
-							>
-								{promiseText}
-							</motion.p>
+						{promiseLines && (
+							<div className="absolute inset-0 flex flex-col items-center justify-center gap-4 text-lg md:text-2xl text-foreground font-bold tracking-wide text-center">
+								{promiseLines.map((lineSegments, lineIdx) => (
+									<div
+										key={lineIdx}
+										style={{
+											opacity: getPromiseLineOpacity(lineIdx),
+											transition: 'opacity 0.5s ease',
+										}}
+										className={lineIdx === promiseLines.length - 1 ? 'mt-4' : ''}
+									>
+										{lineSegments.map((seg, segIdx) => (
+											<span
+												key={segIdx}
+												className={seg.highlight ? getHighlightClass(seg.highlight) : ''}
+											>
+												{seg.text}
+											</span>
+										))}
+									</div>
+								))}
+							</div>
 						)}
 					</div>
 				)}
@@ -148,9 +187,9 @@ export function ZoomParallax({ quotes, bodySegments, promiseText }: ZoomParallax
 	// ── MOBILE CARDS ───────────────────────────────────────────────────────────
 	// Pick any 3 quotes by index — fully independent of tablet and desktop.
 	const mobileCards = [
-		{ quote: quotes[0], scale: scaleMobile1, x: zero,         y: zero, pos: '[&>div]:!-top-[38vh] [&>div]:!h-[14vh] [&>div]:!w-[78vw]' },
-		{ quote: quotes[1], scale: scaleMobile2, x: mobileMidX,   y: zero, pos: '[&>div]:!top-[16vh] [&>div]:!h-[14vh] [&>div]:!w-[78vw]' },
-		{ quote: quotes[2], scale: scaleMobile3, x: mobileBottomX,y: zero, pos: '[&>div]:!top-[33vh] [&>div]:!h-[14vh] [&>div]:!w-[78vw]' },
+		{ quote: quotes[4], scale: scaleMobile1, x: zero,         y: zero, pos: '[&>div]:!-top-[38vh] [&>div]:!h-[14vh] [&>div]:!w-[78vw]' },
+		{ quote: quotes[7], scale: scaleMobile2, x: mobileMidX,   y: zero, pos: '[&>div]:!top-[16vh] [&>div]:!h-[14vh] [&>div]:!w-[78vw]' },
+		{ quote: quotes[5], scale: scaleMobile3, x: mobileBottomX,y: zero, pos: '[&>div]:!top-[33vh] [&>div]:!h-[14vh] [&>div]:!w-[78vw]' },
 	];
 
 	// Tablet scale — depth via stepping: row 1 far back, row 3 closest
@@ -167,33 +206,33 @@ export function ZoomParallax({ quotes, bodySegments, promiseText }: ZoomParallax
 	// Pick any 6 quotes by index — fully independent of mobile and desktop.
 	const tabletCards = [
 		// Row 1 — scale only, no translate (far back)
-		{ quote: quotes[0], scale: scaleTablet1, x: zero,        y: zero,       pos: '[&>div]:!-top-[38vh] [&>div]:!-left-[24vw] [&>div]:!h-[16vh] [&>div]:!w-[42vw]' },
-		{ quote: quotes[1], scale: scaleTablet1, x: zero,        y: zero,       pos: '[&>div]:!-top-[38vh] [&>div]:!left-[24vw] [&>div]:!h-[16vh] [&>div]:!w-[42vw]' },
+		{ quote: quotes[2], scale: scaleTablet1, x: zero,        y: zero,       pos: '[&>div]:!-top-[38vh] [&>div]:!-left-[24vw] [&>div]:!h-[16vh] [&>div]:!w-[42vw]' },
+		{ quote: quotes[0], scale: scaleTablet1, x: zero,        y: zero,       pos: '[&>div]:!-top-[38vh] [&>div]:!left-[24vw] [&>div]:!h-[16vh] [&>div]:!w-[42vw]' },
 		// Row 2 — flies left/right, mid depth
-		{ quote: quotes[7], scale: scaleTablet2, x: tabletXLeft, y: zero,       pos: '[&>div]:!top-[12vh] [&>div]:!-left-[24vw] [&>div]:!h-[16vh] [&>div]:!w-[42vw]' },
-		{ quote: quotes[3], scale: scaleTablet2, x: tabletXRight,y: zero,       pos: '[&>div]:!top-[12vh] [&>div]:!left-[24vw] [&>div]:!h-[16vh] [&>div]:!w-[42vw]' },
+		{ quote: quotes[4], scale: scaleTablet2, x: tabletXLeft, y: zero,       pos: '[&>div]:!top-[12vh] [&>div]:!-left-[24vw] [&>div]:!h-[16vh] [&>div]:!w-[42vw]' },
+		{ quote: quotes[6], scale: scaleTablet2, x: tabletXRight,y: zero,       pos: '[&>div]:!top-[12vh] [&>div]:!left-[24vw] [&>div]:!h-[16vh] [&>div]:!w-[42vw]' },
 		// Row 3 — same lateral speed as row 2, also drifts down, closest/most zoom
-		{ quote: quotes[4], scale: scaleTablet3, x: tabletXLeft, y: tabletYDown,pos: '[&>div]:!top-[30vh] [&>div]:!-left-[24vw] [&>div]:!h-[16vh] [&>div]:!w-[42vw]' },
-		{ quote: quotes[5], scale: scaleTablet3, x: tabletXRight,y: tabletYDown,pos: '[&>div]:!top-[30vh] [&>div]:!left-[24vw] [&>div]:!h-[16vh] [&>div]:!w-[42vw]' },
+		{ quote: quotes[5], scale: scaleTablet3, x: tabletXLeft, y: tabletYDown,pos: '[&>div]:!top-[30vh] [&>div]:!-left-[24vw] [&>div]:!h-[16vh] [&>div]:!w-[42vw]' },
+		{ quote: quotes[7], scale: scaleTablet3, x: tabletXRight,y: tabletYDown,pos: '[&>div]:!top-[30vh] [&>div]:!left-[24vw] [&>div]:!h-[16vh] [&>div]:!w-[42vw]' },
 	];
 
 	// ── DESKTOP CARDS ──────────────────────────────────────────────────────────
 	// Scale only — depth conveyed through zoom, no directional translate.
 	const desktopCards = [
-		{ quote: quotes[0], scale: scale3, x: zero, y: zero, pos: '[&>div]:!-top-[20vh] [&>div]:!-left-[34vw] [&>div]:!h-[45vh] [&>div]:!w-[13vw] z-[3]'  }, // slot 1 — far-left tall
-		{ quote: quotes[1], scale: scale5, x: zero, y: zero, pos: '[&>div]:!-top-[33vh] [&>div]:!-left-[8vw] [&>div]:!h-[18vh] [&>div]:!w-[30vw] z-[5]'   }, // slot 2 — top-left wide
-		{ quote: quotes[2], scale: scale8, x: zero, y: zero, pos: '[&>div]:!-top-[6vh] [&>div]:!-left-[20vw] [&>div]:!h-[30vh] [&>div]:!w-[12vw] z-[8]'   }, // slot 3 — left narrow
-		{ quote: quotes[3], scale: scale4, x: zero, y: zero, pos: '[&>div]:!top-[22vh] [&>div]:!-left-[28vw] [&>div]:!h-[20vh] [&>div]:!w-[22vw] z-[4]'   }, // slot 4 — lower-left
-		{ quote: quotes[4], scale: scale2, x: zero, y: zero, pos: '[&>div]:!-top-[36vh] [&>div]:!left-[25vw] [&>div]:!h-[18vh] [&>div]:!w-[26vw] z-[2]'   }, // slot 5 — top center-right
-		{ quote: quotes[5], scale: scale4, x: zero, y: zero, pos: '[&>div]:!-top-[5vh] [&>div]:!left-[20vw] [&>div]:!h-[38vh] [&>div]:!w-[13vw] z-[4]'    }, // slot 6 — right narrow
-		{ quote: quotes[6], scale: scale10, x: zero, y: zero, pos: '[&>div]:!top-[26vh] [&>div]:!left-[5vw] [&>div]:!h-[18vh] [&>div]:!w-[38vw] z-[10]'     }, // slot 7 — lower-right wide (closest)
-		{ quote: quotes[7], scale: scale6, x: zero, y: zero, pos: '[&>div]:!top-[10vh] [&>div]:!left-[34vw] [&>div]:!h-[55vh] [&>div]:!w-[12vw] z-[6]'    }, // slot 8 — far-right tall
+		{ quote: quotes[2], scale: scale3, x: zero, y: zero, pos: '[&>div]:!-top-[20vh] [&>div]:!-left-[34vw] [&>div]:!h-[45vh] [&>div]:!w-[13vw] z-[3]'  }, // slot 1 — far-left tall
+		{ quote: quotes[7], scale: scale5, x: zero, y: zero, pos: '[&>div]:!-top-[33vh] [&>div]:!-left-[8vw] [&>div]:!h-[18vh] [&>div]:!w-[30vw] z-[5]'   }, // slot 2 — top-left wide
+		{ quote: quotes[3], scale: scale8, x: zero, y: zero, pos: '[&>div]:!-top-[6vh] [&>div]:!-left-[20vw] [&>div]:!h-[30vh] [&>div]:!w-[12vw] z-[8]'   }, // slot 3 — left narrow (tightest)
+		{ quote: quotes[0], scale: scale4, x: zero, y: zero, pos: '[&>div]:!top-[22vh] [&>div]:!-left-[28vw] [&>div]:!h-[20vh] [&>div]:!w-[22vw] z-[4]'   }, // slot 4 — lower-left
+		{ quote: quotes[1], scale: scale2, x: zero, y: zero, pos: '[&>div]:!-top-[36vh] [&>div]:!left-[25vw] [&>div]:!h-[18vh] [&>div]:!w-[26vw] z-[2]'   }, // slot 5 — top center-right
+		{ quote: quotes[6], scale: scale4, x: zero, y: zero, pos: '[&>div]:!-top-[5vh] [&>div]:!left-[20vw] [&>div]:!h-[38vh] [&>div]:!w-[13vw] z-[4]'    }, // slot 6 — right narrow
+		{ quote: quotes[5], scale: scale10, x: zero, y: zero, pos: '[&>div]:!top-[26vh] [&>div]:!left-[5vw] [&>div]:!h-[18vh] [&>div]:!w-[38vw] z-[10]'     }, // slot 7 — lower-right wide (closest)
+		{ quote: quotes[4], scale: scale6, x: zero, y: zero, pos: '[&>div]:!top-[10vh] [&>div]:!left-[34vw] [&>div]:!h-[55vh] [&>div]:!w-[12vw] z-[6]'    }, // slot 8 — far-right tall
 	];
 
 	// Both layouts rendered simultaneously — CSS breakpoints toggle visibility
 	// instantly on paint, eliminating the JS-state flash on page refresh.
 	return (
-		<div ref={container} className="relative h-[400vh]">
+		<div ref={container} className="relative h-[510vh]">
 
 			{/* ── MOBILE LAYOUT (hidden at md+) ─────────────────────────────── */}
 			<div className="md:hidden sticky top-0 h-screen overflow-hidden">
