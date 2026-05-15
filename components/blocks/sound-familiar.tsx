@@ -5,27 +5,34 @@ import { ZoomParallax, type Quote, type BodySegment } from '@/components/ui/zoom
 // All available quotes — assign to any layout slot freely.
 // Changing a quote here only affects the layouts that reference its index.
 const quotes: Quote[] = [
-	{ quote: 'No one could explain what they were doing.', sub: 'Every question got a five-page report. Never a straight answer.' },          // 0
-	{ quote: 'Cookie-cutter campaigns, copy-pasted.', sub: 'No strategy built around my business. Just a recycled formula.' },                 // 1
-	{ quote: 'I felt like a small fish.', sub: 'Pitched by the expert, handed off to the most junior person.' },                               // 2
-	{ quote: 'More excuses than results.', sub: 'Always "we need more time, more budget." Month after month.' },                               // 3
-	{ quote: 'They ghosted me after month one.', sub: 'Emails ignored. Account rep gone. Basic communication paywalled.' },                    // 4
-	{ quote: 'They held my accounts hostage.', sub: "Couldn't access my own Google or Meta accounts when I left." },                           // 5
-	{ quote: 'I was locked in for 12 months.', sub: 'No performance clause. No way out. Just invoices with nothing to show.' },                // 6
-	{ quote: 'I spent thousands and got nothing.', sub: 'Reports full of clicks and impressions. Phone never rang.' },                         // 7
+	{ quote: 'I never knew what I was paying for.', sub: 'Never got a straight answer. I just had to trust them.' },                            // 0
+	{ quote: 'Same copy-paste ads they run for everybody.', sub: 'None of it was made specifically for me.' },                                  // 1
+	{ quote: 'I was just another small account to them.', sub: 'The expert won me over but then gave it to a rookie.' },                        // 2
+	{ quote: 'More excuses than results.', sub: "Every month: 'give it more time, give us more budget.'" },                                     // 3
+	{ quote: 'They disappeared after the first invoice.', sub: "Couldn't get a call back. Couldn't even get an email." },                       // 4
+	{ quote: "I paid for all of it, but I didn't own any of it.", sub: 'When I left, they kept the accounts. I started from zero.' },           // 5
+	{ quote: 'Signed for a year. Regretted it by month two.', sub: "Couldn't get out. I was stuck paying for nothing." },                       // 6
+	{ quote: 'Paid them thousands. Barely anything booked.', sub: 'Reports full of clicks and views. My calendar stayed empty.' },              // 7
 ];
 
 // Each segment fades in sequentially. Highlighted phrases draw the eye.
 const bodySegments: BodySegment[] = [
-	{ text: "You've already tried " },
-	{ text: 'marketing', highlight: 'primary' },
-	{ text: ' before. They sent reports full of jargon, ' },
-	{ text: 'promised results,', highlight: 'bold' },
-	{ text: ' then just ' },
-	{ text: 'disappeared', highlight: 'italic-primary' },
-	{ text: ' when you had questions. Meanwhile, your phone ' },
-	{ text: 'never rang', highlight: 'bold' },
-	{ text: ' any more than it did before.' },
+	{ text: 'They sell you on a ' },
+	{ text: '"very big"', highlight: 'primary' },
+	{ text: ' plan, send a bunch of ' },
+	{ text: 'confusing reports', highlight: 'primary' },
+	{ text: ', and ' },
+	{ text: 'disappear', highlight: 'primary' },
+	{ text: " as soon as you start asking real questions. When it's over, your calendar is " },
+	{ text: 'just as empty', highlight: 'primary' },
+	{ text: ' as it was before you even hired them.' },
+];
+
+// Each inner array = one line. Lines fade in sequentially; highlighted spans draw the eye within each line.
+const promiseLines: BodySegment[][] = [
+	[{ text: 'None of that happens ' }, { text: 'here', highlight: 'primary' }, { text: '.' }],
+	[{ text: "Don't believe us?" }],
+	[{ text: 'Let us show you.', highlight: 'primary' }],
 ];
 
 export function SoundFamiliar() {
@@ -34,7 +41,7 @@ export function SoundFamiliar() {
 			<ZoomParallax
 				quotes={quotes}
 				bodySegments={bodySegments}
-				promiseText="We do it differently — and we can prove it."
+				promiseLines={promiseLines}
 			/>
 		</section>
 	);
