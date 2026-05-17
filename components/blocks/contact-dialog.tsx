@@ -14,6 +14,7 @@ import { BlueButton } from "@/components/ui/blue-button";
 import { useContactDialog } from "@/lib/contact-dialog-context";
 import { captureUTMs, getStoredUTMs, type UTMData } from "@/lib/utm-capture";
 import { validateContactForm } from "@/lib/validation";
+import { trackLead } from "@/components/meta-pixel";
 
 type FormStatus = "idle" | "loading" | "success" | "error";
 
@@ -122,6 +123,7 @@ export function ContactDialog() {
       }
 
       setStatus("success");
+      trackLead();
     } catch (err: unknown) {
       setStatus("error");
       setErrorMsg(

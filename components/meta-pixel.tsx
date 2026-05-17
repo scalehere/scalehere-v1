@@ -37,3 +37,22 @@ export function MetaPixel() {
     </>
   );
 }
+
+declare global {
+  interface Window {
+    fbq?: (
+      command: "track" | "trackCustom" | "init",
+      eventName: string,
+      params?: Record<string, unknown>
+    ) => void;
+  }
+}
+
+// Safe to call unconditionally from form handlers — no-ops when PIXEL_LIVE is
+// off, when fbevents.js hasn't loaded yet (afterInteractive can lag first
+// paint), or when the user blocks the pixel via ad-blocker / privacy extension.
+export function trackLead() {
+  if (!PIXEL_LIVE) return;
+  if (typeof window === "undefined" || typeof window.fbq !== "function") return;
+  window.fbq("track", "Lead");
+}
