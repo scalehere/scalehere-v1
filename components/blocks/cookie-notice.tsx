@@ -3,9 +3,16 @@
 import { useEffect, useState } from "react";
 import { X } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { PIXEL_LIVE } from "@/lib/feature-flags";
 
 const STORAGE_KEY = "scalesd-cookie-notice-dismissed";
+
+// Routes that suppress the cookie notice. /calendar is an ad-driven funnel
+// where the GHL booking widget needs the bottom of the viewport free on
+// mobile (keyboard + input would collide with the toast). Privacy is still
+// reachable from /calendar's footer link, so the disclosure path stays open.
+const SUPPRESSED_PATHS = new Set(["/calendar"]);
 
 // Server-rendered into the initial HTML so visitors see the notice before
 // Microsoft Clarity (and Meta Pixel, when live) fire. The localStorage check
@@ -13,6 +20,7 @@ const STORAGE_KEY = "scalesd-cookie-notice-dismissed";
 // the toast before it unmounts. Acceptable for V1; cookie-based dismissal
 // is the polish-tier upgrade if the flash becomes a UX issue.
 export function CookieNotice() {
+  const pathname = usePathname();
   const [dismissed, setDismissed] = useState(false);
 
   useEffect(() => {
@@ -23,6 +31,7 @@ export function CookieNotice() {
     }
   }, []);
 
+  if (pathname && SUPPRESSED_PATHS.has(pathname)) return null;
   if (dismissed) return null;
 
   const dismiss = () => {
