@@ -5,7 +5,7 @@ Senior UI designer and front-end developer. Prioritize clean, modern, premium de
 
 ## Project
 Rebuilding the website for **Scale SD**, a social media marketing agency based in San Diego, CA.
-Replacing their Wix site with a custom-coded Next.js site. Single-page — all nav uses anchor links, no multi-page routing.
+Replacing their Wix site with a custom-coded Next.js site. Mostly single-page — the main marketing site uses anchor nav, plus standalone routes for `/privacy` (legal disclosures) and `/calendar` (ad-driven booking funnel, `noindex`).
 
 Live: scalehere.com (preview: scalehere-v1-wine.vercel.app)
 
@@ -42,7 +42,7 @@ Trigger-load (only when the task touches the area):
 - Resuming uncommitted work / mid-session continuation → `my_references/my_files/session-log.md`
 - Strategic planning / cross-tier decisions → full `my_references/my_files/HANDOFF.md` (default startup reads only the priority-queue section)
 
-> **Note to fresh clones / external collaborators:** `my_references/`, `.claude/`, and the cross-project `../../PLAYBOOK.md` are gitignored personal/local refs — they're NOT in the repo or its git history. The committed code + this CLAUDE.md are the canonical project state. Don't try to reconstruct what's missing; work from the code.
+> **Note to fresh clones / external collaborators:** `my_references/`, `.claude/`, and the user-level `~/.claude/PLAYBOOK.md` are gitignored / outside-repo personal refs — they're NOT in the repo or its git history. The committed code + this CLAUDE.md are the canonical project state. Don't try to reconstruct what's missing; work from the code.
 
 ## Design Direction
 - Deep blue-black background — fixed SVG mesh (`public/backgrounds/site-mesh.svg`) on `body::before` with hue-rotate + brightness/saturate filters. Electric blue accent (`#3B82F6`) — Electric Black scheme
@@ -107,7 +107,7 @@ The 4 highest-leverage tactics, kept here because PLAYBOOK is on-demand and thes
 - One prompt, one task — stacking multiplies wrong directions and produces messy diffs
 - Default to Sonnet; Opus only when ambiguity / multi-file judgment / wrong-direction risk warrants the premium
 
-Full reference in `../../PLAYBOOK.md` TOKEN EFFICIENCY section.
+Full reference in `~/.claude/PLAYBOOK.md` TOKEN EFFICIENCY section.
 
 ## Session Protocols
 
