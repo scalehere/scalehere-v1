@@ -24,12 +24,32 @@ export function CookieNotice() {
   const [dismissed, setDismissed] = useState(false);
 
   useEffect(() => {
-    if (typeof window !== "undefined" && localStorage.getItem(STORAGE_KEY) === "1") {
+    if (typeof window === "undefined") return;
+    if (localStorage.getItem(STORAGE_KEY) === "1") {
       setDismissed(true);
-    } else {
+    } else if (!pathname?.startsWith("/privacy")) {
+      // Skip "shown" event if the landing page is /privacy — the pathname
+      // effect below will auto-dismiss this render anyway.
       window.dispatchEvent(new Event("cookie-notice-shown"));
     }
+    // pathname intentionally excluded — initial-mount decision only; the
+    // pathname-change effect below handles subsequent navigation to /privacy.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // Visiting /privacy from any path is implicit cookie-notice acknowledgment.
+  // Covers direct landings + footer link clicks + the in-notice link below.
+  useEffect(() => {
+    if (typeof window === "undefined" || dismissed) return;
+    if (!pathname?.startsWith("/privacy")) return;
+    try {
+      localStorage.setItem(STORAGE_KEY, "1");
+    } catch {
+      // localStorage can throw in private mode / quota — fail silently.
+    }
+    window.dispatchEvent(new Event("cookie-notice-dismissed"));
+    setDismissed(true);
+  }, [pathname, dismissed]);
 
   if (pathname && SUPPRESSED_PATHS.has(pathname)) return null;
   if (dismissed) return null;
@@ -55,6 +75,7 @@ export function CookieNotice() {
           We use cookies for analytics{PIXEL_LIVE ? " and advertising" : ""}. {" "}
           <Link
             href="/privacy"
+            onClick={dismiss}
             className="text-primary underline underline-offset-2 hover:text-white transition-colors"
           >
             Privacy Policy
