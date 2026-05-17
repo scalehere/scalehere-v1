@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Script from "next/script";
+import { BookingScript } from "./booking-script";
 
 export const metadata: Metadata = {
   title: "Book Your Free Marketing Audit — Scale SD",
@@ -74,10 +74,7 @@ export default function CalendarPage() {
           className="block w-full overflow-hidden rounded-2xl border border-white/10 bg-white shadow-2xl"
           style={{ minHeight: 400 }}
         />
-        <Script
-          src="https://link.msgsndr.com/js/form_embed.js"
-          strategy="afterInteractive"
-        />
+        <BookingScript />
       </div>
 
       {/* Footer — alt-contact + privacy link (privacy stays reachable on
