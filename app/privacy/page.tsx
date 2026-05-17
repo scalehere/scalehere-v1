@@ -15,13 +15,28 @@ export default function PrivacyPolicyPage() {
   return (
     <main className="min-h-screen px-4 py-12 sm:px-6 sm:py-16 lg:py-20">
       <div className="mx-auto max-w-3xl">
-        {/* Minimal header */}
-        <div className="mb-12">
+        {/* Minimal header — exit link + brand anchor (mirrors /calendar) */}
+        <div className="mb-12 flex items-center justify-between">
           <Link
             href="/"
             className="text-sm text-white/60 transition-colors hover:text-white"
           >
             ← Back to Scale SD
+          </Link>
+          <Link
+            href="/"
+            aria-label="home"
+            className="relative inline-flex items-center"
+          >
+            <img
+              src="/scalehere_logos/basic_logo.webp"
+              alt=""
+              aria-hidden="true"
+              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-12 w-auto opacity-25 pointer-events-none select-none"
+            />
+            <span className="relative z-10 font-heading text-2xl font-black tracking-widest text-white">
+              SCALE SD
+            </span>
           </Link>
         </div>
 
