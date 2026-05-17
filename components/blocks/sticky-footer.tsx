@@ -148,10 +148,10 @@ const footerLinkGroups: FooterLinkGroup[] = [
   {
     label: 'Contact',
     links: [
-      { title: 'Scalenowsd@gmail.com', href: 'mailto:Scalenowsd@gmail.com' },
+      { title: 'media@scalehere.com', href: 'mailto:media@scalehere.com' },
       { title: '760-443-7876', href: 'tel:7604437876' },
-      { title: '10918 Technology Pl', href: 'https://www.google.com/maps/search/?api=1&query=10918+Technology+Pl+San+Diego+CA+92025' },
-      { title: 'San Diego, CA 92025', href: 'https://www.google.com/maps/search/?api=1&query=10918+Technology+Pl+San+Diego+CA+92025' },
+      { title: '345 E Park Ave Apt 15', href: 'https://www.google.com/maps/search/?api=1&query=345+E+Park+Ave+Apt+15+Escondido+CA+92025' },
+      { title: 'Escondido, CA 92025', href: 'https://www.google.com/maps/search/?api=1&query=345+E+Park+Ave+Apt+15+Escondido+CA+92025' },
     ],
   },
 ];
