@@ -18,6 +18,22 @@ import { trackLead } from "@/components/meta-pixel";
 
 type FormStatus = "idle" | "loading" | "success" | "error";
 
+// Split a single full-name input into first/last for Meta Advanced Matching.
+// First whitespace is the boundary: "Jane Mary Doe" -> first "Jane", last
+// "Mary Doe". Single name -> first only, last empty. Imperfect splits are
+// fine — Meta matches on partial user_data, and an empty lastName just
+// gets dropped by trackLead() before reaching fbq.
+function splitName(fullName: string): { firstName: string; lastName: string } {
+  const trimmed = fullName.trim();
+  if (!trimmed) return { firstName: "", lastName: "" };
+  const idx = trimmed.search(/\s/);
+  if (idx === -1) return { firstName: trimmed, lastName: "" };
+  return {
+    firstName: trimmed.slice(0, idx),
+    lastName: trimmed.slice(idx + 1).trim(),
+  };
+}
+
 // Glass panel input — text-base (16px) prevents iOS Safari auto-zoom on focus,
 // which triggers the visual-viewport shift cascade (page scroll, blur cutoff, stuck zoom).
 const inputClass =
@@ -123,7 +139,8 @@ export function ContactDialog() {
       }
 
       setStatus("success");
-      trackLead();
+      const { firstName, lastName } = splitName(name);
+      trackLead({ email, phone, firstName, lastName });
     } catch (err: unknown) {
       setStatus("error");
       setErrorMsg(
