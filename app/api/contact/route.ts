@@ -89,7 +89,7 @@ export async function POST(req: Request) {
       );
       await resend.emails.send({
         from: "onboarding@resend.dev",
-        to: "tools@scalehere.com",
+        to: "media@scalehere.com",
         subject: `[FALLBACK] New inquiry from ${name} — Scale SD Website`,
         text: [
           `GHL webhook failed — this is the fallback notification.`,

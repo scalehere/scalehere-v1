@@ -34,7 +34,7 @@ export default function PrivacyPolicyPage() {
 
         <div className="mt-10 space-y-6 text-base leading-relaxed text-white/80">
           <p>
-            Scalehere (&ldquo;we,&rdquo; &ldquo;us,&rdquo; or &ldquo;our&rdquo;), doing business as Scale SD, operates this
+            Scale SD LLC (&ldquo;we,&rdquo; &ldquo;us,&rdquo; or &ldquo;our&rdquo;) operates this
             website at scalehere.com (the &ldquo;Site&rdquo;). This Privacy Policy explains what
             information we collect when you visit, how we use it, and the choices you have.
           </p>
@@ -49,10 +49,10 @@ export default function PrivacyPolicyPage() {
           <p>
             If you have any questions, contact us at{" "}
             <a
-              href="mailto:tools@scalehere.com"
+              href="mailto:media@scalehere.com"
               className="text-primary underline underline-offset-2 hover:text-white"
             >
-              tools@scalehere.com
+              media@scalehere.com
             </a>
             .
           </p>
@@ -229,10 +229,10 @@ export default function PrivacyPolicyPage() {
             <p>
               Email us at{" "}
               <a
-                href="mailto:tools@scalehere.com"
+                href="mailto:media@scalehere.com"
                 className="text-primary underline underline-offset-2 hover:text-white"
               >
-                tools@scalehere.com
+                media@scalehere.com
               </a>{" "}
               and we will respond within 30 days. To verify your identity before making
               changes, we will usually reply from the email address associated with your
@@ -272,18 +272,27 @@ export default function PrivacyPolicyPage() {
         {/* Contact */}
         <Section title="Contact">
           <address className="not-italic">
-            <p className="font-medium text-white">Scalehere (Scale SD)</p>
+            <p className="font-medium text-white">Scale SD LLC</p>
             <p className="mt-1">
               Email:{" "}
               <a
-                href="mailto:tools@scalehere.com"
+                href="mailto:media@scalehere.com"
                 className="text-primary underline underline-offset-2 hover:text-white"
               >
-                tools@scalehere.com
+                media@scalehere.com
               </a>
             </p>
-            <p>10918 Technology Pl</p>
-            <p>San Diego, CA 92025</p>
+            <p>
+              Phone:{" "}
+              <a
+                href="tel:7604437876"
+                className="text-primary underline underline-offset-2 hover:text-white"
+              >
+                760-443-7876
+              </a>
+            </p>
+            <p>345 E Park Ave Apt 15</p>
+            <p>Escondido, CA 92025</p>
           </address>
         </Section>
       </div>
