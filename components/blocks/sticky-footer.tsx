@@ -4,7 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import { cn, smoothScrollToHash } from '@/lib/utils';
 import { motion, useReducedMotion } from 'motion/react';
-import { FaFacebookF, FaInstagram, FaYoutube, FaLinkedinIn } from 'react-icons/fa';
+import { FaFacebookF, FaInstagram, FaLinkedinIn } from 'react-icons/fa';
 import { buttonVariants } from '@/components/ui/button';
 
 interface FooterLink {
@@ -113,12 +113,9 @@ export function StickyFooter({ className, ...props }: StickyFooterProps) {
 
 // ── Data ────────────────────────────────────────────────────────────────────
 
-// Official Scale SD social handles. YouTube is '#' — no live channel yet;
-// if that stays true long-term, remove the icon rather than ship a dead link.
 const socialLinks = [
   { title: 'Instagram', href: 'https://www.instagram.com/scalenowsd/', icon: FaInstagram },
   { title: 'Facebook', href: 'https://www.facebook.com/people/Scale-SD-Media/61588039074041/', icon: FaFacebookF },
-  { title: 'YouTube', href: '#', icon: FaYoutube },
   { title: 'LinkedIn', href: 'https://www.linkedin.com/company/scalehere/', icon: FaLinkedinIn },
 ];
 
