@@ -1,5 +1,5 @@
 import Script from "next/script";
-import { PIXEL_LIVE } from "@/lib/feature-flags";
+import { PIXEL_LIVE, ADVANCED_MATCHING_LIVE } from "@/lib/feature-flags";
 
 const PIXEL_ID = "953993577706046";
 
@@ -48,11 +48,37 @@ declare global {
   }
 }
 
+export type LeadUserData = {
+  email?: string;
+  phone?: string;
+  firstName?: string;
+  lastName?: string;
+};
+
 // Safe to call unconditionally from form handlers — no-ops when PIXEL_LIVE is
 // off, when fbevents.js hasn't loaded yet (afterInteractive can lag first
 // paint), or when the user blocks the pixel via ad-blocker / privacy extension.
-export function trackLead() {
+//
+// Manual Advanced Matching: when ADVANCED_MATCHING_LIVE is on AND userData
+// carries at least one non-empty field, re-init the pixel with the user_data
+// params before firing Lead so Meta can attribute the conversion to a specific
+// user account. Meta's pixel auto-hashes plaintext client-side per their spec
+// (lowercase + trim email; digit-only + country-code phone; etc.) — we pass
+// plaintext and trust the normalization. Do NOT pre-hash here.
+export function trackLead(userData?: LeadUserData) {
   if (!PIXEL_LIVE) return;
   if (typeof window === "undefined" || typeof window.fbq !== "function") return;
+
+  if (ADVANCED_MATCHING_LIVE && userData) {
+    const params: Record<string, string> = {};
+    if (userData.email) params.em = userData.email;
+    if (userData.phone) params.ph = userData.phone;
+    if (userData.firstName) params.fn = userData.firstName;
+    if (userData.lastName) params.ln = userData.lastName;
+    if (Object.keys(params).length > 0) {
+      window.fbq("init", PIXEL_ID, params);
+    }
+  }
+
   window.fbq("track", "Lead");
 }

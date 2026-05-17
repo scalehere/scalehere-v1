@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { PIXEL_LIVE } from "@/lib/feature-flags";
+import { PIXEL_LIVE, ADVANCED_MATCHING_LIVE } from "@/lib/feature-flags";
 
 export const metadata: Metadata = {
   title: "Privacy Policy — Scale SD",
@@ -104,6 +104,16 @@ export default function PrivacyPolicyPage() {
                 may use it to attribute ad clicks and serve targeted advertising. The Pixel
                 sets cookies and may operate even if you do not have a Meta account.
               </p>
+              {ADVANCED_MATCHING_LIVE && (
+                <p>
+                  When you submit our contact form, we additionally send hashed versions of
+                  your name, email address, and phone number to Meta alongside the Lead
+                  conversion event. Hashing happens in your browser before transmission —
+                  Meta uses these matched signals to attribute ad conversions to specific
+                  accounts and improve ad targeting. The hashed values are not shared with
+                  other Meta advertisers.
+                </p>
+              )}
             </SubSection>
           )}
 
