@@ -84,12 +84,8 @@ export function HeroSection() {
                                     <BlueButton onClick={() => openDialog()}>
                                         Get Your Free Audit
                                     </BlueButton>
-                                    <BlueButton
-                                        href="#about"
-                                        variant="secondary"
-                                        onClick={(e) => smoothScrollToHash(e, '#about')}
-                                    >
-                                        Learn More
+                                    <BlueButton href="/calendar" variant="secondary">
+                                        Book a Call
                                     </BlueButton>
                                 </div>
                             </motion.div>

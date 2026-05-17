@@ -2,6 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import { useCallback, useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import {
   Dialog,
   DialogContent,
@@ -243,6 +244,17 @@ export function ContactDialog() {
             >
               {status === "loading" ? "Sending…" : "SEND MESSAGE"}
             </BlueButton>
+
+            <p className="text-center text-xs text-white/60">
+              OR{" "}
+              <Link
+                href="/calendar"
+                onClick={closeDialog}
+                className="text-primary underline underline-offset-4 hover:text-white transition-colors"
+              >
+                PICK A TIME ON OUR CALENDAR →
+              </Link>
+            </p>
           </div>
         )}
       </DialogContent>
