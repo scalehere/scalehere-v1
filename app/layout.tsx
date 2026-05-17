@@ -7,6 +7,7 @@ import { ContactDialog } from "@/components/blocks/contact-dialog";
 import { Analytics } from '@vercel/analytics/next';
 import { UTMCaptureClient } from "@/components/utm-capture-client";
 import { CookieNotice } from "@/components/blocks/cookie-notice";
+import { MetaPixel } from "@/components/meta-pixel";
 
 // Heading font — Montserrat. Weights used: 500 (subheads/eyebrows/nav),
 // 700 (default section titles), 900 (hero / big statement moments only)
@@ -79,6 +80,7 @@ export default function RootLayout({
         <CookieNotice />
         <Analytics />
         <UTMCaptureClient />
+        <MetaPixel />
         <Script id="clarity-script" strategy="afterInteractive">
           {`
             (function(c,l,a,r,i,t,y){
